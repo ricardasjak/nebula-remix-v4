@@ -16,34 +16,38 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn }) => {
 	}, [navigate, signOut])
 
 	return (
-		<nav>
-			<ul className={'list flex flex-row gap-4 p-4 mb-4'}>
+		<nav className={'mb-4'}>
+			<ul className={'list flex flex-row gap-4 p-4 mb-2'}>
 				<li>
-					<Link to={'/'}>Home</Link>
+					<Link to={'/'} className='link-secondary'>Home</Link>
 				</li>
 
 				{isLoggedIn &&
 					<>
 						<li>
-							<Link to={'/account'}>My Account</Link>
+							<Link to={'/account'} className='link-secondary'>My Account</Link>
 						</li>
 						<li>
-							<Link to={'/'} onClick={handSignOut}>Sign off</Link>
+							<Link to={'/kd/create'} className='link-secondary'>Create Kingdom</Link>
+						</li>
+						<li>
+							<Link to={'/'} onClick={handSignOut} className='link-secondary'>Sign off</Link>
 						</li>
 					</>
 				}
 				{!isLoggedIn &&
 					<>
 						<li>
-							<Link to={'/auth/sign-up'}>Sign up</Link>
+							<Link to={'/auth/sign-up'} className='link-secondary'>Sign up</Link>
 						</li>
 						<li>
-							<Link to={'/auth/sign-in'}>Sign in</Link>
+							<Link to={'/auth/sign-in'} className='link-secondary'>Sign in</Link>
 						</li>
 					</>
 				}
 
 			</ul>
+			<hr className={'border-secondary'}/>
 		</nav>
 	)
 }
