@@ -1,10 +1,9 @@
-import { ClerkApp, ClerkErrorBoundary, useAuth, useUser } from '@clerk/remix';
-import { cssBundleHref } from "@remix-run/css-bundle";
+import { ClerkApp, ClerkErrorBoundary } from '@clerk/remix';
 import { rootAuthLoader } from "@clerk/remix/ssr.server";
+import stylesheet from "~/tailwind.css";
 
 import type { LinksFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
 import {
-	Link,
 	Links,
 	LiveReload,
 	Meta,
@@ -15,7 +14,7 @@ import {
 import { Navbar } from '~/components/navbar.component';
 
 export const links: LinksFunction = () => [
-	...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+	{ rel: "stylesheet", href: stylesheet },
 ];
 
 export const meta: MetaFunction = () => ([{
