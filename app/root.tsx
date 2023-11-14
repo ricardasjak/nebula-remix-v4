@@ -1,5 +1,6 @@
-import { ClerkApp, ClerkErrorBoundary } from '@clerk/remix';
+import { ClerkApp, ClerkErrorBoundary, useAuth } from '@clerk/remix';
 import { rootAuthLoader } from "@clerk/remix/ssr.server";
+import { useEffect } from 'react';
 import stylesheet from "~/tailwind.css";
 
 import type { LinksFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
@@ -9,7 +10,8 @@ import {
 	Meta,
 	Outlet,
 	Scripts,
-	ScrollRestoration, useLoaderData,
+	ScrollRestoration,
+	useLoaderData,
 } from "@remix-run/react";
 import { Navbar } from '~/components/navbar.component';
 
@@ -35,7 +37,15 @@ export const ErrorBoundary = ClerkErrorBoundary();
 
 const App = () => {
 	const data = useLoaderData<typeof loader>();
-	console.log({ data })
+	const { isSignedIn } = useAuth();
+
+	useEffect(() => {
+		if (isSignedIn && !data?.userId) {
+			// work around Clerk issue, basic login by email and password goes "unnoticed"
+			window.location.reload();
+		}
+	}, [data?.userId, isSignedIn])
+
 	return (
 		<html lang='en'>
 		<head>
@@ -47,7 +57,9 @@ const App = () => {
 		</head>
 		<body>
 		<Navbar isLoggedIn={!!data?.userId} />
-		<Outlet />
+		<div className={'container mx-auto px-4'}>
+			<Outlet />
+		</div>
 		<ScrollRestoration />
 		<Scripts />
 		<LiveReload />
