@@ -1,7 +1,11 @@
-import { redirect } from '@remix-run/node';
-import type { ActionFunction } from '@remix-run/node';
+import { redirect, type ActionFunction } from '@remix-run/node';
 import { appState } from '~/app.service';
-import type { CreateKingdom, Kingdom, PlanetType, RaceType } from '~/kingdom/kingdom.model';
+import {
+	type CreateKingdom,
+	type Kingdom,
+	type PlanetType,
+	type RaceType,
+} from '~/kingdom/kingdom.model';
 
 export const createKingdomAction: ActionFunction = async ({ request }) => {
 	const body = await request.formData();

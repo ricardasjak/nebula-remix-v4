@@ -1,4 +1,4 @@
-import type { AppState } from '~/app.model';
+import { type AppState } from '~/app.model';
 
 declare global {
 	var __appState__: AppState;

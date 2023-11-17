@@ -1,7 +1,4 @@
-import type { ActionFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { appState } from '~/app.service';
-import type { CreateKingdom, Kingdom, PlanetType, RaceType } from '~/kingdom';
 import { PlanetTypes, RaceTypes } from '~/kingdom';
 import { createKingdomAction } from '~/kingdom/createKingdom.action';
 import { getAllKingdomsLoader } from '~/kingdom/getAllKingdoms.loader';

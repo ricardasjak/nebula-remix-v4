@@ -1,9 +1,7 @@
 import { ClerkApp, ClerkErrorBoundary, useAuth } from '@clerk/remix';
 import { rootAuthLoader } from '@clerk/remix/ssr.server';
-import { useEffect } from 'react';
-import stylesheet from '~/tailwind.css';
 
-import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
+import { type LinksFunction, type LoaderFunction, type MetaFunction } from '@remix-run/node';
 import {
 	Links,
 	LiveReload,
@@ -13,7 +11,9 @@ import {
 	ScrollRestoration,
 	useLoaderData,
 } from '@remix-run/react';
+import { useEffect } from 'react';
 import { Navbar } from '~/components/navbar.component';
+import stylesheet from '~/tailwind.css';
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesheet }];
 

@@ -1,4 +1,4 @@
-import type { Kingdom } from '~/kingdom';
+import { type Kingdom } from '~/kingdom';
 
 export interface AppState {
 	kingdoms: Map<number, Kingdom>;

@@ -1,5 +1,4 @@
-import { json } from '@remix-run/node';
-import type { LoaderFunction } from '@remix-run/node';
+import { json, type LoaderFunction } from '@remix-run/node';
 import { appState } from '~/app.service';
 import { mapUtil } from '~/utils/map.util';
 
