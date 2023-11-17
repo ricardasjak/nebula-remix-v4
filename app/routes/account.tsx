@@ -1,7 +1,4 @@
-import {
-	SignedIn,
-	UserButton,
-} from "@clerk/remix";
+import { SignedIn, UserButton } from '@clerk/remix';
 
 export default function Account() {
 	return (

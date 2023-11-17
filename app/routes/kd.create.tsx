@@ -1,7 +1,7 @@
 import type { ActionFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { appState } from '~/app.service';
-import type { CreateKingdom, Kingdom, PlanetType, RaceType} from '~/kingdom';
+import type { CreateKingdom, Kingdom, PlanetType, RaceType } from '~/kingdom';
 import { PlanetTypes, RaceTypes } from '~/kingdom';
 import { createKingdomAction } from '~/kingdom/createKingdom.action';
 import { getAllKingdomsLoader } from '~/kingdom/getAllKingdoms.loader';
@@ -18,14 +18,26 @@ const CreateKingdomPage = () => {
 			</h1>
 			<form method='post' className={'grid w-1/2 grid-cols-2 gap-4'}>
 				<label htmlFor='nickname'>Kingdom name</label>
-				<input name='name' type='text' className={'input input-primary'} required minLength={3}></input>
+				<input
+					name='name'
+					type='text'
+					className={'input input-primary'}
+					required
+					minLength={3}
+				></input>
 
 				<label htmlFor='nickname'>Ruler name</label>
-				<input name='ruler' type='text' className={'input input-primary'} required minLength={3}></input>
+				<input
+					name='ruler'
+					type='text'
+					className={'input input-primary'}
+					required
+					minLength={3}
+				></input>
 
 				<label htmlFor='planet'>Planet type</label>
 				<select name='planet' className={'select select-primary'} required>
-					{PlanetTypes.map((pt) => (
+					{PlanetTypes.map(pt => (
 						<option value={pt} key={pt}>
 							{pt}
 						</option>
@@ -34,7 +46,7 @@ const CreateKingdomPage = () => {
 
 				<label htmlFor='race'>Race type</label>
 				<select name='race' className={'select select-primary'} required>
-					{RaceTypes.map((rt) => (
+					{RaceTypes.map(rt => (
 						<option value={rt} key={rt}>
 							{rt}
 						</option>
@@ -46,12 +58,9 @@ const CreateKingdomPage = () => {
 					Create Kingdom
 				</button>
 			</form>
-			<pre>
-				{JSON.stringify(data, null, 2)}
-			</pre>
+			<pre>{JSON.stringify(data, null, 2)}</pre>
 		</div>
 	);
-
-}
+};
 
 export default CreateKingdomPage;

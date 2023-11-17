@@ -1,7 +1,5 @@
-import { SignUp } from "@clerk/remix";
+import { SignUp } from '@clerk/remix';
 
 export default function SignUpPage() {
-	return (
-		<SignUp />
-	);
+	return <SignUp />;
 }
