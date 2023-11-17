@@ -1,13 +1,22 @@
+import type { ActionFunction } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
+import { appState } from '~/app.service';
+import type { CreateKingdom, Kingdom, PlanetType, RaceType} from '~/kingdom';
 import { PlanetTypes, RaceTypes } from '~/kingdom';
+import { createKingdomAction } from '~/kingdom/createKingdom.action';
+import { getAllKingdomsLoader } from '~/kingdom/getAllKingdoms.loader';
+
+export const action = createKingdomAction;
+export const loader = getAllKingdomsLoader;
 
 const CreateKingdomPage = () => {
-
+	const data = useLoaderData<typeof getAllKingdomsLoader>();
 	return (
 		<div className={'content'}>
 			<h1 className={'size text- mb-4 text-xl font-bold'}>
 				{"Dear commander, it's time to start your kingdom"}
 			</h1>
-			<form className={'grid w-1/2 grid-cols-2 gap-4'}>
+			<form method='post' className={'grid w-1/2 grid-cols-2 gap-4'}>
 				<label htmlFor='nickname'>Kingdom name</label>
 				<input name='name' type='text' className={'input input-primary'} required minLength={3}></input>
 
@@ -37,6 +46,9 @@ const CreateKingdomPage = () => {
 					Create Kingdom
 				</button>
 			</form>
+			<pre>
+				{JSON.stringify(data, null, 2)}
+			</pre>
 		</div>
 	);
 
