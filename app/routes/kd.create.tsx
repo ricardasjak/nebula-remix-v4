@@ -1,4 +1,5 @@
 import { useLoaderData } from '@remix-run/react';
+import { useUserId } from '~/hooks/use-user-id.hook';
 import { PlanetTypes, RaceTypes } from '~/kingdom';
 import { createKingdomAction } from '~/kingdom/createKingdom.action';
 import { getAllKingdomsLoader } from '~/kingdom/getAllKingdoms.loader';
@@ -8,6 +9,8 @@ export const loader = getAllKingdomsLoader;
 
 const CreateKingdomPage = () => {
 	const data = useLoaderData<typeof getAllKingdomsLoader>();
+	const x = useUserId();
+	console.log({x});
 	return (
 		<div className={'content'}>
 			<h1 className={'size text- mb-4 text-xl font-bold'}>

@@ -9,6 +9,7 @@ type Props = {
 export const Navbar: React.FC<Props> = ({ isLoggedIn }) => {
 	const { signOut } = useAuth();
 	const navigate = useNavigate();
+	const loggedIn = !!isLoggedIn || true;
 
 	const handSignOut = useCallback(() => {
 		signOut().then(() => navigate('/'));
@@ -17,13 +18,14 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn }) => {
 	return (
 		<nav className={'mb-4'}>
 			<ul className={'list flex flex-row gap-4 p-4 mb-2'}>
+				<li>Logged in: {!!isLoggedIn}</li>
 				<li>
 					<Link to={'/'} className='link-secondary'>
 						Home
 					</Link>
 				</li>
 
-				{isLoggedIn && (
+				{loggedIn && (
 					<>
 						<li>
 							<Link to={'/account'} className='link-secondary'>
@@ -42,7 +44,7 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn }) => {
 						</li>
 					</>
 				)}
-				{!isLoggedIn && (
+				{loggedIn && (
 					<>
 						<li>
 							<Link to={'/auth/sign-up'} className='link-secondary'>
