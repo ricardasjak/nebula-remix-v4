@@ -9,7 +9,6 @@ type Props = {
 export const Navbar: React.FC<Props> = ({ isLoggedIn }) => {
 	const { signOut } = useAuth();
 	const navigate = useNavigate();
-	const loggedIn = !!isLoggedIn || true;
 
 	const handSignOut = useCallback(() => {
 		signOut().then(() => navigate('/'));
@@ -17,15 +16,14 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn }) => {
 
 	return (
 		<nav className={'mb-4'}>
-			<ul className={'list flex flex-row gap-4 p-4 mb-2'}>
-				<li>Logged in: {!!isLoggedIn}</li>
+			<ul className={'flex flex-row gap-4 p-4 mb-2'}>
 				<li>
 					<Link to={'/'} className='link-secondary'>
 						Home
 					</Link>
 				</li>
 
-				{loggedIn && (
+				{isLoggedIn && (
 					<>
 						<li>
 							<Link to={'/account'} className='link-secondary'>
@@ -34,26 +32,26 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn }) => {
 						</li>
 						<li>
 							<Link to={'/kd/create'} className='link-secondary'>
-								Create Kingdom
+								Create .
 							</Link>
 						</li>
 						<li>
 							<Link to={'/'} onClick={handSignOut} className='link-secondary'>
-								Sign off
+								Logout
 							</Link>
 						</li>
 					</>
 				)}
-				{loggedIn && (
+				{!isLoggedIn && (
 					<>
 						<li>
 							<Link to={'/auth/sign-up'} className='link-secondary'>
-								Sign up
+								Register
 							</Link>
 						</li>
 						<li>
 							<Link to={'/auth/sign-in'} className='link-secondary'>
-								Sign in
+								Login
 							</Link>
 						</li>
 					</>

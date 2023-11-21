@@ -11,8 +11,9 @@ import {
 	ScrollRestoration,
 	useLoaderData,
 } from '@remix-run/react';
+import { type UserSession } from '~/app.model';
 import { Navbar } from '~/components/navbar.component';
-import { type RootModel } from '~/root.model';
+import { authLoader } from '~/loaders';
 import stylesheet from '~/tailwind.css';
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesheet }];
@@ -26,32 +27,30 @@ export const meta: MetaFunction = () => [
 ];
 
 // export const loader: LoaderFunction = (args) => rootAuthLoader(args);
-// export const loader: LoaderFunction = args => {
-// 	return rootAuthLoader(args, ({ request }) => {
-// 		const { userId } = request.auth;
-// 		return { userId };
-// 	});
-// };
-export const loader: LoaderFunction = args => rootAuthLoader(args);
+export const loader: LoaderFunction = async args => {
+	// const getSession = await authLoader(args);
+	// @ts-ignore
+	return rootAuthLoader(args, () => {
+		// const { userId, sessionClaims } = request.auth;
+		return authLoader(args);
+
+		// if (userId && sessionClaims?.email) {
+		// 	const session: UserSession = {
+		// 		userId: 1,
+		// 		clerkUserId: userId,
+		// 		email: sessionClaims.email as string,
+		// 	};
+		// 	return Promise.resolve(session);
+		// }
+		// return {};
+	});
+};
 
 export const ErrorBoundary = ClerkErrorBoundary();
 
 const App = () => {
-	const rootData = useLoaderData<RootModel>();
-	const auth = useAuth();
-	const { userId } = rootData;
-	// console.log({ isSignedIn: auth.isSignedIn, userId, rootData });
-
-	// const { isSignedIn } = useAuth();
-
-	// useEffect(() => {
-	// 	if (isSignedIn && !data?.userId) {
-	// 		// work around Clerk issue, basic login by email and password goes "unnoticed"
-	// 		debugger;
-	// 		window.location.reload();
-	// 	}
-	// }, [data?.userId, isSignedIn]);
-
+	const { userId } = useLoaderData<UserSession>();
+	console.log({ userId });
 	return (
 		<html lang='en'>
 			<head>

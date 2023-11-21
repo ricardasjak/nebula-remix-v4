@@ -6,6 +6,7 @@ export const routesUtil = {
 	signup: '/sign-up',
 	auth: {
 		signup: '/auth/sign-up',
-		signin: 'auth/sign-in',
+		signin: '/auth/sign-in',
+		register: '/auth/register',
 	},
 };

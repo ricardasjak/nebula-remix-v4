@@ -7,6 +7,7 @@ declare global {
 if (!global.__appState__) {
 	global.__appState__ = {
 		kingdoms: new Map(),
+		users: new Map(),
 	};
 }
 

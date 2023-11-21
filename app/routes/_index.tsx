@@ -8,9 +8,9 @@ export const meta: MetaFunction = () => {
 export default function Index() {
 	return (
 		<div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.8' }}>
-			<h1 className={'text-xl mb-8'}>Welcome to Nebula</h1>
+			<h1 className={'text-xl mb-8'}>Welcome to </h1>
 			<Link to={'/kd/create'} className={'btn btn-primary'}>
-				Create Kingdom
+				Create .
 			</Link>
 		</div>
 	);

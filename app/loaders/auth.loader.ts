@@ -1,12 +1,36 @@
 import { getAuth } from '@clerk/remix/ssr.server';
-import { type LoaderFunction, redirect } from '@remix-run/node';
+import { type LoaderFunctionArgs, redirect } from '@remix-run/node';
+import { type UserSession } from '~/app.model';
+import { appState } from '~/app.service';
 import { routesUtil } from '~/routes.util';
+import { mapUtil } from '~/utils/map.util';
 
-export const authLoader: LoaderFunction = async args => {
+export const authLoader = async (args: LoaderFunctionArgs): Promise<UserSession> => {
 	const auth = await getAuth(args);
-	console.log('******** auth user id', auth.userId);
-	// if (!userId) {
-	// 	return redirect(routesUtil.signup);
-	// }
-	return {};
+	const app = await appState();
+	const user = mapUtil.toValues(app.users).find(u => u.clerkUserId === auth?.userId);
+	if (user) {
+		user.lastActiveAt = new Date().toISOString();
+	}
+	if (auth?.userId && !user?.userId) {
+		throw redirect(routesUtil.auth.register);
+	}
+	console.log('*****', user, mapUtil.toValues(app.users), auth.userId);
+	return {
+		userId: user?.userId || 0, // todo: enrich Clerk session and load userId from there
+		clerkUserId: auth.userId || '',
+		email: auth.sessionClaims?.email as string,
+	};
+};
+
+export const authRequiredLoader = async (args: LoaderFunctionArgs): Promise<UserSession> => {
+	const auth = await getAuth(args);
+	if (!auth.userId) {
+		throw redirect(routesUtil.auth.signin);
+	}
+	const userSession = await authLoader(args);
+
+	console.log('******** auth user session', userSession);
+
+	return userSession;
 };

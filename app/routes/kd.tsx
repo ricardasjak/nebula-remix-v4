@@ -1,7 +1,7 @@
 import { Outlet } from '@remix-run/react';
-import { authLoader } from '~/loaders';
+import { authRequiredLoader } from '~/loaders';
 
-export const loader = authLoader;
+export const loader = authRequiredLoader;
 
 const KingdomPageLayout: React.FC = () => {
 	return (
