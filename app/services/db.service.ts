@@ -16,8 +16,14 @@ const user = {
 	saveOne: async (user: User) => {
 		console.time('redis: save one user');
 		const n = await redis.hsetnx(KEYS.users, user.userId.toString(), user);
+		if (n === 0) throw `User ${user.userId}/${user.clerkUserId} wasn't saved`;
 		console.timeEnd('redis: save one user');
 		return n;
+	},
+	createOne: async (user: User) => {
+		const exists = await redis.hexists(KEYS.users, user.userId.toString());
+		if (exists) throw 'User already exists';
+		return db.user.saveOne(user);
 	},
 };
 
