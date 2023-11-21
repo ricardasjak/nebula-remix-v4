@@ -1,0 +1,26 @@
+import { Redis } from '@upstash/redis';
+import { type User } from '~/app.model';
+
+const redis = Redis.fromEnv();
+const KEYS = {
+	users: 'users',
+};
+
+const user = {
+	saveAll: async (users: Map<number, User>) => {
+		console.time('redis: save all users');
+		const n = await redis.hset(KEYS.users, Object.fromEntries(users));
+		console.timeEnd('redis: save all users');
+		return n;
+	},
+	saveOne: async (user: User) => {
+		console.time('redis: save one user');
+		const n = await redis.hsetnx(KEYS.users, user.userId.toString(), user);
+		console.timeEnd('redis: save one user');
+		return n;
+	},
+};
+
+export const db = {
+	user,
+};

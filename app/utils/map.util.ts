@@ -1,3 +1,5 @@
+import { type AppState } from '~/app.model';
+
 export const mapUtil = {
 	toValues: <K, V>(map: Map<K, V>) => Array.from(map, ([, v]) => v),
 	toKeys: <K, V>(map: Map<K, V>) => Array.from(map, ([k]) => k),
@@ -6,4 +8,8 @@ export const mapUtil = {
 		const last = keys[keys.length - 1] as string;
 		return (parseInt(last, 10) || 0) + 1;
 	},
+	toJson: (state: AppState) => ({
+		users: mapUtil.toValues(state.users),
+		kingdoms: mapUtil.toValues(state.kingdoms),
+	}),
 };

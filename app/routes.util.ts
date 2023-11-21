@@ -9,4 +9,7 @@ export const routesUtil = {
 		signin: '/auth/sign-in',
 		register: '/auth/register',
 	},
+	admin: {
+		panel: '/admin/panel',
+	},
 };

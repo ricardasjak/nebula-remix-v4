@@ -15,7 +15,6 @@ export const authLoader = async (args: LoaderFunctionArgs): Promise<UserSession>
 	if (auth?.userId && !user?.userId) {
 		throw redirect(routesUtil.auth.register);
 	}
-	console.log('*****', user, mapUtil.toValues(app.users), auth.userId);
 	return {
 		userId: user?.userId || 0, // todo: enrich Clerk session and load userId from there
 		clerkUserId: auth.userId || '',
@@ -29,8 +28,5 @@ export const authRequiredLoader = async (args: LoaderFunctionArgs): Promise<User
 		throw redirect(routesUtil.auth.signin);
 	}
 	const userSession = await authLoader(args);
-
-	console.log('******** auth user session', userSession);
-
 	return userSession;
 };
