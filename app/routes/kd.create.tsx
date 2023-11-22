@@ -5,6 +5,18 @@ import { getAllKingdomsLoader } from '~/kingdom/getAllKingdoms.loader';
 
 export const action = createKingdomAction;
 export const loader = getAllKingdomsLoader;
+// export function ErrorBoundary() {
+// 	const error = useRouteError();
+// 	return (
+// 		<div>
+// 			<h1>Some error happened:</h1>
+// 			{/*<article>{error}</article>*/}
+// 		</div>
+// 	);
+// 	// When NODE_ENV=production:
+// 	// error.message = "Unexpected Server Error"
+// 	// error.stack = undefined
+// }
 
 const CreateKingdomPage = () => {
 	const data = useLoaderData<typeof getAllKingdomsLoader>();

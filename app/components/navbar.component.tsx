@@ -1,12 +1,19 @@
 import { useAuth } from '@clerk/remix';
 import { Link, useNavigate } from '@remix-run/react';
 import { useCallback } from 'react';
+import { routesUtil } from '~/routes.util';
 
 type Props = {
 	isLoggedIn: boolean;
+	kingdoms: NavbarKingdom[];
 };
 
-export const Navbar: React.FC<Props> = ({ isLoggedIn }) => {
+export interface NavbarKingdom {
+	id: number;
+	name: string;
+}
+
+export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 	const { signOut } = useAuth();
 	const navigate = useNavigate();
 
@@ -25,18 +32,25 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn }) => {
 
 				{isLoggedIn && (
 					<>
+						{kingdoms.map(item => (
+							<li key={item.id}>
+								<Link to={routesUtil.kd.home(item.id)} className='link-primary'>
+									{item.name}
+								</Link>
+							</li>
+						))}
 						<li>
 							<Link to={'/account'} className='link-secondary'>
 								My Account
 							</Link>
 						</li>
 						<li>
-							<Link to={'/kd/create'} className='link-secondary'>
+							<Link to={routesUtil.kd.create} className='link-secondary'>
 								Create .
 							</Link>
 						</li>
 						<li>
-							<Link to={'/'} onClick={handSignOut} className='link-secondary'>
+							<Link to={routesUtil.home} onClick={handSignOut} className='link-secondary'>
 								Logout
 							</Link>
 						</li>
@@ -45,12 +59,12 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn }) => {
 				{!isLoggedIn && (
 					<>
 						<li>
-							<Link to={'/auth/sign-up'} className='link-secondary'>
+							<Link to={routesUtil.auth.signup} className='link-secondary'>
 								Register
 							</Link>
 						</li>
 						<li>
-							<Link to={'/auth/sign-in'} className='link-secondary'>
+							<Link to={routesUtil.auth.signin} className='link-secondary'>
 								Login
 							</Link>
 						</li>

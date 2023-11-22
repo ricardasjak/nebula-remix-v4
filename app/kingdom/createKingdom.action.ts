@@ -1,6 +1,7 @@
 import { redirect, type ActionFunction } from '@remix-run/node';
 import { type Player } from '~/app.model';
 import { appState } from '~/app.service';
+import { canCreateKingdom } from '~/can-do/can-create-kingdom.can-do';
 import {
 	type CreateKingdom,
 	type Kingdom,
@@ -52,6 +53,10 @@ export const createKingdomAction: ActionFunction = async args => {
 		await db.player.createOne(player);
 	}
 
+	if (!canCreateKingdom(app, player.id)) {
+		throw 'Kingdoms limit reached';
+	}
+
 	app.kingdoms.set(id, newKingdom);
 	player.kingdoms.push(id);
 
@@ -59,5 +64,5 @@ export const createKingdomAction: ActionFunction = async args => {
 	await db.player.saveOne(player);
 	console.log('action: kd successfully created!');
 
-	return redirect(routesUtil.admin.panel);
+	return redirect(routesUtil.kd.create);
 };
