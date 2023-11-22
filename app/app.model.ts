@@ -7,15 +7,22 @@ export interface UserSession {
 }
 
 export interface User {
-	userId: number;
+	id: number;
 	clerkUserId?: string;
 	email: string;
 	lastActiveAt?: string;
-	// passwordHash: string;
+}
+
+export interface Player {
+	id: number;
+	userId: number;
+	round: number;
+	kingdoms: number[];
 }
 
 export interface AppState {
-	kingdoms: Map<number, Kingdom>;
 	users: Map<number, User>;
+	players: Map<number, Player>;
+	kingdoms: Map<number, Kingdom>;
 	status: 'empty' | 'loading' | 'ready';
 }

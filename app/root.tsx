@@ -1,4 +1,4 @@
-import { ClerkApp, ClerkErrorBoundary, useAuth } from '@clerk/remix';
+import { ClerkApp, ClerkErrorBoundary } from '@clerk/remix';
 import { rootAuthLoader } from '@clerk/remix/ssr.server';
 
 import { type LinksFunction, type LoaderFunction, type MetaFunction } from '@remix-run/node';
@@ -49,8 +49,8 @@ export const loader: LoaderFunction = async args => {
 export const ErrorBoundary = ClerkErrorBoundary();
 
 const App = () => {
-	const { userId } = useLoaderData<UserSession>();
-	console.log({ userId });
+	const rootData = useLoaderData<UserSession>();
+	// console.log({ rootData });
 	return (
 		<html lang='en'>
 			<head>
@@ -61,7 +61,7 @@ const App = () => {
 				<Links />
 			</head>
 			<body>
-				<Navbar isLoggedIn={!!userId} />
+				<Navbar isLoggedIn={!!rootData.userId} />
 				<div className={'container mx-auto px-4'}>
 					<Outlet />
 				</div>

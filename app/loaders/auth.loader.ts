@@ -12,11 +12,11 @@ export const authLoader = async (args: LoaderFunctionArgs): Promise<UserSession>
 	if (user) {
 		user.lastActiveAt = new Date().toISOString();
 	}
-	if (auth?.userId && !user?.userId) {
+	if (auth?.userId && !user?.id) {
 		throw redirect(routesUtil.auth.register);
 	}
 	return {
-		userId: user?.userId || 0, // todo: enrich Clerk session and load userId from there
+		userId: user?.id || 0, // todo: enrich Clerk session and load userId from there
 		clerkUserId: auth.userId || '',
 		email: auth.sessionClaims?.email as string,
 	};

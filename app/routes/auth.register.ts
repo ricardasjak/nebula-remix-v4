@@ -16,11 +16,11 @@ export const loader: LoaderFunction = async args => {
 
 	if (!user) {
 		const newUser: User = {
-			userId: mapUtil.nextKey(app.users),
+			id: mapUtil.nextKey(app.users),
 			clerkUserId: session.userId,
 			email: session.sessionClaims.email as string,
 		};
-		app.users.set(newUser.userId, newUser);
+		app.users.set(newUser.id, newUser);
 		await db.user.createOne(newUser);
 	}
 	return redirect(routesUtil.home);

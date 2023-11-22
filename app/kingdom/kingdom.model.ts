@@ -14,7 +14,7 @@ export type KingdomState = 'Mobilization' | 'Growth';
 export type Error = string | undefined;
 
 export interface KingdomBase {
-	accountId: number;
+	userId: number;
 	roundId: number;
 	nickname: string;
 	name: string;

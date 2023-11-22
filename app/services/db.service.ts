@@ -1,40 +1,47 @@
 import { Redis } from '@upstash/redis';
-import { type User } from '~/app.model';
-import { mapUtil } from '~/utils/map.util';
+import { type Player, type User } from '~/app.model';
+import { type Entity, type Kingdom } from '~/kingdom';
+import { mapUtil } from '~/utils';
 
 const redis = Redis.fromEnv();
 const KEYS = {
 	users: 'users',
+	players: 'players',
+	kingdoms: 'kingdoms',
 };
 
-const user = {
-	loadAll: async (users: Map<number, User>) => {
-		console.time('redis: load all users');
-		const data = (await redis.hgetall(KEYS.users)) as Record<number, User>;
-		users = mapUtil.toMap(data);
-		console.timeEnd('redis: load all users');
-		return users;
+const makeRepository = <T>(key: string) => ({
+	loadAll: async (map: Map<number, T>) => {
+		console.time(`redis: ${key}: load all`);
+		const data = (await redis.hgetall(key)) as Record<number, T> | undefined;
+		map = mapUtil.toMap(data);
+		console.timeEnd(`redis: ${key}: load all`);
+		return map;
 	},
-	saveAll: async (users: Map<number, User>) => {
-		console.time('redis: save all users');
-		const n = await redis.hset(KEYS.users, Object.fromEntries(users));
-		console.timeEnd('redis: save all users');
+	saveAll: async (map: Map<number, T>) => {
+		console.time(`redis: save all of ${key}`);
+
+		const n = await redis.hset(key, Object.fromEntries(map));
+		console.timeEnd(`redis: save all of ${key}`);
 		return n;
 	},
-	saveOne: async (user: User) => {
-		console.time('redis: save one user');
-		const n = await redis.hsetnx(KEYS.users, user.userId.toString(), user);
-		if (n === 0) throw `User ${user.userId}/${user.clerkUserId} wasn't saved`;
-		console.timeEnd('redis: save one user');
-		return n;
+	saveOne: async (entity: Entity) => {
+		console.time(`redis: ${key}: saved id: ${entity.id}`);
+		console.log(`redis: ${key}: saving id: ${entity.id}`);
+		await redis.hset(key, { [entity.id]: entity });
+		console.timeEnd(`redis: ${key}: saved id: ${entity.id}`);
+		return 0;
 	},
-	createOne: async (user: User) => {
-		const exists = await redis.hexists(KEYS.users, user.userId.toString());
-		if (exists) throw 'User already exists';
-		return db.user.saveOne(user);
+	createOne: async (entity: Entity) => {
+		console.log(`redis: ${key}: creating entity ${JSON.stringify(entity)}`);
+		const n = await redis.hexists(key, entity.id.toString());
+		if (n > 0) throw `${key}: entity already exists`;
+		return makeRepository(key).saveOne(entity);
 	},
-};
+});
 
 export const db = {
-	user,
+	user: makeRepository<User>(KEYS.users),
+	player: makeRepository<Player>(KEYS.players),
+	kingdom: makeRepository<Kingdom>(KEYS.kingdoms),
 };
