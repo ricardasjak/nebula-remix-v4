@@ -1,5 +1,6 @@
 import { Redis } from '@upstash/redis';
 import { type User } from '~/app.model';
+import { mapUtil } from '~/utils/map.util';
 
 const redis = Redis.fromEnv();
 const KEYS = {
@@ -7,6 +8,13 @@ const KEYS = {
 };
 
 const user = {
+	loadAll: async (users: Map<number, User>) => {
+		console.time('redis: load all users');
+		const data = (await redis.hgetall(KEYS.users)) as Record<number, User>;
+		users = mapUtil.toMap(data);
+		console.timeEnd('redis: load all users');
+		return users;
+	},
 	saveAll: async (users: Map<number, User>) => {
 		console.time('redis: save all users');
 		const n = await redis.hset(KEYS.users, Object.fromEntries(users));

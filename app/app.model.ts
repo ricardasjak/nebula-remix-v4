@@ -17,4 +17,5 @@ export interface User {
 export interface AppState {
 	kingdoms: Map<number, Kingdom>;
 	users: Map<number, User>;
+	status: 'empty' | 'loading' | 'ready';
 }

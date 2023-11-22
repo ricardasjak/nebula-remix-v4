@@ -8,7 +8,14 @@ export const mapUtil = {
 		const last = keys[keys.length - 1] as string;
 		return (parseInt(last, 10) || 0) + 1;
 	},
-	toJson: (state: AppState) => ({
+	toMap: <V>(record: Record<string, V>) => {
+		const map = new Map<number, V>();
+		for (const [key, value] of Object.entries(record)) {
+			map.set(parseInt(key), value);
+		}
+		return map;
+	},
+	toAppStateObject: (state: AppState) => ({
 		users: mapUtil.toValues(state.users),
 		kingdoms: mapUtil.toValues(state.kingdoms),
 	}),

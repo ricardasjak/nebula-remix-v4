@@ -27,6 +27,5 @@ export const authRequiredLoader = async (args: LoaderFunctionArgs): Promise<User
 	if (!auth.userId) {
 		throw redirect(routesUtil.auth.signin);
 	}
-	const userSession = await authLoader(args);
-	return userSession;
+	return await authLoader(args);
 };

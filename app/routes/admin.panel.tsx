@@ -8,7 +8,7 @@ import { mapUtil } from '~/utils/map.util';
 
 export const loader: LoaderFunction = async args => {
 	await authRequiredLoader(args);
-	return mapUtil.toJson(await appState());
+	return mapUtil.toAppStateObject(await appState());
 };
 
 export const action: ActionFunction = async () => {
