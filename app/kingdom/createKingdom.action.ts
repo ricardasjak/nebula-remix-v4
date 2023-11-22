@@ -64,5 +64,5 @@ export const createKingdomAction: ActionFunction = async args => {
 	await db.player.saveOne(player);
 	console.log('action: kd successfully created!');
 
-	return redirect(routesUtil.kd.create);
+	return redirect(routesUtil.kd.home(newKingdom.id));
 };

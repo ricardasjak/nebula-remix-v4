@@ -1,10 +1,11 @@
-import { type LoaderFunction } from '@remix-run/node';
+import { json, type LoaderFunction } from '@remix-run/node';
 import { appState } from '~/app.service';
+import { type Kingdom } from '~/kingdom/kingdom.model';
 import { authRequiredLoader } from '~/loaders';
 import { mapUtil } from '~/utils';
 
 export const kingdomLoader: LoaderFunction = async args => {
-	const id = Number(args.params.id);
+	const id = Number(args.params.kdid);
 	const session = await authRequiredLoader(args);
 	if (!id || !session) {
 		throw 'Kingdom not found';
@@ -18,5 +19,5 @@ export const kingdomLoader: LoaderFunction = async args => {
 	if (!kd) {
 		throw 'Kingdom not found';
 	}
-	return kd;
+	return json<Kingdom>(kd);
 };

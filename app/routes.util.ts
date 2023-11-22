@@ -1,5 +1,6 @@
 export const routesUtil = {
 	home: '/',
+	account: '/account',
 	kd: {
 		create: '/kd/create',
 		home: (id: number) => `/kd/${id}`,

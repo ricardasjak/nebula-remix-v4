@@ -1,4 +1,4 @@
-import { ClerkApp, ClerkErrorBoundary } from '@clerk/remix';
+import { ClerkApp, ClerkErrorBoundary, useAuth } from '@clerk/remix';
 import { rootAuthLoader } from '@clerk/remix/ssr.server';
 
 import { type LinksFunction, type LoaderFunction, type MetaFunction } from '@remix-run/node';
@@ -13,6 +13,7 @@ import {
 	useLoaderData,
 	useRouteError,
 } from '@remix-run/react';
+import { useEffect } from 'react';
 import { type UserSession } from '~/app.model';
 import { Navbar, type NavbarKingdom } from '~/components/navbar.component';
 import { authLoader } from '~/loaders';
@@ -84,6 +85,14 @@ export const ErrorBoundary = ClerkErrorBoundary(RootErrorBoundary);
 
 const App = () => {
 	const rootData = useLoaderData<UserSession>();
+	const auth = useAuth();
+	useEffect(() => {
+		if (auth.userId && !rootData.clerkUserId) {
+			// clerk related hack
+			window.location.reload();
+		}
+	}, [auth.userId, rootData.clerkUserId]);
+
 	// @ts-ignore
 	const kingdoms: NavbarKingdom[] = rootData.kingdoms;
 	// console.log({ rootData });

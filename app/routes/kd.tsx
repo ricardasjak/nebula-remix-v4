@@ -1,8 +1,5 @@
-import { Link, Links, Meta, Outlet, Scripts, useRouteError } from '@remix-run/react';
-import { authRequiredLoader } from '~/loaders';
+import { Link, Outlet, useRouteError } from '@remix-run/react';
 import { routesUtil } from '~/routes.util';
-
-export const loader = authRequiredLoader;
 
 export function ErrorBoundary() {
 	const error = useRouteError();
