@@ -2,6 +2,7 @@ import { redirect, type ActionFunction } from '@remix-run/node';
 import { type Player } from '~/app.model';
 import { appState } from '~/app.service';
 import { canCreateKingdom } from '~/can-do/can-create-kingdom.can-do';
+import { makeCoords } from '~/game-logic';
 import {
 	type CreateKingdom,
 	type Kingdom,
@@ -39,8 +40,7 @@ export const createKingdomAction: ActionFunction = async args => {
 		nw: 27500,
 		nickname: 'unknown nickname',
 		sector: 1,
-		x: 1,
-		y: 1,
+		...makeCoords(),
 		roundId: round,
 	};
 

@@ -13,5 +13,6 @@ export const routesUtil = {
 	},
 	admin: {
 		panel: '/admin/panel',
+		migrate: '/admin/migrate',
 	},
 };
