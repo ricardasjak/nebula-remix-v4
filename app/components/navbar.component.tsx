@@ -2,7 +2,6 @@ import { useAuth } from '@clerk/remix';
 import { Link, useNavigate, useParams } from '@remix-run/react';
 import { useCallback } from 'react';
 import { GAME } from '~/game.const';
-import { useKingdom } from '~/hooks/use-kingdom.hook';
 import { routesUtil } from '~/routes.util';
 
 type Props = {
@@ -101,15 +100,15 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 						</li>
 					</ul>
 				</div>
-				<Link className='btn btn-ghost text-xl' to={routesUtil.home}>
-					Nebula Kingdoms
+				<Link className='btn btn-ghost' to={routesUtil.home}>
+					NK
 				</Link>
 			</div>
 			<div className='navbar-center hidden lg:flex'>
 				{isLoggedIn && (
-					<ul className='p-2 grid grid-flow-col'>
+					<ul className='p-2 flex justify-evenly'>
 						{kingdoms.map(kd => (
-							<li key={kd.id} className={selected === kd.id ? 'outline' : undefined}>
+							<li key={kd.id} className={selected === kd.id ? 'text-primary' : undefined}>
 								<Link
 									to={routesUtil.kd.home(kd.id)}
 									prefetch='none'

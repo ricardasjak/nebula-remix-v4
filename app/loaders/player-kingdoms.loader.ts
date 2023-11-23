@@ -13,5 +13,5 @@ export const playerKingdomsLoader: LoaderFunction = async args => {
 	if (!player) {
 		return [];
 	}
-	return player.kingdoms.map(id => ({ id, name: app.kingdoms.get(id)?.name || id.toString(10) }));
+	return player.kingdoms.map(id => app.kingdoms.get(id)!).filter(Boolean);
 };

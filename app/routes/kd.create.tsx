@@ -2,22 +2,10 @@ import { useLoaderData } from '@remix-run/react';
 import { GAME } from '~/game.const';
 import { PlanetTypes, RaceTypes } from '~/kingdom';
 import { createKingdomAction } from '~/kingdom/createKingdom.action';
-import { getAllKingdomsLoader } from '~/kingdom/getAllKingdoms.loader';
+import { authRequiredLoader } from '~/loaders';
 
 export const action = createKingdomAction;
-export const loader = getAllKingdomsLoader;
-// export function ErrorBoundary() {
-// 	const error = useRouteError();
-// 	return (
-// 		<div>
-// 			<h1>Some error happened:</h1>
-// 			{/*<article>{error}</article>*/}
-// 		</div>
-// 	);
-// 	// When NODE_ENV=production:
-// 	// error.message = "Unexpected Server Error"
-// 	// error.stack = undefined
-// }
+export const loader = authRequiredLoader;
 
 const CreateKingdomPage = () => {
 	return (
