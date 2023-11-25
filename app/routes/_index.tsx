@@ -1,24 +1,31 @@
+import { type rootAuthLoader } from '@clerk/remix/ssr.server';
 import { type MetaFunction } from '@remix-run/node';
-import { Link, useRouteLoaderData } from '@remix-run/react';
+import { Link, useLoaderData, useRouteLoaderData } from '@remix-run/react';
+import { useMemo } from 'react';
+import { WorldMap } from '~/components';
 import { type Kingdom } from '~/kingdom';
+import { type WorldKingdom, worldLoader } from '~/loaders/world.loader';
 import { routesUtil } from '~/routes.util';
 
 export const meta: MetaFunction = () => {
-	return [
-		{ title: 'New Remix App' },
-		{ name: 'description', content: 'Welcome to Nebula Kingdoms!' },
-	];
+	return [{ title: 'Nebula map' }, { name: 'description', content: 'Welcome to Nebula Kingdoms!' }];
 };
 
+export const loader = worldLoader;
+
 export default function Index() {
-	const rootData = useRouteLoaderData('root');
-	// @ts-ignore
-	const kingdoms = (rootData.kingdoms as Kingdom[]).sort((a, b) => b.land - a.land);
+	const rootData = useRouteLoaderData<typeof rootAuthLoader>('root');
+	const world = useLoaderData() as WorldKingdom[];
+	const kingdoms = useMemo(
+		() => (rootData?.kingdoms as Kingdom[]).sort((a, b) => b.land - a.land),
+		[rootData?.kingdoms]
+	);
+	const ownedKingdoms = useMemo(() => kingdoms.map(k => k.id), [kingdoms]);
 	const hasKingdom = kingdoms.length > 0;
 	return (
 		<div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.8' }}>
-			<h1 className={'text-xl mb-2'}>
-				Welcome to <span className={'text-primary'}>Nebula</span>
+			<h1 className={'text-xl mb-2 inline-block'}>
+				Welcome to <span className={'text-primary'}>Nebula</span>. &nbsp;
 			</h1>
 
 			{hasKingdom ? (
@@ -31,7 +38,7 @@ export default function Index() {
 									to={routesUtil.kd.home(kd.id)}
 									className={'link link-hover grid grid-flow-col sm:grid-cols-5 xs:grid-cols-3'}
 								>
-									<span>{kd.name}</span>
+									<span>{`${kd.name} (${kd.x}:${kd.y})`}</span>
 									<span className={'hidden sm:block'}>{kd.planet}</span>
 									<span className={'hidden sm:block'}>{kd.race}</span>
 									<span>{kd.land.toLocaleString()}</span>
@@ -43,13 +50,18 @@ export default function Index() {
 				</>
 			) : (
 				<>
-					<h2 className={'text-primary text-sm mb-8'}>it's time to start your journey!</h2>
-					<Link to={'/kd/create'} className={'btn btn-primary'}>
-						Create Kingdom
+					<span className={'text-sm mb-8'}>It's time to start your journey!</span>
+					&nbsp;
+					<Link to={'/kd/create'} className={'btn btn-link text-primary'}>
+						Create your Kingdom
 					</Link>
 				</>
 			)}
-			<hr className={'border-primary mt-4'} />
+			{/*<hr className={'border-primary my-4'} />*/}
+			<div className={''}>
+				{/*<h3 className={'text-primary text-lg text-center'}>Nebula map</h3>*/}
+				<WorldMap kingdoms={world} ownerKingdoms={ownedKingdoms} />
+			</div>
 		</div>
 	);
 }

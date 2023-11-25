@@ -1,4 +1,3 @@
-import { useLoaderData } from '@remix-run/react';
 import { GAME } from '~/game.const';
 import { PlanetTypes, RaceTypes } from '~/kingdom';
 import { createKingdomAction } from '~/kingdom/createKingdom.action';

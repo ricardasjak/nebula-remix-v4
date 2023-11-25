@@ -12,10 +12,13 @@ export default function SignInPage() {
 
 	return (
 		<div className={'flex flex-col gap-4'}>
-			<SignIn />{' '}
-			<Link to={'/'} onClick={handSignOut} className='link-secondary'>
-				Sign off
-			</Link>
+			<SignIn />
+			<div className={'flex justify-center'}>
+				<p>New player?</p>&nbsp;
+				<Link to={'/'} onClick={handSignOut} className='link-primary ml-2'>
+					Create account
+				</Link>
+			</div>
 		</div>
 	);
 }
