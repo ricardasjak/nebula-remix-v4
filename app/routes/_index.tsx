@@ -52,15 +52,15 @@ export default function Index() {
 				<>
 					<span className={'text-sm mb-8'}>It's time to start your journey!</span>
 					&nbsp;
-					<Link to={'/kd/create'} className={'btn btn-link text-primary'}>
-						Create your Kingdom
-					</Link>
 				</>
 			)}
 			{/*<hr className={'border-primary my-4'} />*/}
 			<div className={''}>
 				{/*<h3 className={'text-primary text-lg text-center'}>Nebula map</h3>*/}
 				<WorldMap kingdoms={world} ownerKingdoms={ownedKingdoms} />
+				<Link to={routesUtil.kd.create} className={'btn btn-primary'}>
+					Create Kingdom
+				</Link>
 			</div>
 		</div>
 	);

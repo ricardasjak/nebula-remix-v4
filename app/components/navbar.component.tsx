@@ -36,7 +36,7 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 		<div className='navbar bg-base-100 container'>
 			<div className='navbar-start'>
 				<div className='dropdown'>
-					<label tabIndex={0} className='btn btn-ghost'>
+					<label tabIndex={0} className='btn btn-ghost text-primary'>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
 							className='h-5 w-5'
@@ -100,8 +100,8 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 						</li>
 					</ul>
 				</div>
-				<Link className='btn btn-ghost' to={routesUtil.home}>
-					NK
+				<Link className='btn btn-ghost text-primary' to={routesUtil.home}>
+					NEBULA
 				</Link>
 			</div>
 			<div className='navbar-center hidden lg:flex'>
@@ -129,7 +129,7 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 			</div>
 			<div className='navbar-end'>
 				{!isLoggedIn && (
-					<Link to={routesUtil.auth.signin} className='btn btn-ghost text-md'>
+					<Link to={routesUtil.auth.signin} className='btn btn-ghost text-md text-primary'>
 						Login
 					</Link>
 				)}

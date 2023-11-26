@@ -1,6 +1,7 @@
 import { SignIn, useAuth } from '@clerk/remix';
 import { Link, useNavigate } from '@remix-run/react';
 import { useCallback } from 'react';
+import { routesUtil } from '~/routes.util';
 
 export default function SignInPage() {
 	const { signOut } = useAuth();
@@ -15,8 +16,11 @@ export default function SignInPage() {
 			<SignIn />
 			<div className={'flex justify-center'}>
 				<p>New player?</p>&nbsp;
-				<Link to={'/'} onClick={handSignOut} className='link-primary ml-2'>
+				<Link to={routesUtil.auth.signup} className='link-primary ml-2'>
 					Create account
+				</Link>
+				<Link onClick={handSignOut} to={routesUtil.home} className={'absolute bottom-0 mb-4'}>
+					Log out
 				</Link>
 			</div>
 		</div>
