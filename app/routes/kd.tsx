@@ -24,7 +24,7 @@ export function ErrorBoundary() {
 
 const KingdomPageLayout: React.FC = () => {
 	return (
-		<div className={'container mx-auto px-4'}>
+		<div className={''}>
 			<Outlet />
 		</div>
 	);

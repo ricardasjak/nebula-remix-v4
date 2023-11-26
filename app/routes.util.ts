@@ -4,6 +4,8 @@ export const routesUtil = {
 	kd: {
 		create: '/kd/create',
 		home: (id: number) => `/kd/${id}`,
+		budget: (id: number) => `/kd/${id}/budget`,
+		military: (id: number) => `/kd/${id}/military`,
 	},
 	signup: '/sign-up',
 	auth: {

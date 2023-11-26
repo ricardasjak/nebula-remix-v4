@@ -1,14 +1,18 @@
-import { useLoaderData } from '@remix-run/react';
+import { Outlet } from '@remix-run/react';
+import { KingdomNavbar } from '~/components/kd.navbar.component';
+import { useKingdomId } from '~/hooks';
 import { kingdomLoader } from '~/kingdom/kingdom.loader';
 
 export const loader = kingdomLoader;
 
 const KingdomPage: React.FC = () => {
-	const kd = useLoaderData<typeof loader>();
+	const kdid = useKingdomId();
 	return (
 		<div>
-			<h1>This is kingdom page</h1>
-			<pre>{JSON.stringify(kd, null, 2)}</pre>
+			<KingdomNavbar kdid={kdid} />
+			<div className={'mt-2'}>
+				<Outlet />
+			</div>
 		</div>
 	);
 };
