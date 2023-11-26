@@ -11,10 +11,10 @@ const SIZE = 100;
 export const WorldMap: React.FC<Props> = ({ kingdoms, ownerKingdoms }) => {
 	return (
 		<div
-			className={''}
+			className={'hidden'}
 			style={{
-				width: '100%',
-				maxWidth: '720px',
+				maxHeight: '85vh',
+				maxWidth: '100%',
 				margin: '0 auto',
 				aspectRatio: 1,
 				display: 'grid',
@@ -24,20 +24,28 @@ export const WorldMap: React.FC<Props> = ({ kingdoms, ownerKingdoms }) => {
 		>
 			{kingdoms.map(k => {
 				const isOwner = ownerKingdoms.includes(k.id);
-				const tooltip = [
-					`${k.name} (${k.x}:${k.y})`,
-					k.land.toLocaleString(),
-					k.nw.toLocaleString(),
-				].join('   ');
-				return (
-					<div
-						className={cx(isOwner ? 'bg-primary' : 'bg-blue-200', 'tooltip cursor-pointer')}
-						data-tip={tooltip}
-						style={{ gridRow: `${k.x}`, gridColumn: `${k.y}`, borderRadius: '2px' }}
-						key={k.id}
-					></div>
-				);
+				return <WorldKingdomComponent key={k.id} kingdom={k} isOwner={isOwner} />;
 			})}
 		</div>
+	);
+};
+
+const WorldKingdomComponent: React.FC<{ kingdom: WorldKingdom; isOwner: boolean }> = ({
+	kingdom,
+	isOwner,
+}) => {
+	const tooltip = [
+		`${kingdom.name} (x:${kingdom.x}, y:${kingdom.y})`,
+		kingdom.land.toLocaleString(),
+		kingdom.nw.toLocaleString(),
+	].join(' — ');
+
+	return (
+		<div
+			className={cx(isOwner ? 'bg-primary' : 'bg-blue-200', 'tooltip cursor-pointer animate-pulse')}
+			data-tip={tooltip}
+			style={{ gridRow: `${kingdom.x}`, gridColumn: `${kingdom.y}`, borderRadius: '2px' }}
+			key={kingdom.id}
+		></div>
 	);
 };

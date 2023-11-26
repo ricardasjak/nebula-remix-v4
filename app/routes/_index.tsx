@@ -25,7 +25,7 @@ export default function Index() {
 	return (
 		<div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.8' }}>
 			<h1 className={'text-xl mb-2 inline-block'}>
-				Welcome to <span className={'text-primary'}>Nebula</span>. &nbsp;
+				Welcome to <span className={'text-primary'}>Nebula.</span> &nbsp;
 			</h1>
 
 			{hasKingdom ? (
