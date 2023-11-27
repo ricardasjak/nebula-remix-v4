@@ -1,3 +1,4 @@
+export * from './allocation.component';
 export * from './navbar.component';
 export * from './world.component';
 export * from './kd.navbar.component';

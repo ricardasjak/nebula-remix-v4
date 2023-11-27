@@ -20,9 +20,21 @@ export interface Player {
 	kingdoms: number[];
 }
 
+export interface BudgetAllocation {
+	exploration: number;
+	construction: number;
+	military: number;
+	research: number;
+}
+
+export interface Budget extends BudgetAllocation {
+	id: number;
+}
+
 export interface AppState {
 	users: Map<number, User>;
 	players: Map<number, Player>;
 	kingdoms: Map<number, Kingdom>;
+	budgets: Map<number, Budget>;
 	status: 'empty' | 'loading' | 'ready';
 }

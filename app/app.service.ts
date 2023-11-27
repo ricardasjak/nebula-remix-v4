@@ -12,6 +12,7 @@ if (!global.__appState__) {
 		users: new Map(),
 		players: new Map(),
 		kingdoms: new Map(),
+		budgets: new Map(),
 	};
 }
 

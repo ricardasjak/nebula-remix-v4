@@ -1,5 +1,5 @@
 import { Redis } from '@upstash/redis';
-import { type Player, type User } from '~/app.model';
+import { type BudgetAllocation, type Player, type User } from '~/app.model';
 import { type Entity, type Kingdom } from '~/kingdom';
 import { mapUtil } from '~/utils';
 
@@ -8,6 +8,7 @@ const KEYS = {
 	users: 'users',
 	players: 'players',
 	kingdoms: 'kingdoms',
+	budgets: 'budgets',
 };
 
 const makeRepository = <T>(key: string) => ({
@@ -25,6 +26,9 @@ const makeRepository = <T>(key: string) => ({
 		console.timeEnd(`redis: save all of ${key}`);
 		return n;
 	},
+	/**
+	 * Update or Create new entity of <T>
+	 */
 	saveOne: async (entity: Entity) => {
 		console.time(`redis: ${key}: saved id: ${entity.id}`);
 		console.log(`redis: ${key}: saving id: ${entity.id}`);
@@ -44,4 +48,5 @@ export const db = {
 	user: makeRepository<User>(KEYS.users),
 	player: makeRepository<Player>(KEYS.players),
 	kingdom: makeRepository<Kingdom>(KEYS.kingdoms),
+	budget: makeRepository<BudgetAllocation>(KEYS.budgets),
 };
