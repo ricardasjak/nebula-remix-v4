@@ -1,5 +1,5 @@
 import { type ActionFunction, type LoaderFunctionArgs, redirect } from '@remix-run/node';
-import { Form, useLoaderData } from '@remix-run/react';
+import { Form, useLoaderData, useNavigation } from '@remix-run/react';
 import { type Budget, type BudgetAllocation } from '~/app.model';
 import { appState } from '~/app.service';
 import { Allocation, PageTitle } from '~/components';
@@ -30,6 +30,11 @@ export const loader = async (args: LoaderFunctionArgs) => {
 const KingdomBudgetPage: React.FC = () => {
 	const kd = useKingdom();
 	const budget = useLoaderData<BudgetAllocation>();
+	const isSubmitting = !!useNavigation().formAction;
+
+	if (!kd) {
+		return null;
+	}
 
 	return (
 		<>
@@ -37,7 +42,9 @@ const KingdomBudgetPage: React.FC = () => {
 			<Form method='POST'>
 				<input type={'hidden'} name={'kdid'} value={kd.id}></input>
 				<Allocation initial={budget} labels={LABELS} total={50_000} />
-				<button className={'btn btn-primary mt-8'}>Confirm budget</button>
+				<button className={'btn btn-primary mt-8'} disabled={isSubmitting}>
+					Confirm budget
+				</button>
 			</Form>
 		</>
 	);
