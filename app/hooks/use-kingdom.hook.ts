@@ -1,9 +1,9 @@
 import { useRouteLoaderData } from '@remix-run/react';
-import { type kingdomLoader } from '~/kingdom/kingdom.loader';
+import { type Kingdom } from '~/kingdom';
 
 /**
  * Returns active kingdom on the client side (if one selected)
  */
 export const useKingdom = () => {
-	return useRouteLoaderData<typeof kingdomLoader>('routes/kd.$kdid');
+	return useRouteLoaderData<Kingdom | undefined>('routes/kd.$kdid');
 };

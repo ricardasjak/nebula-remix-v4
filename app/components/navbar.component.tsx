@@ -1,6 +1,7 @@
 import { useAuth } from '@clerk/remix';
 import { Link, useNavigate, useParams } from '@remix-run/react';
 import { useCallback } from 'react';
+import { KingdomLine } from '~/components/kingdom-line.component';
 import { GAME } from '~/game.const';
 import { routesUtil } from '~/routes.util';
 
@@ -33,7 +34,7 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 	}, []);
 
 	return (
-		<div className='navbar bg-base-100 container'>
+		<div className='navbar bg-base-100'>
 			<div className='navbar-start'>
 				<div className='dropdown'>
 					<label tabIndex={0} className='btn btn-ghost text-primary'>
@@ -127,7 +128,8 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 					</ul>
 				)}
 			</div>
-			<div className='navbar-end'>
+			<div className='navbar-end mr-4'>
+				<KingdomLine />
 				{!isLoggedIn && (
 					<Link to={routesUtil.auth.signin} className='btn btn-ghost text-md text-primary'>
 						Login
