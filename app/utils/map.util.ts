@@ -23,5 +23,8 @@ export const mapUtil = {
 		budgets: mapUtil.toValues(state.budgets),
 		buildings: mapUtil.toValues(state.buildings),
 		buildingsPlan: mapUtil.toValues(state.buildingsPlan),
+		status: mapUtil.toValues(state.kingdomsStatus),
+		military: mapUtil.toValues(state.military),
+		militaryPlan: mapUtil.toValues(state.militaryPlan),
 	}),
 };

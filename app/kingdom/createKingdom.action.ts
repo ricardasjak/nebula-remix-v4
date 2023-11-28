@@ -1,8 +1,17 @@
 import { redirect, type ActionFunction } from '@remix-run/node';
-import { type Player } from '~/app.model';
+import {
+	type Budget,
+	type BuildingsBuilt,
+	type BuildingsPlan,
+	type KingdomStatus,
+	type MilitaryBuilt,
+	type MilitaryPlan,
+	type Player,
+} from '~/app.model';
 import { appState } from '~/app.service';
 import { canCreateKingdom } from '~/can-do/can-create-kingdom.can-do';
 import { makeCoords } from '~/game-logic';
+import { kdUtil } from '~/kingdom/kd.util';
 import {
 	type CreateKingdom,
 	type Kingdom,
@@ -60,8 +69,24 @@ export const createKingdomAction: ActionFunction = async args => {
 	app.kingdoms.set(id, newKingdom);
 	player.kingdoms.push(id);
 
+	const { budget, buildings, buildingsPlan, military, militaryPlan, kingdomStatus } =
+		kdUtil.getKingdomDefaults(id);
+
+	app.budgets.set(id, budget);
+	app.buildings.set(id, buildings);
+	app.buildingsPlan.set(id, buildingsPlan);
+	app.military.set(id, military);
+	app.militaryPlan.set(id, militaryPlan);
+	app.kingdomsStatus.set(id, kingdomStatus);
+
 	await db.kingdom.createOne(newKingdom);
 	await db.player.saveOne(player);
+	await db.budget.saveOne(budget);
+	await db.buildings.saveOne(buildings);
+	await db.buildingsPlan.saveOne(buildingsPlan);
+	await db.military.saveOne(military);
+	await db.militaryPlan.saveOne(militaryPlan);
+	await db.kingdomStatus.saveOne(kingdomStatus);
 	console.log('action: kd successfully created!');
 
 	return redirect(routesUtil.kd.home(newKingdom.id));

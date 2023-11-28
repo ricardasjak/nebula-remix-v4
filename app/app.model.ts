@@ -46,16 +46,51 @@ export interface BuildingsPlan extends BuildingsAllocation {
 	id: number;
 }
 
-export interface BuildingsBuilt extends BuildingsAllocation {
+export interface BuildingsBuilt extends BuildingsBase {
 	id: number;
+}
+
+export interface MilitaryBase {
+	sold?: number;
+	lt?: number;
+	ld?: number;
+	tr?: number;
+	dr?: number;
+	t?: number;
+	hgl?: number;
+	tf?: number;
+}
+
+export interface MilitaryAllocation extends MilitaryBase {}
+
+export interface MilitaryPlan extends MilitaryAllocation {
+	id: number;
+}
+
+export interface MilitaryBuilt extends MilitaryBase {
+	id: number;
+	sci: number;
+}
+
+export interface KingdomStatus {
+	id: number;
+	pop: number;
+	money: number;
+	nw: number;
+	land: number;
+	power: number;
+	probes: number;
 }
 
 export interface AppState {
 	users: Map<number, User>;
 	players: Map<number, Player>;
 	kingdoms: Map<number, Kingdom>;
+	kingdomsStatus: Map<number, KingdomStatus>;
 	budgets: Map<number, Budget>;
 	buildings: Map<number, BuildingsBuilt>;
 	buildingsPlan: Map<number, BuildingsPlan>;
+	military: Map<number, MilitaryBuilt>;
+	militaryPlan: Map<number, MilitaryPlan>;
 	status: 'empty' | 'loading' | 'ready';
 }

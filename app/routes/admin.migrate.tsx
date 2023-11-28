@@ -1,29 +1,64 @@
-import { type ActionFunction, type LoaderFunction, redirect } from '@remix-run/node';
+import {
+	type ActionFunction,
+	json,
+	type LoaderFunction,
+	type LoaderFunctionArgs,
+	redirect,
+} from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
-import { appState } from '~/app.service';
-import { makeCoords } from '~/game-logic';
+import { appState, printStatus } from '~/app.service';
+import { kdUtil } from '~/kingdom/kd.util';
 import { authRequiredLoader } from '~/loaders';
 import { routesUtil } from '~/routes.util';
 import { db } from '~/services';
 import { mapUtil } from '~/utils/map.util';
 
-export const loader: LoaderFunction = async args => {
+export const loader = async (args: LoaderFunctionArgs) => {
 	await authRequiredLoader(args);
-	return mapUtil.toAppStateObject(await appState());
+	return json({
+		summary: printStatus(),
+	});
 };
 
 export const action: ActionFunction = async () => {
 	const app = await appState();
 	const kingdoms = mapUtil.toValues(app.kingdoms);
 	kingdoms.forEach(kd => {
-		const { x, y } = makeCoords();
-		kd.x = x;
-		kd.y = y;
+		const id = kd.id;
+		const { budget, buildings, buildingsPlan, military, militaryPlan, kingdomStatus } =
+			kdUtil.getKingdomDefaults(id);
+
+		app.budgets.set(id, budget);
+		app.buildings.set(id, buildings);
+		app.buildingsPlan.set(id, buildingsPlan);
+		app.military.set(id, military);
+		app.militaryPlan.set(id, militaryPlan);
+		app.kingdomsStatus.set(id, kingdomStatus);
 	});
 
-	await db.kingdom.saveAll(app.kingdoms);
+	await db.budget.saveAll(app.budgets);
+	await db.buildings.saveAll(app.buildings);
+	await db.buildingsPlan.saveAll(app.buildingsPlan);
+	await db.military.saveAll(app.military);
+	await db.militaryPlan.saveAll(app.militaryPlan);
+	await db.kingdomStatus.saveAll(app.kingdomsStatus);
+
 	return redirect(routesUtil.admin.migrate);
 };
+
+// set random coords
+// export const action: ActionFunction = async () => {
+// 	const app = await appState();
+// 	const kingdoms = mapUtil.toValues(app.kingdoms);
+// 	kingdoms.forEach(kd => {
+// 		const { x, y } = makeCoords();
+// 		kd.x = x;
+// 		kd.y = y;
+// 	});
+//
+// 	await db.kingdom.saveAll(app.kingdoms);
+// 	return redirect(routesUtil.admin.migrate);
+// };
 
 const AdminMigratePage: React.FC = () => {
 	const state = useLoaderData<typeof loader>();
@@ -34,7 +69,8 @@ const AdminMigratePage: React.FC = () => {
 					Execute data migration
 				</button>
 			</Form>
-			<pre>{JSON.stringify(state.kingdoms, null, 2)}</pre>
+			<pre>{state.summary}</pre>
+			{/*<pre>{JSON.stringify(state.kingdoms, null, 2)}</pre>*/}
 		</div>
 	);
 };

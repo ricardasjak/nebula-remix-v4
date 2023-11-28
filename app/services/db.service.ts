@@ -3,6 +3,9 @@ import {
 	type Budget,
 	type BuildingsBuilt,
 	type BuildingsPlan,
+	type KingdomStatus,
+	type MilitaryBuilt,
+	type MilitaryPlan,
 	type Player,
 	type User,
 } from '~/app.model';
@@ -14,9 +17,12 @@ const KEYS = {
 	users: 'users',
 	players: 'players',
 	kingdoms: 'kingdoms',
+	kingdomsStatus: 'kingdoms-status',
 	budgets: 'budgets',
 	buildings: 'buildings',
 	buildingsPlan: 'buildings-plan',
+	military: 'military',
+	militaryPlan: 'military-plan',
 };
 
 const makeRepository = <T>(key: string) => ({
@@ -56,7 +62,10 @@ export const db = {
 	user: makeRepository<User>(KEYS.users),
 	player: makeRepository<Player>(KEYS.players),
 	kingdom: makeRepository<Kingdom>(KEYS.kingdoms),
+	kingdomStatus: makeRepository<KingdomStatus>(KEYS.kingdomsStatus),
 	budget: makeRepository<Budget>(KEYS.budgets),
 	buildings: makeRepository<BuildingsBuilt>(KEYS.buildings),
 	buildingsPlan: makeRepository<BuildingsPlan>(KEYS.buildingsPlan),
+	military: makeRepository<MilitaryBuilt>(KEYS.military),
+	militaryPlan: makeRepository<MilitaryPlan>(KEYS.militaryPlan),
 };

@@ -12,21 +12,31 @@ if (!global.__appState__) {
 		users: new Map(),
 		players: new Map(),
 		kingdoms: new Map(),
+		kingdomsStatus: new Map(),
 		budgets: new Map(),
 		buildings: new Map(),
 		buildingsPlan: new Map(),
+		military: new Map(),
+		militaryPlan: new Map(),
 	};
 }
 
-const printStatus = () => {
+export const printStatus = () => {
 	const app = mapUtil.toAppStateObject(global.__appState__);
-	console.log('app state');
-	console.log(`app state - users count: ${app.users.length}`);
-	console.log(`app state - players count: ${app.players.length}`);
-	console.log(`app state - kingdoms count: ${app.kingdoms.length}`);
-	console.log(`app state - budgets count: ${app.budgets.length}`);
-	console.log(`app state - buildings count: ${app.buildings.length}`);
-	console.log(`app state - buildingsPlan count: ${app.buildingsPlan.length}`);
+	const summary = [
+		'app state',
+		`app state - users count: ${app.users.length}`,
+		`app state - players count: ${app.players.length}`,
+		`app state - kingdoms count: ${app.kingdoms.length}`,
+		`app state - kingdoms status count: ${app.status.length}`,
+		`app state - budgets count: ${app.budgets.length}`,
+		`app state - buildings count: ${app.buildings.length}`,
+		`app state - buildingsPlan count: ${app.buildingsPlan.length}`,
+		`app state - military count: ${app.military.length}`,
+		`app state - militaryPlan count: ${app.militaryPlan.length}`,
+	].join('\n');
+	console.log(summary);
+	return summary;
 };
 
 export const appState = async (): Promise<AppState> => {
@@ -36,9 +46,12 @@ export const appState = async (): Promise<AppState> => {
 		app.users = await db.user.loadAll(app.users);
 		app.players = await db.player.loadAll(app.players);
 		app.kingdoms = await db.kingdom.loadAll(app.kingdoms);
+		app.kingdomsStatus = await db.kingdomStatus.loadAll(app.kingdomsStatus);
 		app.budgets = await db.budget.loadAll(app.budgets);
 		app.buildings = await db.buildings.loadAll(app.buildings);
 		app.buildingsPlan = await db.buildingsPlan.loadAll(app.buildingsPlan);
+		app.military = await db.military.loadAll(app.military);
+		app.militaryPlan = await db.militaryPlan.loadAll(app.militaryPlan);
 		app.status = 'ready';
 	} else if (app.status === 'loading') {
 		return new Promise(resolve => {
