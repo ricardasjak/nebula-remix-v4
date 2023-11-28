@@ -9,7 +9,7 @@ interface Props<T> {
 	readOnly?: boolean;
 }
 
-export function Allocation<T>({ initial, labels, total = 0, readOnly }: Props<T>) {
+export function AllocationAbsolute<T>({ initial, labels, total = 0, readOnly }: Props<T>) {
 	const [values, setValues] = useState(initial);
 	const allocations = values ? (Object.keys(labels) as Array<keyof T>) : [];
 	const balance = 100 - allocationUtil.balance(values);
@@ -28,7 +28,8 @@ export function Allocation<T>({ initial, labels, total = 0, readOnly }: Props<T>
 					return (
 						<li key={index}>
 							<span className={'text-sm'}>
-								{labels[aloc]}: {part ? `${part.toLocaleString()} (${rate}%)` : `${rate}%`}
+								{labels[aloc]}:{' '}
+								{part ? `${part.toLocaleString()} (${rate}%)` : `${rate.toLocaleString()}`}
 							</span>
 							<input
 								type='range'

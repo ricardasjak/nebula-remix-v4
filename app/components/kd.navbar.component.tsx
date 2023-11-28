@@ -13,6 +13,9 @@ export const KingdomNavbar: React.FC<Props> = ({ kdid }) => {
 					<Link to={routesUtil.kd.budget(kdid)}>Budget</Link>
 				</li>
 				<li>
+					<Link to={routesUtil.kd.buildings(kdid)}>Buildings</Link>
+				</li>
+				<li>
 					<Link to={routesUtil.kd.military(kdid)}>Military</Link>
 				</li>
 			</ul>

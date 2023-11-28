@@ -1,5 +1,11 @@
 import { Redis } from '@upstash/redis';
-import { type Budget, type Player, type User } from '~/app.model';
+import {
+	type Budget,
+	type BuildingsBuilt,
+	type BuildingsPlan,
+	type Player,
+	type User,
+} from '~/app.model';
 import { type Entity, type Kingdom } from '~/kingdom';
 import { mapUtil } from '~/utils';
 
@@ -9,6 +15,8 @@ const KEYS = {
 	players: 'players',
 	kingdoms: 'kingdoms',
 	budgets: 'budgets',
+	buildings: 'buildings',
+	buildingsPlan: 'buildings-plan',
 };
 
 const makeRepository = <T>(key: string) => ({
@@ -49,4 +57,6 @@ export const db = {
 	player: makeRepository<Player>(KEYS.players),
 	kingdom: makeRepository<Kingdom>(KEYS.kingdoms),
 	budget: makeRepository<Budget>(KEYS.budgets),
+	buildings: makeRepository<BuildingsBuilt>(KEYS.buildings),
+	buildingsPlan: makeRepository<BuildingsPlan>(KEYS.buildingsPlan),
 };

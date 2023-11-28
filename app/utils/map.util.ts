@@ -20,5 +20,8 @@ export const mapUtil = {
 		users: mapUtil.toValues(state.users),
 		players: mapUtil.toValues(state.players),
 		kingdoms: mapUtil.toValues(state.kingdoms),
+		budgets: mapUtil.toValues(state.budgets),
+		buildings: mapUtil.toValues(state.buildings),
+		buildingsPlan: mapUtil.toValues(state.buildingsPlan),
 	}),
 };

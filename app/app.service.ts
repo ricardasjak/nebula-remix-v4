@@ -13,6 +13,8 @@ if (!global.__appState__) {
 		players: new Map(),
 		kingdoms: new Map(),
 		budgets: new Map(),
+		buildings: new Map(),
+		buildingsPlan: new Map(),
 	};
 }
 
@@ -22,6 +24,9 @@ const printStatus = () => {
 	console.log(`app state - users count: ${app.users.length}`);
 	console.log(`app state - players count: ${app.players.length}`);
 	console.log(`app state - kingdoms count: ${app.kingdoms.length}`);
+	console.log(`app state - budgets count: ${app.budgets.length}`);
+	console.log(`app state - buildings count: ${app.buildings.length}`);
+	console.log(`app state - buildingsPlan count: ${app.buildingsPlan.length}`);
 };
 
 export const appState = async (): Promise<AppState> => {
@@ -32,6 +37,8 @@ export const appState = async (): Promise<AppState> => {
 		app.players = await db.player.loadAll(app.players);
 		app.kingdoms = await db.kingdom.loadAll(app.kingdoms);
 		app.budgets = await db.budget.loadAll(app.budgets);
+		app.buildings = await db.buildings.loadAll(app.buildings);
+		app.buildingsPlan = await db.buildingsPlan.loadAll(app.buildingsPlan);
 		app.status = 'ready';
 	} else if (app.status === 'loading') {
 		return new Promise(resolve => {

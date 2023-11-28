@@ -31,10 +31,31 @@ export interface Budget extends BudgetAllocation {
 	id: number;
 }
 
+export interface BuildingsBase {
+	residences: number;
+	starMines: number;
+	barracks: number;
+	powerPlants: number;
+	trainingCamps: number;
+	probeFactories: number;
+}
+
+export interface BuildingsAllocation extends BuildingsBase {}
+
+export interface BuildingsPlan extends BuildingsAllocation {
+	id: number;
+}
+
+export interface BuildingsBuilt extends BuildingsAllocation {
+	id: number;
+}
+
 export interface AppState {
 	users: Map<number, User>;
 	players: Map<number, Player>;
 	kingdoms: Map<number, Kingdom>;
 	budgets: Map<number, Budget>;
+	buildings: Map<number, BuildingsBuilt>;
+	buildingsPlan: Map<number, BuildingsPlan>;
 	status: 'empty' | 'loading' | 'ready';
 }
