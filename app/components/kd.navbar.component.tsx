@@ -7,8 +7,8 @@ interface Props {
 
 export const KingdomNavbar: React.FC<Props> = ({ kdid }) => {
 	return (
-		<div className={''}>
-			<ul className={'list flex xs:flex-column sm:flex-row gap-4'}>
+		<div className={'border-b-2 border-primary mb-4'}>
+			<ul className={'list flex xs:flex-column sm:flex-row gap-4 mb-2'}>
 				<li>
 					<Link to={routesUtil.kd.budget(kdid)}>Budget</Link>
 				</li>

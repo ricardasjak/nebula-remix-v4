@@ -1,5 +1,5 @@
 import { Redis } from '@upstash/redis';
-import { type BudgetAllocation, type Player, type User } from '~/app.model';
+import { type Budget, type Player, type User } from '~/app.model';
 import { type Entity, type Kingdom } from '~/kingdom';
 import { mapUtil } from '~/utils';
 
@@ -48,5 +48,5 @@ export const db = {
 	user: makeRepository<User>(KEYS.users),
 	player: makeRepository<Player>(KEYS.players),
 	kingdom: makeRepository<Kingdom>(KEYS.kingdoms),
-	budget: makeRepository<BudgetAllocation>(KEYS.budgets),
+	budget: makeRepository<Budget>(KEYS.budgets),
 };

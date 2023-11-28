@@ -1,7 +1,7 @@
-import { type ActionFunction, json, type LoaderFunction, redirect } from '@remix-run/node';
-import { Form } from '@remix-run/react';
-import { useState } from 'react';
+import { type ActionFunction, type LoaderFunctionArgs, redirect } from '@remix-run/node';
+import { Form, useLoaderData } from '@remix-run/react';
 import { type Budget, type BudgetAllocation } from '~/app.model';
+import { appState } from '~/app.service';
 import { Allocation, PageTitle } from '~/components';
 import { useKingdom } from '~/hooks/use-kingdom.hook';
 import { kdidLoaderFn } from '~/kingdom/kingdom.loader';
@@ -10,13 +10,6 @@ import { routesUtil } from '~/routes.util';
 import { db } from '~/services';
 import { allocationUtil } from '~/utils/allocation.util';
 
-const initial: BudgetAllocation = {
-	construction: 35,
-	exploration: 15,
-	military: 30,
-	research: 60,
-};
-
 const LABELS: Record<keyof BudgetAllocation, string> = {
 	construction: 'Construction',
 	exploration: 'Exploration',
@@ -24,14 +17,30 @@ const LABELS: Record<keyof BudgetAllocation, string> = {
 	research: 'Research',
 };
 
-export const loader: LoaderFunction = async args => {
+export const loader = async (args: LoaderFunctionArgs) => {
 	const kdid = kdidLoaderFn(args);
+	const budget = (await appState()).budgets.get(kdid)!;
+	if (!budget) {
+		return {} as BudgetAllocation;
+	}
+	const { id, ...allocation } = budget;
+	return allocation;
+};
 
-	console.log(kdid);
+const KingdomBudgetPage: React.FC = () => {
+	const kd = useKingdom();
+	const budget = useLoaderData<BudgetAllocation>();
 
-	// const app = await appState();
-	// const budget = app.budgets;
-	return json(kdid);
+	return (
+		<>
+			<PageTitle title='Adjust kingdom budget' />
+			<Form method='POST'>
+				<input type={'hidden'} name={'kdid'} value={kd.id}></input>
+				<Allocation initial={budget} labels={LABELS} total={50_000} />
+				<button className={'btn btn-primary mt-8'}>Confirm budget</button>
+			</Form>
+		</>
+	);
 };
 
 export const action: ActionFunction = async args => {
@@ -49,24 +58,11 @@ export const action: ActionFunction = async args => {
 		throw new Error(`Incorrect budget allocation ${allocationUtil.balance(budgetAllocation)}%`);
 	}
 	const budget: Budget = { id: kdid, ...budgetAllocation };
+
+	const app = await appState();
+	app.budgets.set(kdid, budget);
 	await db.budget.saveOne(budget);
 	return redirect(routesUtil.kd.budget(kdid));
-};
-
-const KingdomBudgetPage: React.FC = () => {
-	const kd = useKingdom();
-	const [allocation, setAllocation] = useState(initial);
-	return (
-		<>
-			<PageTitle title='Adjust kingdom budget' />
-			<h2>{kd.id}</h2>
-			<Form method='POST'>
-				<input type={'hidden'} name={'kdid'} value={kd.id}></input>
-				<Allocation values={allocation} labels={LABELS} onChange={setAllocation} total={50_000} />
-				<button className={'btn btn-primary mt-8'}>Confirm budget</button>
-			</Form>
-		</>
-	);
 };
 
 export default KingdomBudgetPage;

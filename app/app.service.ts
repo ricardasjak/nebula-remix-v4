@@ -31,6 +31,7 @@ export const appState = async (): Promise<AppState> => {
 		app.users = await db.user.loadAll(app.users);
 		app.players = await db.player.loadAll(app.players);
 		app.kingdoms = await db.kingdom.loadAll(app.kingdoms);
+		app.budgets = await db.budget.loadAll(app.budgets);
 		app.status = 'ready';
 	} else if (app.status === 'loading') {
 		return new Promise(resolve => {
