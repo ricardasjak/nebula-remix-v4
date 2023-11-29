@@ -2,12 +2,12 @@ export const routesUtil = {
 	home: '/',
 	account: '/account',
 	kd: {
-		create: '/kd/create',
-		home: (id: number) => `/kd/${id}`,
-		status: (id: number) => `/kd/${id}/status`,
-		budget: (id: number) => `/kd/${id}/budget`,
-		buildings: (id: number) => `/kd/${id}/buildings`,
-		military: (id: number) => `/kd/${id}/military`,
+		create: '/kingdom/create',
+		home: (id: number) => `/kingdom/${id}`,
+		status: (id: number) => `/kingdom/${id}/status`,
+		budget: (id: number) => `/kingdom/${id}/budget`,
+		buildings: (id: number) => `/kingdom/${id}/buildings`,
+		military: (id: number) => `/kingdom/${id}/military`,
 	},
 	signup: '/sign-up',
 	auth: {

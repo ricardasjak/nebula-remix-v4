@@ -1,4 +1,11 @@
+import { type LoaderFunctionArgs, redirect } from '@remix-run/node';
 import { useKingdom } from '~/hooks/use-kingdom.hook';
+import { routesUtil } from '~/routes.util';
+
+export const loader = (args: LoaderFunctionArgs) => {
+	const kdid = Number(args.params.kdid);
+	return redirect(routesUtil.kd.status(kdid));
+};
 
 const KingdomPage: React.FC = () => {
 	const kd = useKingdom();
