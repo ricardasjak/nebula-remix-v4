@@ -5,42 +5,47 @@ import { allocationUtil } from '~/utils/allocation.util';
 interface Props<T> {
 	initial: Record<keyof T, number>;
 	labels: Record<keyof T, string>;
+	maxValue: number;
 	total?: number;
 	readOnly?: boolean;
 }
 
-export function AllocationAbsolute<T>({ initial, labels, total = 0, readOnly }: Props<T>) {
-	const [values, setValues] = useState(initial);
+export function AllocationAbsolute<T>({
+	initial,
+	labels,
+	total = 0,
+	maxValue,
+	readOnly,
+}: Props<T>) {
+	const values = initial;
 	const allocations = values ? (Object.keys(labels) as Array<keyof T>) : [];
 	const balance = 100 - allocationUtil.balance(values);
-
-	const handleChange = (key: keyof T) => (e: React.FormEvent<HTMLInputElement>) => {
-		const value = Number(e.currentTarget.value);
-		setValues(allocationUtil.normalize(key, value, values));
-	};
 
 	return (
 		<div>
 			<ul className={'list'}>
 				{allocations.map((aloc, index) => {
-					const rate = values[aloc] || 0;
-					const part = Math.floor((total * rate) / 100.0);
+					const val = values[aloc] || 0;
+					const ratio = (100 * val) / maxValue;
 					return (
 						<li key={index}>
 							<span className={'text-sm'}>
 								{labels[aloc]}:{' '}
-								{part ? `${part.toLocaleString()} (${rate}%)` : `${rate.toLocaleString()}`}
+								{ratio
+									? `${val.toLocaleString()} (${ratio.toLocaleString(undefined, {
+											maximumFractionDigits: 2,
+									  })}%)`
+									: `${val.toLocaleString()}`}
 							</span>
 							<input
 								type='range'
 								name={aloc.toString()}
 								min={0}
-								max={100}
+								max={maxValue}
 								step={1}
-								value={rate}
+								value={val}
 								className={readOnly ? 'range' : 'range range-primary'}
-								onChange={handleChange(aloc)}
-								readOnly={readOnly}
+								readOnly={true}
 							/>
 						</li>
 					);

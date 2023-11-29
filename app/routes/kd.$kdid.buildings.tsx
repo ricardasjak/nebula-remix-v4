@@ -1,4 +1,4 @@
-import { type ActionFunction, type LoaderFunctionArgs, redirect } from '@remix-run/node';
+import { type ActionFunction, json, type LoaderFunctionArgs, redirect } from '@remix-run/node';
 import { Form, useLoaderData, useNavigation } from '@remix-run/react';
 import { type BuildingsAllocation, type BuildingsPlan } from '~/app.model';
 import { appState } from '~/app.service';
@@ -24,16 +24,18 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	const app = await appState();
 	const { id, ...plan } = app.buildingsPlan.get(kdid) || {};
 	const { id: buildId, ...buildings } = app.buildings.get(kdid) || {};
+	const land = app.kingdomsStatus.get(kdid)?.land || 0;
 
-	return {
+	return json({
 		plan,
 		buildings,
-	};
+		land,
+	});
 };
 
 const KingdomBuildingPage: React.FC = () => {
 	const kd = useKingdom();
-	const { plan, buildings } = useLoaderData<typeof loader>();
+	const { plan, buildings, land } = useLoaderData<typeof loader>();
 	const isSubmitting = !!useNavigation().formAction;
 
 	if (!kd) {
@@ -57,7 +59,7 @@ const KingdomBuildingPage: React.FC = () => {
 				</div>
 				<div className={'flex-grow'}>
 					<h3 className={'text-md my-2'}>Buildings</h3>
-					<AllocationAbsolute initial={buildings} labels={LABELS} readOnly />
+					<AllocationAbsolute initial={buildings} labels={LABELS} maxValue={land} readOnly />
 				</div>
 			</div>
 		</>
