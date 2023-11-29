@@ -111,7 +111,7 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 						{kingdoms.map(kd => (
 							<li key={kd.id} className={selected === kd.id ? 'text-primary' : undefined}>
 								<Link
-									to={routesUtil.kd.home(kd.id)}
+									to={routesUtil.kd.status(kd.id)}
 									prefetch='none'
 									className={'btn btn-ghost font-normal'}
 									style={{ minWidth: '120px' }}

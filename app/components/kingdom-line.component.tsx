@@ -1,9 +1,10 @@
 import React from 'react';
-import { useKingdom } from '~/hooks';
+import { useKingdom, useKingdomStatus } from '~/hooks';
 
 export const KingdomLine: React.FC = () => {
 	const kd = useKingdom();
-	if (!kd) {
+	const kdStatus = useKingdomStatus();
+	if (!kd || !kdStatus) {
 		return null;
 	}
 	return (
@@ -15,8 +16,8 @@ export const KingdomLine: React.FC = () => {
 			<div className={'flex flex-row text-xs gap-4'}>
 				<span>{kd.planet}</span>
 				<span>{kd.race}</span>
-				<span>{kd.land.toLocaleString()}</span>
-				<span>{kd.nw.toLocaleString()}</span>
+				<span>{kdStatus.land.toLocaleString()}</span>
+				<span>{kdStatus.nw.toLocaleString()}</span>
 			</div>
 		</div>
 	);
