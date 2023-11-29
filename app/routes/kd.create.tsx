@@ -1,3 +1,4 @@
+import { Form, useNavigation } from '@remix-run/react';
 import { GAME } from '~/game.const';
 import { PlanetTypes, RaceTypes } from '~/kingdom';
 import { createKingdomAction } from '~/kingdom/createKingdom.action';
@@ -7,6 +8,7 @@ export const action = createKingdomAction;
 export const loader = authRequiredLoader;
 
 const CreateKingdomPage = () => {
+	const isSubmitting = !!useNavigation().formAction;
 	return (
 		<div className={'content'}>
 			<div className={'mb-8'}>
@@ -17,7 +19,7 @@ const CreateKingdomPage = () => {
 					{`You can create up to ${GAME.kingdomsLimit} kingdoms`}
 				</h2>
 			</div>
-			<form method='post' className={'grid lg:w-1/2 lg:grid-cols-2 gap-4 mt-4'}>
+			<Form method='post' className={'grid lg:w-1/2 lg:grid-cols-2 gap-4 mt-4'}>
 				<label htmlFor='nickname'>Kingdom name</label>
 				<input
 					name='name'
@@ -56,10 +58,10 @@ const CreateKingdomPage = () => {
 				</select>
 
 				<label></label>
-				<button type='submit' className={'btn btn-primary'}>
-					Create .
+				<button type='submit' className={'btn btn-primary'} disabled={isSubmitting}>
+					Create kingdom
 				</button>
-			</form>
+			</Form>
 		</div>
 	);
 };
