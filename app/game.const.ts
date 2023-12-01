@@ -15,6 +15,14 @@ const militaryNetworth: Record<keyof MilitaryBuilt, number> = {
 
 export const GAME = {
 	kingdomsLimit: 10,
+
+	pop: {
+		residenceCapacity: 50,
+		growthRatio: 0.025,
+		lossRatio: 0.05,
+		lossMinimum: 100,
+		lossPerLandRatio: 0.2,
+	},
 	nw: {
 		land: 25,
 		building: 25,

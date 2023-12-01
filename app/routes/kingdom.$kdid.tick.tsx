@@ -23,7 +23,7 @@ const KingdomTickPage: React.FC = () => {
 			<PageTitle title='Dear commander, review kingdom status' />
 			<h2>Temporary tick page</h2>
 			<pre>{JSON.stringify(kdStatus, null, 2)}</pre>
-			<Form>
+			<Form method='POST'>
 				<button className={'btn btn-primary'} type={'submit'} disabled={isLoading}>
 					Next tick
 				</button>
