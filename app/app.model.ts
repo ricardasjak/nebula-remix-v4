@@ -80,6 +80,7 @@ export interface KingdomStatus {
 	nw: number;
 	land: number;
 	power: number;
+	powerChange: number;
 	probes: number;
 }
 

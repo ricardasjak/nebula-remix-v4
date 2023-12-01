@@ -1,7 +1,7 @@
-import { type AppState } from '~/app.model';
+import { type AppState, type KingdomFull } from '~/app.model';
 import { kdUtil } from '~/kingdom/kd.util';
 
-export const tickNetworth = (kdid: number, app: AppState) => {
-	const { status, military, buildings } = kdUtil.getFullKingdom(kdid, app);
+export const tickNetworth = (kd: KingdomFull) => {
+	const { status, military, buildings } = kd;
 	return Math.floor(kdUtil.getNetworth(status, buildings, military));
 };

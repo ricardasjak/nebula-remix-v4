@@ -10,6 +10,7 @@ import {
 	type MilitaryPlan,
 } from '~/app.model';
 import { GAME } from '~/game.const';
+import { Military } from '~/kingdom/kingdom.model';
 
 const getNetworth = (kd: KingdomStatus, buildings: BuildingsBuilt, military: MilitaryBuilt) => {
 	const nwItems = [
@@ -106,9 +107,22 @@ const getFullKingdom = (id: number, app: AppState): KingdomFull => {
 	};
 };
 
+const getPowerConsumption = (kd: KingdomFull): number => {
+	const military = (Object.keys(kd.military) as Array<keyof MilitaryBuilt>).reduce((r, unit) => {
+		return r + GAME.power.military[unit] * (kd.military[unit] || 0);
+	}, 0);
+
+	const pop = kd.status.pop * GAME.power.misc.pop;
+	const land = kd.status.land * GAME.power.misc.land;
+	const building = kdUtil.builtLand(kd.buildings) * GAME.power.misc.building;
+
+	return Math.ceil(military + pop + land + building);
+};
+
 export const kdUtil = {
 	getNetworth,
 	getKingdomDefaults,
 	getFullKingdom,
+	getPowerConsumption,
 	builtLand,
 };

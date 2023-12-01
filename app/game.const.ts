@@ -35,4 +35,25 @@ export const GAME = {
 		pop: 2,
 		sm: 120,
 	},
+	power: {
+		plantOutput: 140,
+		plantStorage: 1000,
+		misc: {
+			building: 0.25,
+			land: 0.25,
+			pop: 0.33,
+		},
+		military: {
+			id: 0,
+			sold: 0.7,
+			sci: 0.7,
+			hgl: 0.7,
+			lt: 0.7,
+			tf: 1.4,
+			t: 1.4,
+			ld: 0.7,
+			tr: 0.7,
+			dr: 0.7,
+		} as Record<keyof MilitaryBuilt, number>,
+	},
 };
