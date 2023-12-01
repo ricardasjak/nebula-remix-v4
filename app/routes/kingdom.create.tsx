@@ -1,5 +1,6 @@
 import { Form, useNavigation } from '@remix-run/react';
 import { GAME } from '~/game.const';
+import { useSubmitting } from '~/hooks';
 import { PlanetTypes, RaceTypes } from '~/kingdom';
 import { createKingdomAction } from '~/kingdom/createKingdom.action';
 import { authRequiredLoader } from '~/loaders';
@@ -8,7 +9,7 @@ export const action = createKingdomAction;
 export const loader = authRequiredLoader;
 
 const CreateKingdomPage = () => {
-	const isSubmitting = !!useNavigation().formAction;
+	const pending = useSubmitting();
 	return (
 		<div className={'content'}>
 			<div className={'mb-8'}>
@@ -58,7 +59,7 @@ const CreateKingdomPage = () => {
 				</select>
 
 				<label></label>
-				<button type='submit' className={'btn btn-primary'} disabled={isSubmitting}>
+				<button type='submit' className={'btn btn-primary'} disabled={pending}>
 					Create kingdom
 				</button>
 			</Form>
