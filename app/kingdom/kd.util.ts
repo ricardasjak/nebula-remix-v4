@@ -1,8 +1,10 @@
 import {
+	type AppState,
 	type Budget,
 	type BuildingsAllocation,
 	type BuildingsBuilt,
 	type BuildingsPlan,
+	type KingdomFull,
 	type KingdomStatus,
 	type MilitaryBuilt,
 	type MilitaryPlan,
@@ -92,8 +94,21 @@ const getKingdomDefaults = (id: number) => {
 	};
 };
 
+const getFullKingdom = (id: number, app: AppState): KingdomFull => {
+	return {
+		kingdom: app.kingdoms.get(id)!,
+		status: app.kingdomsStatus.get(id)!,
+		buildings: app.buildings.get(id)!,
+		buildingsPlan: app.buildingsPlan.get(id)!,
+		military: app.military.get(id)!,
+		militaryPlan: app.militaryPlan.get(id)!,
+		budget: app.budgets.get(id)!,
+	};
+};
+
 export const kdUtil = {
 	getNetworth,
 	getKingdomDefaults,
+	getFullKingdom,
 	builtLand,
 };

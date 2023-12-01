@@ -1,4 +1,4 @@
-import { type Kingdom } from '~/kingdom';
+import { type Buildings, type Kingdom, type Military } from '~/kingdom';
 
 export interface UserSession {
 	userId: number;
@@ -81,6 +81,16 @@ export interface KingdomStatus {
 	power: number;
 	probes: number;
 }
+
+export type KingdomFull = {
+	kingdom: Kingdom;
+	status: KingdomStatus;
+	budget: Budget;
+	buildings: BuildingsBuilt;
+	buildingsPlan: BuildingsPlan;
+	military: MilitaryBuilt;
+	militaryPlan: MilitaryPlan;
+};
 
 export interface AppState {
 	users: Map<number, User>;
