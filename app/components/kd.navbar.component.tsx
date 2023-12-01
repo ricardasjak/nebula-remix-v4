@@ -18,9 +18,6 @@ export const KingdomNavbar: React.FC<Props> = ({ kdid }) => {
 				<li>
 					<Link to={routesUtil.kd.buildings(kdid)}>Buildings</Link>
 				</li>
-				<li>
-					<Link to={routesUtil.kd.tick(kdid)}>Tick</Link>
-				</li>
 			</ul>
 		</div>
 	);
