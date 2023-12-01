@@ -51,6 +51,7 @@ const KingdomBuildingPage: React.FC = () => {
 					<h3 className={'text-md my-2'}>Construction plan</h3>
 					<Form method='POST'>
 						<input type={'hidden'} name={'kdid'} value={kd.id}></input>
+						{/*@ts-ignore*/}
 						<Allocation initial={plan} labels={LABELS} />
 						<button className={'btn btn-primary mt-8'} disabled={isSubmitting}>
 							Confirm buildings plan
@@ -59,6 +60,7 @@ const KingdomBuildingPage: React.FC = () => {
 				</div>
 				<div className={'flex-grow'}>
 					<h3 className={'text-md my-2'}>Buildings</h3>
+					{/*@ts-ignore*/}
 					<AllocationAbsolute initial={buildings} labels={LABELS} maxValue={land} readOnly />
 				</div>
 			</div>

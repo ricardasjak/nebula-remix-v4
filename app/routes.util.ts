@@ -8,6 +8,7 @@ export const routesUtil = {
 		budget: (id: number) => `/kingdom/${id}/budget`,
 		buildings: (id: number) => `/kingdom/${id}/buildings`,
 		military: (id: number) => `/kingdom/${id}/military`,
+		tick: (id: number) => `/kingdom/${id}/tick`,
 	},
 	signup: '/sign-up',
 	auth: {
