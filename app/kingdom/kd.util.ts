@@ -82,6 +82,8 @@ const getKingdomDefaults = (id: number) => {
 		probes: 1000,
 		money: 225_000,
 		power: 1_000,
+		income: 0,
+		powerChange: 0,
 	};
 	kingdomStatus.nw = kdUtil.getNetworth(kingdomStatus, buildings, military);
 
