@@ -76,6 +76,7 @@ export interface KingdomStatus {
 	id: number;
 	pop: number;
 	money: number;
+	income: number;
 	nw: number;
 	land: number;
 	power: number;

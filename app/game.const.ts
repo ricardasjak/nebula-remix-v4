@@ -31,4 +31,8 @@ export const GAME = {
 		money: 1 / 500,
 		military: militaryNetworth,
 	},
+	income: {
+		pop: 2,
+		sm: 120,
+	},
 };
