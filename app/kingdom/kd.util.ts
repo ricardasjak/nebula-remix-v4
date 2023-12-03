@@ -121,6 +121,8 @@ const getPowerConsumption = (kd: KingdomFull): number => {
 	return Math.ceil(military + pop + land + building);
 };
 
+const getNextLandExplored = (status: KingdomStatus, exploreBudgetRatio: number) => {};
+
 export const kdUtil = {
 	getNetworth,
 	getKingdomDefaults,

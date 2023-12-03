@@ -4,13 +4,12 @@ import { tickNetworth } from '~/actions-tick/tick-networth';
 import { tickPopulation } from '~/actions-tick/tick-population';
 import { tickPower } from '~/actions-tick/tick-power';
 import { tickPowerIncome } from '~/actions-tick/tick-power-income';
-import { type AppState } from '~/app.model';
-import { kdUtil } from '~/kingdom/kd.util';
+import { type KingdomFull } from '~/app.model';
+import { mapUtil } from '~/utils';
 
-export const tickKingdom = (kdid: number, app: AppState) => {
-	const kd = kdUtil.getFullKingdom(kdid, app);
-	const status = app.kingdomsStatus.get(kdid)!;
-	const buildings = app.buildings.get(kdid)!;
+export const tickKingdom = (kd: KingdomFull) => {
+	const status = kd.status;
+	const buildings = kd.buildings;
 
 	status.pop = tickPopulation(status.pop, buildings.residences, status.land);
 	status.income = tickIncome(status.pop, buildings.starMines);
@@ -20,4 +19,10 @@ export const tickKingdom = (kdid: number, app: AppState) => {
 	status.power = tickPower(status.power, status.powerChange, kd.buildings.powerPlants);
 
 	status.nw = tickNetworth(kd);
+	return kd;
+};
+
+export const tickNextKingdom = (kd: KingdomFull) => {
+	const copy = mapUtil.toClone(kd);
+	return tickKingdom(copy);
 };

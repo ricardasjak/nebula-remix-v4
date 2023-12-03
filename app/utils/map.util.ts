@@ -27,4 +27,8 @@ export const mapUtil = {
 		military: mapUtil.toValues(state.military),
 		militaryPlan: mapUtil.toValues(state.militaryPlan),
 	}),
+	toClone: <T>(o: T): T => {
+		const copy = JSON.parse(JSON.stringify(o));
+		return copy;
+	},
 };
