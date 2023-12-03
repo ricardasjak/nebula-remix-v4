@@ -1,5 +1,6 @@
-import { type ActionFunction, json, type LoaderFunctionArgs, redirect } from '@remix-run/node';
-import { Form, useLoaderData, useNavigation } from '@remix-run/react';
+import { type ActionFunction, type LoaderFunctionArgs, redirect } from '@remix-run/node';
+import { Form, useNavigation } from '@remix-run/react';
+import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { type BuildingsAllocation, type BuildingsPlan } from '~/app.model';
 import { appState } from '~/app.service';
 import { Allocation, AllocationAbsolute, PageTitle } from '~/components';
@@ -22,11 +23,11 @@ const LABELS: Record<keyof BuildingsAllocation, string> = {
 export const loader = async (args: LoaderFunctionArgs) => {
 	const kdid = kdidLoaderFn(args);
 	const app = await appState();
-	const { id, ...plan } = app.buildingsPlan.get(kdid) || {};
-	const { id: buildId, ...buildings } = app.buildings.get(kdid) || {};
+	const { id, ...plan } = app.buildingsPlan.get(kdid)!;
+	const { id: buildId, ...buildings } = app.buildings.get(kdid)!;
 	const land = app.kingdomsStatus.get(kdid)?.land || 0;
 
-	return json({
+	return typedjson({
 		plan,
 		buildings,
 		land,
@@ -35,7 +36,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 const KingdomBuildingPage: React.FC = () => {
 	const kd = useKingdom();
-	const { plan, buildings, land } = useLoaderData<typeof loader>();
+	const { plan, buildings, land } = useTypedLoaderData<typeof loader>();
 	const isSubmitting = !!useNavigation().formAction;
 
 	if (!kd) {
@@ -51,7 +52,6 @@ const KingdomBuildingPage: React.FC = () => {
 					<h3 className={'text-md my-2'}>Construction plan</h3>
 					<Form method='POST'>
 						<input type={'hidden'} name={'kdid'} value={kd.id}></input>
-						{/*@ts-ignore*/}
 						<Allocation initial={plan} labels={LABELS} />
 						<button className={'btn btn-primary mt-8'} disabled={isSubmitting}>
 							Confirm buildings plan
@@ -60,7 +60,6 @@ const KingdomBuildingPage: React.FC = () => {
 				</div>
 				<div className={'flex-grow'}>
 					<h3 className={'text-md my-2'}>Buildings</h3>
-					{/*@ts-ignore*/}
 					<AllocationAbsolute initial={buildings} labels={LABELS} maxValue={land} readOnly />
 				</div>
 			</div>

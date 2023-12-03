@@ -1,7 +1,7 @@
 import { ClerkApp, ClerkErrorBoundary, useAuth } from '@clerk/remix';
 import { rootAuthLoader } from '@clerk/remix/ssr.server';
 
-import { type LinksFunction, type LoaderFunction, type MetaFunction } from '@remix-run/node';
+import { type LinksFunction, type LoaderFunctionArgs, type MetaFunction } from '@remix-run/node';
 import {
 	Link,
 	Links,
@@ -10,10 +10,10 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
-	useLoaderData,
 	useRouteError,
 } from '@remix-run/react';
 import { useEffect } from 'react';
+import { useTypedLoaderData } from 'remix-typedjson';
 import { type UserSession } from '~/app.model';
 import { Navbar, type NavbarKingdom } from '~/components/navbar.component';
 import { authLoader } from '~/loaders';
@@ -32,7 +32,7 @@ export const meta: MetaFunction = () => [
 ];
 
 // export const loader: LoaderFunction = (args) => rootAuthLoader(args);
-export const loader: LoaderFunction = async args => {
+export const loader = async (args: LoaderFunctionArgs) => {
 	// const getSession = await authLoader(args);
 	// @ts-ignore
 	return rootAuthLoader(args, async () => {
@@ -84,7 +84,7 @@ function RootErrorBoundary() {
 export const ErrorBoundary = ClerkErrorBoundary(RootErrorBoundary);
 
 const App = () => {
-	const rootData = useLoaderData<UserSession>();
+	const rootData = useTypedLoaderData<UserSession>();
 	const auth = useAuth();
 	useEffect(() => {
 		if (auth.userId && !rootData.clerkUserId) {

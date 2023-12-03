@@ -2,7 +2,7 @@ import { PageTitle } from '~/components';
 import { useKingdom } from '~/hooks/use-kingdom.hook';
 
 const KingdomMilitaryPage: React.FC = () => {
-	const kd = useKingdom();
+	const kd = useKingdom()!;
 	return (
 		<>
 			<PageTitle title='Adjust kingdom military' />

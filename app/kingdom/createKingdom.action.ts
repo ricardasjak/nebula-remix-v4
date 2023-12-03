@@ -1,13 +1,5 @@
 import { redirect, type ActionFunction } from '@remix-run/node';
-import {
-	type Budget,
-	type BuildingsBuilt,
-	type BuildingsPlan,
-	type KingdomStatus,
-	type MilitaryBuilt,
-	type MilitaryPlan,
-	type Player,
-} from '~/app.model';
+import { type Player } from '~/app.model';
 import { appState } from '~/app.service';
 import { canCreateKingdom } from '~/can-do/can-create-kingdom.can-do';
 import { makeCoords } from '~/game-logic';

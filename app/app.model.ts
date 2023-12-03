@@ -1,4 +1,4 @@
-import { type Buildings, type Kingdom, type Military } from '~/kingdom';
+import { type Kingdom } from '~/kingdom';
 
 export interface UserSession {
 	userId: number;

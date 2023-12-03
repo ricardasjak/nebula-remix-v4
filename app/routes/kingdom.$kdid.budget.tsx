@@ -1,5 +1,6 @@
 import { type ActionFunction, type LoaderFunctionArgs, redirect } from '@remix-run/node';
-import { Form, useLoaderData, useNavigation } from '@remix-run/react';
+import { Form, useNavigation } from '@remix-run/react';
+import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { type Budget, type BudgetAllocation } from '~/app.model';
 import { appState } from '~/app.service';
 import { Allocation, PageTitle } from '~/components';
@@ -24,12 +25,12 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		return {} as BudgetAllocation;
 	}
 	const { id, ...allocation } = budget;
-	return allocation;
+	return typedjson(allocation);
 };
 
 const KingdomBudgetPage: React.FC = () => {
 	const kd = useKingdom();
-	const budget = useLoaderData<BudgetAllocation>();
+	const budget = useTypedLoaderData<BudgetAllocation>();
 	const isSubmitting = !!useNavigation().formAction;
 
 	if (!kd) {

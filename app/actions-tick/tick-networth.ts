@@ -1,4 +1,4 @@
-import { type AppState, type KingdomFull } from '~/app.model';
+import { type KingdomFull } from '~/app.model';
 import { kdUtil } from '~/kingdom/kd.util';
 
 export const tickNetworth = (kd: KingdomFull) => {

@@ -1,4 +1,5 @@
-import { json, type LoaderFunction } from '@remix-run/node';
+import { type LoaderFunctionArgs } from '@remix-run/node';
+import { typedjson } from 'remix-typedjson';
 import { appState } from '~/app.service';
 import { mapUtil } from '~/utils/map.util';
 
@@ -11,7 +12,7 @@ export interface WorldKingdom {
 	nw: number;
 }
 
-export const worldLoader: LoaderFunction = async () => {
+export const worldLoader = async (args: LoaderFunctionArgs) => {
 	const app = await appState();
 	const kingdoms = mapUtil.toValues(app.kingdoms);
 	const result: WorldKingdom[] = kingdoms.map(({ id, name, x, y, land, nw }) => ({
@@ -22,5 +23,5 @@ export const worldLoader: LoaderFunction = async () => {
 		land,
 		nw,
 	}));
-	return json(result);
+	return typedjson(result);
 };

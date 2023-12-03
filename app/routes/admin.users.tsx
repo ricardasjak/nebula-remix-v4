@@ -1,5 +1,5 @@
 import { type LoaderFunction } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { useTypedLoaderData } from 'remix-typedjson';
 import { appState } from '~/app.service';
 import { authRequiredLoader } from '~/loaders';
 import { mapUtil } from '~/utils/map.util';
@@ -11,7 +11,7 @@ export const loader: LoaderFunction = async args => {
 };
 
 const Page: React.FC = () => {
-	const users = useLoaderData<typeof loader>();
+	const users = useTypedLoaderData<typeof loader>();
 	return <pre>{JSON.stringify(users, null, 2)}</pre>;
 };
 

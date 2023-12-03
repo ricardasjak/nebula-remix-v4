@@ -10,7 +10,6 @@ import {
 	type MilitaryPlan,
 } from '~/app.model';
 import { GAME } from '~/game.const';
-import { Military } from '~/kingdom/kingdom.model';
 
 const getNetworth = (kd: KingdomStatus, buildings: BuildingsBuilt, military: MilitaryBuilt) => {
 	const nwItems = [
@@ -120,8 +119,6 @@ const getPowerConsumption = (kd: KingdomFull): number => {
 
 	return Math.ceil(military + pop + land + building);
 };
-
-const getNextLandExplored = (status: KingdomStatus, exploreBudgetRatio: number) => {};
 
 export const kdUtil = {
 	getNetworth,

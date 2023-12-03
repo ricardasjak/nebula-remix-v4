@@ -1,6 +1,6 @@
-import { json, type LoaderFunction, type LoaderFunctionArgs } from '@remix-run/node';
+import { type LoaderFunctionArgs } from '@remix-run/node';
+import { typedjson } from 'remix-typedjson';
 import { appState } from '~/app.service';
-import { type Kingdom } from '~/kingdom/kingdom.model';
 import { authRequiredLoader } from '~/loaders';
 import { mapUtil } from '~/utils';
 
@@ -12,7 +12,7 @@ export const kingdomLoader = async (args: LoaderFunctionArgs) => {
 	const id = kdidLoaderFn(args);
 	const session = await authRequiredLoader(args);
 	const { kingdom, kingdomStatus } = await kingdomLoaderFn(id, session.userId);
-	return json({ kingdom, kingdomStatus });
+	return typedjson({ kingdom, kingdomStatus });
 };
 
 export const kdidLoaderFn = (args: LoaderFunctionArgs) => {

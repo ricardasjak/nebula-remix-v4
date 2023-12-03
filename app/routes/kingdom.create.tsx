@@ -1,4 +1,4 @@
-import { Form, useNavigation } from '@remix-run/react';
+import { Form } from '@remix-run/react';
 import { GAME } from '~/game.const';
 import { useSubmitting } from '~/hooks';
 import { PlanetTypes, RaceTypes } from '~/kingdom';

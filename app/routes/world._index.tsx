@@ -1,17 +1,18 @@
 import { type rootAuthLoader } from '@clerk/remix/ssr.server';
-import { Link, useLoaderData, useRouteLoaderData } from '@remix-run/react';
+import { Link, useRouteLoaderData } from '@remix-run/react';
 import { useMemo } from 'react';
+import { useTypedLoaderData } from 'remix-typedjson';
 import { WorldMap } from '~/components';
 import { GAME } from '~/game.const';
 import { type Kingdom } from '~/kingdom';
-import { type WorldKingdom, worldLoader } from '~/loaders/world.loader';
+import { worldLoader } from '~/loaders/world.loader';
 import { routesUtil } from '~/routes.util';
 
 export const loader = worldLoader;
 
 export const WorldMapPage: React.FC = () => {
 	const rootData = useRouteLoaderData<typeof rootAuthLoader>('root');
-	const world = useLoaderData() as WorldKingdom[];
+	const world = useTypedLoaderData<typeof worldLoader>();
 	const kingdoms = useMemo(
 		() => (rootData?.kingdoms as Kingdom[]).sort((a, b) => b.land - a.land),
 		[rootData?.kingdoms]

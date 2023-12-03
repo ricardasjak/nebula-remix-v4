@@ -1,11 +1,6 @@
-import {
-	type ActionFunction,
-	json,
-	type LoaderFunction,
-	type LoaderFunctionArgs,
-	redirect,
-} from '@remix-run/node';
-import { Form, useLoaderData } from '@remix-run/react';
+import { type ActionFunction, type LoaderFunctionArgs, redirect } from '@remix-run/node';
+import { Form } from '@remix-run/react';
+import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { appState, printStatus } from '~/app.service';
 import { kdUtil } from '~/kingdom/kd.util';
 import { authRequiredLoader } from '~/loaders';
@@ -15,7 +10,7 @@ import { mapUtil } from '~/utils/map.util';
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	await authRequiredLoader(args);
-	return json({
+	return typedjson({
 		summary: printStatus(),
 	});
 };
@@ -61,7 +56,7 @@ export const action: ActionFunction = async () => {
 // };
 
 const AdminMigratePage: React.FC = () => {
-	const state = useLoaderData<typeof loader>();
+	const state = useTypedLoaderData<typeof loader>();
 	return (
 		<div>
 			<Form method='POST'>
