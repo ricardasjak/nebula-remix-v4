@@ -2,26 +2,21 @@ import { type ActionFunction, type LoaderFunctionArgs, redirect } from '@remix-r
 import { Form } from '@remix-run/react';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { kingdomTickActionFn } from '~/actions';
-import { tickNextKingdom } from '~/actions-tick/tick';
-import { appState } from '~/app.service';
 import { PageTitle } from '~/components';
 import { useSubmitting } from '~/hooks';
 import { useKingdomStatus } from '~/hooks/use-kingdom.hook';
-import { kdUtil } from '~/kingdom/kd.util';
-import { kdidLoaderFn } from '~/kingdom/kingdom.loader';
+import { kdidLoaderFn, kingdomNextLoaderFn } from '~/kingdom/kingdom.loader';
 import { routesUtil } from '~/routes.util';
 
 export const action: ActionFunction = async args => {
 	await kingdomTickActionFn(args);
-	const id = kdidLoaderFn(args);
+	const id = await kdidLoaderFn(args);
 	return redirect(routesUtil.kd.status(id));
 };
 
 export const loader = async (args: LoaderFunctionArgs) => {
-	const id = kdidLoaderFn(args);
-	const app = await appState();
-	const kd = kdUtil.getFullKingdom(id, app);
-	const kdNext = tickNextKingdom(kd);
+	const kdid = await kdidLoaderFn(args);
+	const kdNext = await kingdomNextLoaderFn(kdid);
 	return typedjson(kdNext);
 };
 

@@ -5,10 +5,12 @@ import { type BuildingsAllocation, type BuildingsPlan } from '~/app.model';
 import { appState } from '~/app.service';
 import { Allocation, AllocationAbsolute, PageTitle } from '~/components';
 import { useKingdom } from '~/hooks/use-kingdom.hook';
-import { kdidLoaderFn } from '~/kingdom/kingdom.loader';
+import { kdUtil } from '~/kingdom/kd.util';
+import { kdidLoaderFn, kingdomLoaderFn, kingdomNextLoaderFn } from '~/kingdom/kingdom.loader';
 import { authRequiredLoader, validatePlayerKingdom } from '~/loaders';
 import { routesUtil } from '~/routes.util';
 import { db } from '~/services';
+import { formatDiff, formatNumber } from '~/utils';
 import { allocationUtil } from '~/utils/allocation.util';
 
 const LABELS: Record<keyof BuildingsAllocation, string> = {
@@ -21,22 +23,24 @@ const LABELS: Record<keyof BuildingsAllocation, string> = {
 };
 
 export const loader = async (args: LoaderFunctionArgs) => {
-	const kdid = kdidLoaderFn(args);
-	const app = await appState();
-	const { id, ...plan } = app.buildingsPlan.get(kdid)!;
-	const { id: buildId, ...buildings } = app.buildings.get(kdid)!;
-	const land = app.kingdomsStatus.get(kdid)?.land || 0;
+	const kdid = await kdidLoaderFn(args);
+	const kd = await kingdomLoaderFn(kdid);
+	const kdNext = await kingdomNextLoaderFn(kdid);
 
 	return typedjson({
-		plan,
-		buildings,
-		land,
+		plan: kd.buildingsPlan,
+		buildings: kd.buildings,
+		buildingsNext: kdNext.buildings,
+		land: kd.status.land,
+		landNext: kdNext.status.land,
 	});
 };
 
 const KingdomBuildingPage: React.FC = () => {
 	const kd = useKingdom();
-	const { plan, buildings, land } = useTypedLoaderData<typeof loader>();
+	const { plan, buildings, land, landNext, buildingsNext } = useTypedLoaderData<typeof loader>();
+	const freeLand = land - kdUtil.builtLand(buildings);
+	const freeLandNext = landNext - kdUtil.builtLand(buildingsNext);
 	const isSubmitting = !!useNavigation().formAction;
 
 	if (!kd) {
@@ -60,7 +64,25 @@ const KingdomBuildingPage: React.FC = () => {
 				</div>
 				<div className={'flex-grow'}>
 					<h3 className={'text-md my-2'}>Buildings</h3>
-					<AllocationAbsolute initial={buildings} labels={LABELS} maxValue={land} readOnly />
+					<AllocationAbsolute
+						values={buildings}
+						nextValues={buildingsNext}
+						labels={LABELS}
+						maxValue={land}
+						readOnly
+					/>
+					<h3>
+						Free land: {formatNumber(freeLand)}{' '}
+						{freeLandNext - freeLand ? (
+							<span className={'text-primary'}>({formatDiff(freeLandNext - freeLand)})</span>
+						) : null}
+					</h3>
+					<h3>
+						Total land: {formatNumber(land)}{' '}
+						{landNext - land ? (
+							<span className={'text-primary'}>({formatDiff(landNext - land)})</span>
+						) : null}
+					</h3>
 				</div>
 			</div>
 		</>

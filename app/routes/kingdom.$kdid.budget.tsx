@@ -5,7 +5,7 @@ import { type Budget, type BudgetAllocation } from '~/app.model';
 import { appState } from '~/app.service';
 import { Allocation, PageTitle } from '~/components';
 import { useKingdom } from '~/hooks/use-kingdom.hook';
-import { kdidLoaderFn } from '~/kingdom/kingdom.loader';
+import { kdidLoaderFn, kingdomLoaderFn } from '~/kingdom/kingdom.loader';
 import { authRequiredLoader, validatePlayerKingdom } from '~/loaders';
 import { routesUtil } from '~/routes.util';
 import { db } from '~/services';
@@ -19,18 +19,18 @@ const LABELS: Record<keyof BudgetAllocation, string> = {
 };
 
 export const loader = async (args: LoaderFunctionArgs) => {
-	const kdid = kdidLoaderFn(args);
-	const budget = (await appState()).budgets.get(kdid)!;
+	const kdid = await kdidLoaderFn(args);
+	const { budget } = await kingdomLoaderFn(kdid);
 	if (!budget) {
 		return {} as BudgetAllocation;
 	}
 	const { id, ...allocation } = budget;
-	return typedjson(allocation);
+	return typedjson({ allocation });
 };
 
 const KingdomBudgetPage: React.FC = () => {
 	const kd = useKingdom();
-	const budget = useTypedLoaderData<BudgetAllocation>();
+	const { allocation } = useTypedLoaderData<typeof loader>();
 	const isSubmitting = !!useNavigation().formAction;
 
 	if (!kd) {
@@ -42,7 +42,7 @@ const KingdomBudgetPage: React.FC = () => {
 			<PageTitle title='Adjust kingdom budget' />
 			<Form method='POST'>
 				<input type={'hidden'} name={'kdid'} value={kd.id}></input>
-				<Allocation initial={budget} labels={LABELS} total={50_000} />
+				<Allocation initial={allocation} labels={LABELS} total={50_000} />
 				<button className={'btn btn-primary mt-8'} disabled={isSubmitting}>
 					Confirm budget
 				</button>

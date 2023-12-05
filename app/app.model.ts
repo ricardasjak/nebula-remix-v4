@@ -59,9 +59,10 @@ export interface MilitaryBase {
 	t?: number;
 	hgl?: number;
 	tf?: number;
+	sci?: number;
 }
 
-export interface MilitaryAllocation extends MilitaryBase {}
+export interface MilitaryAllocation extends Omit<MilitaryBase, 'sci'> {}
 
 export interface MilitaryPlan extends MilitaryAllocation {
 	id: number;
@@ -69,7 +70,6 @@ export interface MilitaryPlan extends MilitaryAllocation {
 
 export interface MilitaryBuilt extends MilitaryBase {
 	id: number;
-	sci: number;
 }
 
 export interface KingdomStatus {
@@ -88,10 +88,10 @@ export type KingdomFull = {
 	kingdom: Kingdom;
 	status: KingdomStatus;
 	budget: Budget;
-	buildings: BuildingsBuilt;
-	buildingsPlan: BuildingsPlan;
-	military: MilitaryBuilt;
-	militaryPlan: MilitaryPlan;
+	buildings: BuildingsBase;
+	buildingsPlan: BuildingsAllocation;
+	military: MilitaryBase;
+	militaryPlan: MilitaryAllocation;
 };
 
 export interface AppState {

@@ -1,6 +1,8 @@
 import { type LoaderFunctionArgs } from '@remix-run/node';
 import { typedjson } from 'remix-typedjson';
+import { tickNextKingdom } from '~/actions-tick/tick';
 import { appState } from '~/app.service';
+import { kdUtil } from '~/kingdom/kd.util';
 import { authRequiredLoader } from '~/loaders';
 import { mapUtil } from '~/utils';
 
@@ -9,30 +11,32 @@ import { mapUtil } from '~/utils';
  * @param args
  */
 export const kingdomLoader = async (args: LoaderFunctionArgs) => {
-	const id = kdidLoaderFn(args);
-	const session = await authRequiredLoader(args);
-	const { kingdom, kingdomStatus } = await kingdomLoaderFn(id, session.userId);
-	return typedjson({ kingdom, kingdomStatus });
+	const kdid = await kdidLoaderFn(args);
+	const { kingdom, status } = await kingdomLoaderFn(kdid);
+
+	return typedjson({ kingdom, status });
 };
 
-export const kdidLoaderFn = (args: LoaderFunctionArgs) => {
-	const id = Number(args.params.kdid);
-	if (!id) {
+export const kdidLoaderFn = async (args: LoaderFunctionArgs) => {
+	const session = await authRequiredLoader(args);
+	const kdid = Number(args.params.kdid);
+	if (!kdid) {
 		throw 'Kingdom not found';
 	}
-	return id;
-};
-
-export const kingdomLoaderFn = async (kdid: number, userId: number) => {
 	const app = await appState();
-	const player = mapUtil.toValues(app.players).find(p => p.userId === userId);
+	const player = mapUtil.toValues(app.players).find(p => p.userId === session.userId);
 	if (!player || !player.kingdoms.includes(kdid)) {
 		throw 'This kingdom does not belong to your account!';
 	}
-	const kingdom = app.kingdoms.get(kdid);
-	const kingdomStatus = app.kingdomsStatus.get(kdid);
-	if (!kingdom || !kingdomStatus) {
-		throw 'Kingdom not found';
-	}
-	return { kingdom, kingdomStatus };
+	return kdid;
+};
+
+export const kingdomLoaderFn = async (kdid: number) => {
+	const app = await appState();
+	return kdUtil.getFullKingdom(kdid, app);
+};
+
+export const kingdomNextLoaderFn = async (kdid: number) => {
+	const kd = await kingdomLoaderFn(kdid);
+	return tickNextKingdom(kd);
 };

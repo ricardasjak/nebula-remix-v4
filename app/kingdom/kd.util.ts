@@ -26,7 +26,7 @@ const getNetworth = (kd: KingdomStatus, buildings: BuildingsBuilt, military: Mil
 	return nwItems.reduce((result, item) => result + item, 0);
 };
 
-const builtLand = ({ id, ...buildings }: BuildingsBuilt) => {
+const builtLand = (buildings: BuildingsAllocation) => {
 	return (Object.keys(buildings) as Array<keyof BuildingsAllocation>).reduce(
 		(result, key) => result + buildings[key] || 0,
 		0
@@ -109,9 +109,12 @@ const getFullKingdom = (id: number, app: AppState): KingdomFull => {
 };
 
 const getPowerConsumption = (kd: KingdomFull): number => {
-	const military = (Object.keys(kd.military) as Array<keyof MilitaryBuilt>).reduce((r, unit) => {
-		return r + GAME.power.military[unit] * (kd.military[unit] || 0);
-	}, 0);
+	const military = (Object.keys(kd.military) as Array<keyof Omit<MilitaryBuilt, 'id'>>).reduce(
+		(r, unit) => {
+			return r + GAME.power.military[unit] * (kd.military[unit] || 0);
+		},
+		0
+	);
 
 	const pop = kd.status.pop * GAME.power.misc.pop;
 	const land = kd.status.land * GAME.power.misc.land;

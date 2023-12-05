@@ -2,7 +2,8 @@ import { cx } from '~/cx';
 import { allocationUtil } from '~/utils/allocation.util';
 
 interface Props<T> {
-	initial: Record<keyof T, number>;
+	values: Record<keyof T, number>;
+	nextValues?: Record<keyof T, number>;
 	labels: Record<keyof T, string>;
 	maxValue: number;
 	total?: number;
@@ -10,13 +11,13 @@ interface Props<T> {
 }
 
 export function AllocationAbsolute<T>({
-	initial,
+	values,
+	nextValues,
 	labels,
 	total = 0,
 	maxValue,
 	readOnly,
 }: Props<T>) {
-	const values = initial;
 	const allocations = values ? (Object.keys(labels) as Array<keyof T>) : [];
 	const balance = 100 - allocationUtil.balance(values);
 
@@ -26,15 +27,17 @@ export function AllocationAbsolute<T>({
 				{allocations.map((aloc, index) => {
 					const val = values[aloc] || 0;
 					const ratio = (100 * val) / maxValue;
+					const diff = nextValues ? nextValues[aloc] - values[aloc] : 0;
 					return (
 						<li key={index}>
 							<span className={'text-sm'}>
 								{labels[aloc]}:{' '}
 								{ratio
 									? `${val.toLocaleString()} (${ratio.toLocaleString(undefined, {
-											maximumFractionDigits: 2,
+											maximumFractionDigits: 1,
 									  })}%)`
 									: `${val.toLocaleString()}`}
+								{diff > 0 ? <span className={'text-primary'}>&nbsp;+{diff}</span> : null}
 							</span>
 							<input
 								type='range'
