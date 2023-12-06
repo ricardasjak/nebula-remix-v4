@@ -52,7 +52,7 @@ const KingdomBuildingPage: React.FC = () => {
 			<PageTitle title='Adjust kingdom buildings' />
 
 			<div className={'flex flex-col md:flex-row gap-4'}>
-				<div className={'flex-grow'}>
+				<div className={'flex-grow flex-1'}>
 					<h3 className={'text-md my-2'}>Construction plan</h3>
 					<Form method='POST'>
 						<input type={'hidden'} name={'kdid'} value={kd.id}></input>
@@ -62,7 +62,7 @@ const KingdomBuildingPage: React.FC = () => {
 						</button>
 					</Form>
 				</div>
-				<div className={'flex-grow'}>
+				<div className={'flex-grow flex-1'}>
 					<h3 className={'text-md my-2'}>Buildings</h3>
 					<AllocationAbsolute
 						values={buildings}

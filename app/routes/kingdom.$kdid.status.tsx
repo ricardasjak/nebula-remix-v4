@@ -1,41 +1,34 @@
-import { type ActionFunction, type LoaderFunctionArgs, redirect } from '@remix-run/node';
-import { Form } from '@remix-run/react';
+import { type LoaderFunctionArgs } from '@remix-run/node';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
-import { kingdomTickActionFn } from '~/actions';
 import { PageTitle } from '~/components';
-import { useSubmitting } from '~/hooks';
-import { useKingdomStatus } from '~/hooks/use-kingdom.hook';
-import { kdidLoaderFn, kingdomNextLoaderFn } from '~/kingdom/kingdom.loader';
-import { routesUtil } from '~/routes.util';
-
-export const action: ActionFunction = async args => {
-	await kingdomTickActionFn(args);
-	const id = await kdidLoaderFn(args);
-	return redirect(routesUtil.kd.status(id));
-};
+import { kdidLoaderFn, kingdomLoaderFn, kingdomNextLoaderFn } from '~/kingdom/kingdom.loader';
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const kdid = await kdidLoaderFn(args);
+	const kd = await kingdomLoaderFn(kdid);
 	const kdNext = await kingdomNextLoaderFn(kdid);
-	return typedjson(kdNext);
+	return typedjson({ kd, kdNext });
 };
 
 const KingdomStatusPage: React.FC = () => {
-	const kdStatus = useKingdomStatus();
-	const kdNext = useTypedLoaderData<typeof loader>();
-	const pending = useSubmitting();
+	const { kd, kdNext } = useTypedLoaderData<typeof loader>();
 	return (
 		<>
 			<PageTitle title='Dear commander, review kingdom status' />
-			<h2>Status page</h2>
-			<pre>{JSON.stringify(kdStatus, null, 2)}</pre>
-			<Form method='POST'>
-				<button className={'btn btn-primary'} type={'submit'} disabled={pending}>
-					Go one tick
-				</button>
-			</Form>
-			<h3>Next tick projection:</h3>
-			<pre>{JSON.stringify(kdNext.status, null, 2)}</pre>
+			<div className={'grid grid-cols-2'}>
+				<div>
+					<h2>Status page</h2>
+					<pre>{JSON.stringify(kd.status, null, 1)}</pre>
+					<pre>{JSON.stringify(kd.buildings, null, 1)}</pre>
+					<pre>{JSON.stringify(kd.military, null, 1)}</pre>
+				</div>
+				<div>
+					<h2>Next tick projection</h2>
+					<pre>{JSON.stringify(kdNext.status, null, 1)}</pre>
+					<pre>{JSON.stringify(kdNext.buildings, null, 1)}</pre>
+					<pre>{JSON.stringify(kdNext.military, null, 1)}</pre>
+				</div>
+			</div>
 		</>
 	);
 };

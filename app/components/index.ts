@@ -5,3 +5,4 @@ export * from './world.component';
 export * from './kd.navbar.component';
 export * from './kingdom-line.component';
 export * from './page-title.component';
+export * from './tick-button.component';

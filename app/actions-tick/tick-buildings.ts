@@ -28,7 +28,6 @@ export const tickBuildings = (
 	const { cost } = GAME.building;
 	const buildingCost = cost(landNext);
 	const canAffordToBuild = Math.min(freeLand, Math.floor(budget / buildingCost));
-	console.log({ canAffordToBuild, freeLand });
 
 	const planned: BuildingsAllocation = (
 		Object.keys(plan) as Array<keyof BuildingsAllocation>

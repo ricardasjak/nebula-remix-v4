@@ -1,4 +1,5 @@
 import { Link } from '@remix-run/react';
+import { TickButton } from '~/components';
 import { routesUtil } from '~/routes.util';
 
 interface Props {
@@ -17,6 +18,9 @@ export const KingdomNavbar: React.FC<Props> = ({ kdid }) => {
 				</li>
 				<li>
 					<Link to={routesUtil.kd.buildings(kdid)}>Buildings</Link>
+				</li>
+				<li className={'flex-grow'}>
+					<TickButton kdid={kdid} />
 				</li>
 			</ul>
 		</div>

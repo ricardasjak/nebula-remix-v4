@@ -1,33 +1,16 @@
-import { type ActionFunction, redirect } from '@remix-run/node';
-import { Form } from '@remix-run/react';
+import { type ActionFunctionArgs, type LoaderFunctionArgs } from '@remix-run/node';
+
+import { typedjson } from 'remix-typedjson';
 import { kingdomTickActionFn } from '~/actions';
-import { PageTitle } from '~/components';
-import { useSubmitting } from '~/hooks';
-import { useKingdomStatus } from '~/hooks/use-kingdom.hook';
-import { kdidLoaderFn } from '~/kingdom/kingdom.loader';
-import { routesUtil } from '~/routes.util';
+import { kdidLoaderFn, kingdomNextLoaderFn } from '~/kingdom/kingdom.loader';
 
-export const action: ActionFunction = async args => {
+export const action = async (args: ActionFunctionArgs) => {
 	await kingdomTickActionFn(args);
-	const id = kdidLoaderFn(args);
-	return redirect(routesUtil.kd.tick(id));
+	return typedjson({ ok: true });
 };
 
-const KingdomTickPage: React.FC = () => {
-	const kdStatus = useKingdomStatus();
-	const pending = useSubmitting();
-	return (
-		<>
-			<PageTitle title='Dear commander, review kingdom status' />
-			<h2>Temporary tick page</h2>
-			<pre>{JSON.stringify(kdStatus, null, 2)}</pre>
-			<Form method='POST'>
-				<button className={'btn btn-primary'} type={'submit'} disabled={pending}>
-					Next tick
-				</button>
-			</Form>
-		</>
-	);
+export const loader = async (args: LoaderFunctionArgs) => {
+	const kdid = await kdidLoaderFn(args);
+	const next = await kingdomNextLoaderFn(kdid);
+	return typedjson(next);
 };
-
-export default KingdomTickPage;
