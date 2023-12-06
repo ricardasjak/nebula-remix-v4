@@ -12,13 +12,7 @@ import { mapUtil } from '~/utils';
 export const tickKingdom = (kd: KingdomFull) => {
 	let { status, buildings, buildingsPlan, budget } = kd;
 
-	status.pop = tickPopulation(status.pop, buildings.residences, status.land);
 	status.income = tickIncome(status.pop, buildings.starMines);
-	status.money = tickMoney(status.money, status.income);
-
-	status.powerChange = tickPowerIncome(kd);
-	status.power = tickPower(status.power, status.powerChange, kd.buildings.powerPlants);
-
 	const { explored, exploredCost } = tickExplore(
 		status.land,
 		(status.income * budget.exploration) / 100
@@ -36,6 +30,12 @@ export const tickKingdom = (kd: KingdomFull) => {
 	(Object.keys(constructed) as Array<keyof BuildingsAllocation>).forEach(key => {
 		buildings[key] += constructed[key];
 	});
+
+	status.powerChange = tickPowerIncome(kd);
+	status.power = tickPower(status.power, status.powerChange, kd.buildings.powerPlants);
+
+	status.pop = tickPopulation(status.pop, buildings.residences, status.land);
+	status.money = tickMoney(status.money, status.income);
 
 	status.money -= constructionCost;
 	status.nw = tickNetworth(kd);
