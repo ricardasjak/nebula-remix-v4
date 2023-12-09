@@ -4,9 +4,9 @@ export interface Entity {
 	updated?: string;
 }
 
-export const PlanetTypes = ['FW', 'Mount'] as const;
+export const PlanetTypes = ['FW', 'Mn', 'Oc', 'VI', 'TF', 'MT', 'JT', 'DW'] as const;
 export type PlanetType = (typeof PlanetTypes)[number];
-export const RaceTypes = ['Xivornai', 'Gistrami'] as const;
+export const RaceTypes = ['Xi', 'Gi', 'Ma', 'Te'] as const;
 export type RaceType = (typeof RaceTypes)[number];
 
 export type KingdomState = 'Mobilization' | 'Growth';
@@ -25,8 +25,6 @@ export interface KingdomBase {
 	race: RaceType;
 	x: number;
 	y: number;
-	nw: number;
-	land: number;
 }
 
 export interface CreateKingdom {

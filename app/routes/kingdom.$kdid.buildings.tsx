@@ -1,7 +1,7 @@
 import { type ActionFunction, type LoaderFunctionArgs, redirect } from '@remix-run/node';
 import { Form, useNavigation } from '@remix-run/react';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
-import { type BuildingsAllocation, type BuildingsPlan } from '~/app.model';
+import { type BuildingsPlan } from '~/app.model';
 import { appState } from '~/app.service';
 import { Allocation, AllocationAbsolute, PageTitle } from '~/components';
 import { useKingdom } from '~/hooks/use-kingdom.hook';
@@ -13,7 +13,7 @@ import { db } from '~/services';
 import { formatDiff, formatNumber } from '~/utils';
 import { allocationUtil } from '~/utils/allocation.util';
 
-const LABELS: Record<keyof BuildingsAllocation, string> = {
+const LABELS: Record<keyof BuildingsPlan, string> = {
 	residences: 'Residences',
 	barracks: 'Barracks',
 	powerPlants: 'Power Plants',
@@ -94,7 +94,7 @@ export const action: ActionFunction = async args => {
 	const session = await authRequiredLoader(args);
 	const kdid = Number(form.get('kdid'));
 	await validatePlayerKingdom(session.userId, kdid);
-	const allocation: BuildingsAllocation = {
+	const plan: BuildingsPlan = {
 		residences: Number(form.get('residences')),
 		barracks: Number(form.get('barracks')),
 		powerPlants: Number(form.get('powerPlants')),
@@ -102,14 +102,13 @@ export const action: ActionFunction = async args => {
 		trainingCamps: Number(form.get('trainingCamps')),
 		probeFactories: Number(form.get('probeFactories')),
 	};
-	if (allocationUtil.balance(allocation) < 0) {
-		throw new Error(`Incorrect buildings allocation ${allocationUtil.balance(allocation)}%`);
+	if (allocationUtil.balance(plan) < 0) {
+		throw new Error(`Incorrect buildings allocation ${allocationUtil.balance(plan)}%`);
 	}
-	const plan: BuildingsPlan = { id: kdid, ...allocation };
 
 	const app = await appState();
 	app.buildingsPlan.set(kdid, plan);
-	await db.buildingsPlan.saveOne(plan);
+	await db.buildingsPlan.saveOne(kdid, plan);
 	return redirect(routesUtil.kd.buildings(kdid));
 };
 

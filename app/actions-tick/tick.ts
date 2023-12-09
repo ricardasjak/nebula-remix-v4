@@ -6,7 +6,7 @@ import { tickNetworth } from '~/actions-tick/tick-networth';
 import { tickPopulation } from '~/actions-tick/tick-population';
 import { tickPower } from '~/actions-tick/tick-power';
 import { tickPowerIncome } from '~/actions-tick/tick-power-income';
-import { type BuildingsAllocation, type KingdomFull } from '~/app.model';
+import { type BuildingsPlan, type KingdomFull } from '~/app.model';
 import { mapUtil } from '~/utils';
 
 export const tickKingdom = (kd: KingdomFull) => {
@@ -27,7 +27,7 @@ export const tickKingdom = (kd: KingdomFull) => {
 		buildingsPlan
 	);
 
-	(Object.keys(constructed) as Array<keyof BuildingsAllocation>).forEach(key => {
+	(Object.keys(constructed) as Array<keyof BuildingsPlan>).forEach(key => {
 		buildings[key] += constructed[key];
 	});
 

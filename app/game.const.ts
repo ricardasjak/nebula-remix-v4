@@ -1,7 +1,6 @@
-import { type MilitaryBuilt } from '~/app.model';
+import { type Military } from '~/app.model';
 
-const militaryNetworth: Record<keyof MilitaryBuilt, number> = {
-	id: 0,
+const militaryNetworth: Record<keyof Military, number> = {
 	sold: 3,
 	tr: 6,
 	dr: 7,
@@ -62,6 +61,6 @@ export const GAME = {
 			ld: 0.7,
 			tr: 0.7,
 			dr: 0.7,
-		} as Record<keyof MilitaryBuilt, number>,
+		} as Record<keyof Military, number>,
 	},
 };

@@ -37,9 +37,7 @@ export const createKingdomAction: ActionFunction = async args => {
 		updated: now(),
 		userId: user.id,
 		galaxy: 1,
-		land: 250,
-		nw: 27500,
-		nickname: 'unknown nickname',
+		nickname: '',
 		sector: 1,
 		...makeCoords(),
 		roundId: round,
@@ -51,7 +49,7 @@ export const createKingdomAction: ActionFunction = async args => {
 		const newPlayer: Player = { id: playerId, userId: user.id, round: round, kingdoms: [] };
 		app.players.set(playerId, newPlayer);
 		player = newPlayer;
-		await db.player.createOne(player);
+		await db.player.createOne(player.id, player);
 	}
 
 	if (!canCreateKingdom(app, player.id)) {
@@ -71,14 +69,14 @@ export const createKingdomAction: ActionFunction = async args => {
 	app.militaryPlan.set(id, militaryPlan);
 	app.kingdomsStatus.set(id, kingdomStatus);
 
-	await db.kingdom.createOne(newKingdom);
-	await db.player.saveOne(player);
-	await db.budget.saveOne(budget);
-	await db.buildings.saveOne(buildings);
-	await db.buildingsPlan.saveOne(buildingsPlan);
-	await db.military.saveOne(military);
-	await db.militaryPlan.saveOne(militaryPlan);
-	await db.kingdomStatus.saveOne(kingdomStatus);
+	await db.kingdom.createOne(id, newKingdom);
+	await db.player.saveOne(player.id, player);
+	await db.budget.saveOne(id, budget);
+	await db.buildings.saveOne(id, buildings);
+	await db.buildingsPlan.saveOne(id, buildingsPlan);
+	await db.military.saveOne(id, military);
+	await db.militaryPlan.saveOne(id, militaryPlan);
+	await db.kingdomStatus.saveOne(id, kingdomStatus);
 	console.log('action: kd successfully created!');
 
 	return redirect(routesUtil.kd.home(newKingdom.id));

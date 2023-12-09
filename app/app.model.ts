@@ -20,18 +20,14 @@ export interface Player {
 	kingdoms: number[];
 }
 
-export interface BudgetAllocation {
+export interface Budget {
 	exploration: number;
 	construction: number;
 	military: number;
 	research: number;
 }
 
-export interface Budget extends BudgetAllocation {
-	id: number;
-}
-
-export interface BuildingsBase {
+export interface Buildings {
 	residences: number;
 	starMines: number;
 	barracks: number;
@@ -40,15 +36,9 @@ export interface BuildingsBase {
 	probeFactories: number;
 }
 
-export interface BuildingsAllocation extends BuildingsBase {}
+export interface BuildingsPlan extends Buildings {}
 
-export interface BuildingsPlan extends BuildingsAllocation {
-	id: number;
-}
-
-export interface BuildingsBuilt extends BuildingsBase {
-	id: number;
-}
+export interface BuildingsBuilt extends Buildings {}
 
 export interface MilitaryBase {
 	sold?: number;
@@ -62,18 +52,11 @@ export interface MilitaryBase {
 	sci?: number;
 }
 
-export interface MilitaryAllocation extends Omit<MilitaryBase, 'sci'> {}
+export interface MilitaryPlan extends Omit<MilitaryBase, 'sci'> {}
 
-export interface MilitaryPlan extends MilitaryAllocation {
-	id: number;
-}
-
-export interface MilitaryBuilt extends MilitaryBase {
-	id: number;
-}
+export interface Military extends MilitaryBase {}
 
 export interface KingdomStatus {
-	id: number;
 	pop: number;
 	money: number;
 	income: number;
@@ -88,10 +71,10 @@ export type KingdomFull = {
 	kingdom: Kingdom;
 	status: KingdomStatus;
 	budget: Budget;
-	buildings: BuildingsBase;
-	buildingsPlan: BuildingsAllocation;
+	buildings: Buildings;
+	buildingsPlan: BuildingsPlan;
 	military: MilitaryBase;
-	militaryPlan: MilitaryAllocation;
+	militaryPlan: MilitaryPlan;
 };
 
 export interface AppState {
@@ -102,7 +85,7 @@ export interface AppState {
 	budgets: Map<number, Budget>;
 	buildings: Map<number, BuildingsBuilt>;
 	buildingsPlan: Map<number, BuildingsPlan>;
-	military: Map<number, MilitaryBuilt>;
+	military: Map<number, Military>;
 	militaryPlan: Map<number, MilitaryPlan>;
 	status: 'empty' | 'loading' | 'ready';
 }

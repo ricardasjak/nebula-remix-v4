@@ -4,7 +4,7 @@ import { Link, useRouteLoaderData } from '@remix-run/react';
 import { useMemo } from 'react';
 import { useTypedLoaderData } from 'remix-typedjson';
 import { WorldMap } from '~/components';
-import { type Kingdom } from '~/kingdom';
+import { type PlayerKingdom } from '~/loaders';
 import { worldLoader } from '~/loaders/world.loader';
 import { routesUtil } from '~/routes.util';
 
@@ -18,7 +18,7 @@ export default function Index() {
 	const rootData = useRouteLoaderData<typeof rootAuthLoader>('root');
 	const world = useTypedLoaderData<typeof worldLoader>();
 	const kingdoms = useMemo(
-		() => (rootData?.kingdoms as Kingdom[]).sort((a, b) => b.land - a.land),
+		() => (rootData?.kingdoms as PlayerKingdom[]).sort((a, b) => b.land - a.land),
 		[rootData?.kingdoms]
 	);
 	const ownedKingdoms = useMemo(() => kingdoms.map(k => k.id), [kingdoms]);
@@ -28,7 +28,6 @@ export default function Index() {
 			<h1 className={'text-xl mb-2 inline-block'}>
 				Welcome to <span className={'text-primary'}>Nebula.</span> &nbsp;
 			</h1>
-
 			{hasKingdom ? (
 				<>
 					<h2 className={'text-primary text-sm mb-8'}>Check your kingdoms:</h2>
@@ -44,6 +43,7 @@ export default function Index() {
 									<span className={'hidden sm:block'}>{kd.race}</span>
 									<span>{kd.land.toLocaleString()}</span>
 									<span>{kd.nw.toLocaleString()}</span>
+									<span>${kd.money.toLocaleString()}</span>
 								</Link>
 							</li>
 						))}
@@ -51,17 +51,19 @@ export default function Index() {
 				</>
 			) : (
 				<>
+					<br />
 					<span className={'text-sm mb-8'}>It's time to start your journey!</span>
 					&nbsp;
 				</>
 			)}
 			{/*<hr className={'border-primary my-4'} />*/}
+
+			<Link to={routesUtil.kd.create} className={'btn btn-primary btn-sm mb-4'}>
+				Create Kingdom
+			</Link>
 			<div className={''}>
 				{/*<h3 className={'text-primary text-lg text-center'}>Nebula map</h3>*/}
 				<WorldMap kingdoms={world} ownerKingdoms={ownedKingdoms} />
-				<Link to={routesUtil.kd.create} className={'btn btn-primary'}>
-					Create Kingdom
-				</Link>
 			</div>
 		</div>
 	);

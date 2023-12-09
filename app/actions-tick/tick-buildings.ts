@@ -1,8 +1,8 @@
-import { type BuildingsAllocation, type BuildingsBase } from '~/app.model';
+import { type BuildingsPlan, type Buildings } from '~/app.model';
 import { GAME } from '~/game.const';
 import { kdUtil } from '~/kingdom/kd.util';
 
-const empty: BuildingsAllocation = {
+const empty: BuildingsPlan = {
 	residences: 0,
 	barracks: 0,
 	powerPlants: 0,
@@ -14,8 +14,8 @@ const empty: BuildingsAllocation = {
 export const tickBuildings = (
 	landNext: number,
 	budget: number,
-	buildings: BuildingsBase,
-	plan: BuildingsAllocation
+	buildings: Buildings,
+	plan: BuildingsPlan
 ) => {
 	const freeLand = landNext - kdUtil.builtLand(buildings);
 	if (freeLand === 0) {
@@ -29,18 +29,14 @@ export const tickBuildings = (
 	const buildingCost = cost(landNext);
 	const canAffordToBuild = Math.min(freeLand, Math.floor(budget / buildingCost));
 
-	const planned: BuildingsAllocation = (
-		Object.keys(plan) as Array<keyof BuildingsAllocation>
-	).reduce(
+	const planned: BuildingsPlan = (Object.keys(plan) as Array<keyof BuildingsPlan>).reduce(
 		(result, type) => {
 			result[type] = (landNext * plan[type]) / 100;
 			return result;
 		},
 		{ ...empty }
 	);
-	const target: BuildingsAllocation = (
-		Object.keys(plan) as Array<keyof BuildingsAllocation>
-	).reduce(
+	const target: BuildingsPlan = (Object.keys(plan) as Array<keyof BuildingsPlan>).reduce(
 		(result, type) => {
 			result[type] = Math.max(0, planned[type] - buildings[type]);
 			return result;
@@ -50,9 +46,7 @@ export const tickBuildings = (
 	const targetLand = kdUtil.builtLand(target);
 	const ratio = Math.min(1, canAffordToBuild / targetLand);
 
-	const constructed: BuildingsAllocation = (
-		Object.keys(plan) as Array<keyof BuildingsAllocation>
-	).reduce(
+	const constructed: BuildingsPlan = (Object.keys(plan) as Array<keyof BuildingsPlan>).reduce(
 		(result, type) => {
 			result[type] = Math.round(target[type] * ratio);
 			return result;

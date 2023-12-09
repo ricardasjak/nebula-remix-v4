@@ -21,7 +21,7 @@ export const loader: LoaderFunction = async args => {
 			email: session.sessionClaims.email as string,
 		};
 		app.users.set(newUser.id, newUser);
-		await db.user.createOne(newUser);
+		await db.user.createOne(newUser.id, newUser);
 	}
 	return redirect(routesUtil.home);
 };

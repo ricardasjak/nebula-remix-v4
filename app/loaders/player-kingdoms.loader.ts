@@ -1,5 +1,7 @@
 import { type LoaderFunction } from '@remix-run/node';
 import { appState } from '~/app.service';
+import { type PlanetType, type RaceType } from '~/kingdom';
+import { kdUtil } from '~/kingdom/kd.util';
 import { authLoader } from '~/loaders/auth.loader';
 import { mapUtil } from '~/utils';
 
@@ -15,13 +17,50 @@ export const playerKingdomsLoader: LoaderFunction = async args => {
 	return playerKingdomsLoaderFn(session.userId);
 };
 
-export const playerKingdomsLoaderFn = async (userId: number) => {
+export interface PlayerKingdom {
+	id: number;
+	name: string;
+	sector: number;
+	galaxy: number;
+	planet: PlanetType;
+	race: RaceType;
+	x: number;
+	y: number;
+	land: number;
+	nw: number;
+	money: number;
+	pop: number;
+	power: number;
+}
+
+export const playerKingdomsLoaderFn = async (userId: number): Promise<PlayerKingdom[]> => {
 	const app = await appState();
 	const player = mapUtil.toValues(app.players).find(p => p.userId === userId);
 	if (!player) {
 		return [];
 	}
-	return player.kingdoms.map(id => app.kingdoms.get(id)!).filter(Boolean);
+	return player.kingdoms
+		.map(id => {
+			const kd = kdUtil.getFullKingdom(id, app);
+			const { name, sector, galaxy, planet, race, x, y } = kd.kingdom;
+			const { land, nw, money, pop, power } = kd.status;
+			return {
+				id,
+				name,
+				sector,
+				galaxy,
+				planet,
+				race,
+				x,
+				y,
+				land,
+				nw,
+				money,
+				pop,
+				power,
+			};
+		})
+		.filter(Boolean);
 };
 
 export const validatePlayerKingdom = async (userId: number, kdid: number) => {

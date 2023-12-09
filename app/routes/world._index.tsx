@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { useTypedLoaderData } from 'remix-typedjson';
 import { WorldMap } from '~/components';
 import { GAME } from '~/game.const';
-import { type Kingdom } from '~/kingdom';
+import { type PlayerKingdom } from '~/loaders';
 import { worldLoader } from '~/loaders/world.loader';
 import { routesUtil } from '~/routes.util';
 
@@ -14,7 +14,7 @@ export const WorldMapPage: React.FC = () => {
 	const rootData = useRouteLoaderData<typeof rootAuthLoader>('root');
 	const world = useTypedLoaderData<typeof worldLoader>();
 	const kingdoms = useMemo(
-		() => (rootData?.kingdoms as Kingdom[]).sort((a, b) => b.land - a.land),
+		() => (rootData?.kingdoms as PlayerKingdom[]).sort((a, b) => b.land - a.land),
 		[rootData?.kingdoms]
 	);
 	const canCreate = kingdoms.length < GAME.kingdomsLimit;

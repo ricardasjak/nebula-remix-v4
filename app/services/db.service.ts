@@ -4,12 +4,12 @@ import {
 	type BuildingsBuilt,
 	type BuildingsPlan,
 	type KingdomStatus,
-	type MilitaryBuilt,
+	type Military,
 	type MilitaryPlan,
 	type Player,
 	type User,
 } from '~/app.model';
-import { type Entity, type Kingdom } from '~/kingdom';
+import { type Kingdom } from '~/kingdom';
 import { mapUtil } from '~/utils';
 
 const redis = Redis.fromEnv();
@@ -43,18 +43,18 @@ const makeRepository = <T>(key: string) => ({
 	/**
 	 * Update or Create new entity of <T>
 	 */
-	saveOne: async (entity: Entity) => {
-		console.time(`redis: ${key}: saved id: ${entity.id}`);
-		console.log(`redis: ${key}: saving id: ${entity.id}`);
-		await redis.hset(key, { [entity.id]: entity });
-		console.timeEnd(`redis: ${key}: saved id: ${entity.id}`);
+	saveOne: async (id: number, entity: object) => {
+		console.time(`redis: ${key}: saved id: ${id}`);
+		console.log(`redis: ${key}: saving id: ${id}`);
+		await redis.hset(key, { [id]: entity });
+		console.timeEnd(`redis: ${key}: saved id: ${id}`);
 		return 0;
 	},
-	createOne: async (entity: Entity) => {
+	createOne: async (id: number, entity: object) => {
 		console.log(`redis: ${key}: creating entity ${JSON.stringify(entity)}`);
-		const n = await redis.hexists(key, entity.id.toString());
+		const n = await redis.hexists(key, id.toString());
 		if (n > 0) throw `${key}: entity already exists`;
-		return makeRepository(key).saveOne(entity);
+		return makeRepository(key).saveOne(id, entity);
 	},
 });
 
@@ -66,6 +66,6 @@ export const db = {
 	budget: makeRepository<Budget>(KEYS.budgets),
 	buildings: makeRepository<BuildingsBuilt>(KEYS.buildings),
 	buildingsPlan: makeRepository<BuildingsPlan>(KEYS.buildingsPlan),
-	military: makeRepository<MilitaryBuilt>(KEYS.military),
+	military: makeRepository<Military>(KEYS.military),
 	militaryPlan: makeRepository<MilitaryPlan>(KEYS.militaryPlan),
 };

@@ -1,17 +1,16 @@
 import { type ActionFunction, type LoaderFunctionArgs, redirect } from '@remix-run/node';
 import { Form, useNavigation } from '@remix-run/react';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
-import { type Budget, type BudgetAllocation } from '~/app.model';
+import { type Budget } from '~/app.model';
 import { appState } from '~/app.service';
 import { Allocation, PageTitle } from '~/components';
 import { useKingdom } from '~/hooks/use-kingdom.hook';
 import { kdidLoaderFn, kingdomLoaderFn } from '~/kingdom/kingdom.loader';
-import { authRequiredLoader, validatePlayerKingdom } from '~/loaders';
 import { routesUtil } from '~/routes.util';
 import { db } from '~/services';
 import { allocationUtil } from '~/utils/allocation.util';
 
-const LABELS: Record<keyof BudgetAllocation, string> = {
+const LABELS: Record<keyof Budget, string> = {
 	construction: 'Construction',
 	exploration: 'Exploration',
 	military: 'Military',
@@ -21,16 +20,12 @@ const LABELS: Record<keyof BudgetAllocation, string> = {
 export const loader = async (args: LoaderFunctionArgs) => {
 	const kdid = await kdidLoaderFn(args);
 	const { budget } = await kingdomLoaderFn(kdid);
-	if (!budget) {
-		return {} as BudgetAllocation;
-	}
-	const { id, ...allocation } = budget;
-	return typedjson({ allocation });
+	return typedjson({ budget });
 };
 
 const KingdomBudgetPage: React.FC = () => {
 	const kd = useKingdom();
-	const { allocation } = useTypedLoaderData<typeof loader>();
+	const { budget } = useTypedLoaderData<typeof loader>();
 	const isSubmitting = !!useNavigation().formAction;
 
 	if (!kd) {
@@ -42,7 +37,7 @@ const KingdomBudgetPage: React.FC = () => {
 			<PageTitle title='Adjust kingdom budget' />
 			<Form method='POST'>
 				<input type={'hidden'} name={'kdid'} value={kd.id}></input>
-				<Allocation initial={allocation} labels={LABELS} total={50_000} />
+				<Allocation initial={budget} labels={LABELS} total={50_000} />
 				<button className={'btn btn-primary mt-8'} disabled={isSubmitting}>
 					Confirm budget
 				</button>
@@ -53,23 +48,19 @@ const KingdomBudgetPage: React.FC = () => {
 
 export const action: ActionFunction = async args => {
 	const form = await args.request.formData();
-	const session = await authRequiredLoader(args);
-	const kdid = Number(form.get('kdid'));
-	await validatePlayerKingdom(session.userId, kdid);
-	const budgetAllocation: BudgetAllocation = {
+	const kdid = await kdidLoaderFn(args);
+	const budget: Budget = {
 		construction: Number(form.get('construction')),
 		exploration: Number(form.get('exploration')),
 		military: Number(form.get('military')),
 		research: Number(form.get('research')),
 	};
-	if (allocationUtil.balance(budgetAllocation) < 0) {
-		throw new Error(`Incorrect budget allocation ${allocationUtil.balance(budgetAllocation)}%`);
+	if (allocationUtil.balance(budget) < 0) {
+		throw new Error(`Incorrect budget allocation ${allocationUtil.balance(budget)}%`);
 	}
-	const budget: Budget = { id: kdid, ...budgetAllocation };
-
 	const app = await appState();
 	app.budgets.set(kdid, budget);
-	await db.budget.saveOne(budget);
+	await db.budget.saveOne(kdid, budget);
 	return redirect(routesUtil.kd.budget(kdid));
 };
 
