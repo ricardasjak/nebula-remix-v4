@@ -4,7 +4,7 @@
 #
 
 app = "nebula-kingdoms"
-primary_region = "ams"
+primary_region = "iad"
 
 [build]
 

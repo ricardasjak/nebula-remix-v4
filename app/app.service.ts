@@ -64,7 +64,7 @@ export const appState = async (): Promise<AppState> => {
 				} else {
 					console.log('loading state...');
 				}
-			}, 100);
+			}, 1000);
 
 			setTimeout(() => {
 				clearInterval(int);
