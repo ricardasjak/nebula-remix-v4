@@ -26,7 +26,7 @@ export const kdidLoaderFn = async (args: LoaderFunctionArgs) => {
 	const app = await appState();
 	const player = mapUtil.toValues(app.players).find(p => p.userId === session.userId);
 	if (!player || !player.kingdoms.includes(kdid)) {
-		throw 'This kingdom does not belong to your account!';
+		throw new Error('This kingdom does not belong to your account!');
 	}
 	return kdid;
 };

@@ -9,6 +9,7 @@ import {
 	type MilitaryPlan,
 } from '~/app.model';
 import { GAME } from '~/game.const';
+import { type WorldKingdom } from '~/loaders';
 
 const getNetworth = (kd: KingdomStatus, buildings: Buildings, military: Military) => {
 	const nwItems = [
@@ -22,7 +23,7 @@ const getNetworth = (kd: KingdomStatus, buildings: Buildings, military: Military
 			0
 		),
 	];
-	return nwItems.reduce((result, item) => result + item, 0);
+	return nwItems.map(Math.floor).reduce((result, item) => result + (item || 0), 0);
 };
 
 const builtLand = (buildings: BuildingsPlan) => {
@@ -116,10 +117,36 @@ const getPowerConsumption = (kd: KingdomFull): number => {
 	return Math.ceil(military + pop + land + building);
 };
 
+// const getPublicKingdomProfile = (kdid: number, app: AppState) => {
+// 	const {kingdom: {name, }, status} = getFullKingdom(kdid, app);
+// 	return {
+//
+// 	}
+// }
+
+const getWorldKingdom = (kdid: number, app: AppState): WorldKingdom => {
+	const {
+		kingdom: { name, x, y, planet, race },
+		status: { land, nw },
+	} = getFullKingdom(kdid, app);
+
+	return {
+		id: kdid,
+		name,
+		x,
+		y,
+		planet,
+		race,
+		land,
+		nw,
+	};
+};
+
 export const kdUtil = {
 	getNetworth,
 	getKingdomDefaults,
 	getFullKingdom,
 	getPowerConsumption,
+	getWorldKingdom,
 	builtLand,
 };

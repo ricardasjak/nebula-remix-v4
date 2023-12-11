@@ -10,6 +10,9 @@ export const routesUtil = {
 		military: (id: number) => `/kingdom/${id}/military`,
 		tick: (id: number) => `/kingdom/${id}/tick`,
 	},
+	world: {
+		kd: (kdid: number) => `/world/${kdid}`,
+	},
 	signup: '/sign-up',
 	auth: {
 		signup: '/auth/sign-up',

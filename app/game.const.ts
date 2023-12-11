@@ -13,7 +13,7 @@ const militaryNetworth: Record<keyof Military, number> = {
 };
 
 export const GAME = {
-	kingdomsLimit: 10,
+	kingdomsLimit: 5,
 	explore: {
 		cost: (land: number) => Math.round(Math.pow(land, 0.4) * 111),
 		canExploreByMoneyLimit: (land: number, money: number) =>

@@ -2,7 +2,7 @@ import { type rootAuthLoader } from '@clerk/remix/ssr.server';
 import { Link, useRouteLoaderData } from '@remix-run/react';
 import { useMemo } from 'react';
 import { useTypedLoaderData } from 'remix-typedjson';
-import { WorldMap } from '~/components';
+import { WorldList } from '~/components';
 import { GAME } from '~/game.const';
 import { type PlayerKingdom } from '~/loaders';
 import { worldLoader } from '~/loaders/world.loader';
@@ -21,7 +21,8 @@ export const WorldMapPage: React.FC = () => {
 	const ownedKingdoms = useMemo(() => kingdoms.map(k => k.id), [kingdoms]);
 	return (
 		<div>
-			<WorldMap kingdoms={world} ownerKingdoms={ownedKingdoms} />
+			{/*<WorldMap kingdoms={world} ownerKingdoms={ownedKingdoms} />*/}
+			<WorldList kingdoms={world} ownerKingdoms={ownedKingdoms} />
 			{canCreate && (
 				<Link to={routesUtil.kd.create} className={'btn btn-primary mx-auto text-center'}>
 					Create Kingdom

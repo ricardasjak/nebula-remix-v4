@@ -20,6 +20,7 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 	const navigate = useNavigate();
 	const params = useParams();
 	const selected = Number(params?.kdid);
+	const canCreateMore = kingdoms.length < GAME.kingdomsLimit;
 
 	const handSignOut = useCallback(() => {
 		signOut().then(() => navigate(routesUtil.home));
@@ -34,7 +35,7 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 	}, []);
 
 	return (
-		<div className='navbar bg-base-100'>
+		<div className='navbar bg-base-100 sticky top-0'>
 			<div className='navbar-start'>
 				<div className='dropdown'>
 					<label tabIndex={0} className='btn btn-ghost text-primary'>
@@ -104,6 +105,11 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 				<Link className='btn btn-ghost text-primary' to={routesUtil.home}>
 					NEBULA
 				</Link>
+				{canCreateMore && (
+					<Link to={routesUtil.kd.create} className={'btn btn-primary btn-sm btn-outline ml-4'}>
+						Create Kingdom
+					</Link>
+				)}
 			</div>
 			<div className='navbar-center hidden lg:flex'>
 				{isLoggedIn && (
