@@ -42,6 +42,10 @@ export const GAME = {
 		pop: 2,
 		sm: 120,
 	},
+	probes: {
+		pfOutput: 0.75,
+		pfLimit: 80,
+	},
 	power: {
 		plantOutput: 140,
 		plantStorage: 1000,
