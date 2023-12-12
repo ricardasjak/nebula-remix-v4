@@ -47,8 +47,8 @@ export interface MilitaryBase {
 	tr?: number;
 	dr?: number;
 	t?: number;
-	hgl?: number;
-	tf?: number;
+	// hgl?: number;
+	// tf?: number;
 	sci?: number;
 }
 

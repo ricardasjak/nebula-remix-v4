@@ -2,8 +2,8 @@ import { cx } from '~/cx';
 import { allocationUtil } from '~/utils/allocation.util';
 
 interface Props<T> {
-	values: Record<keyof T, number>;
-	nextValues?: Record<keyof T, number>;
+	values: Record<keyof T, number | undefined>;
+	nextValues?: Record<keyof T, number | undefined>;
 	labels: Record<keyof T, string>;
 	maxValue: number;
 	total?: number;
@@ -27,7 +27,7 @@ export function AllocationAbsolute<T>({
 				{allocations.map((aloc, index) => {
 					const val = values[aloc] || 0;
 					const ratio = (100 * val) / maxValue;
-					const diff = nextValues ? nextValues[aloc] - values[aloc] : 0;
+					const diff = nextValues ? (nextValues[aloc] || 0) - (values[aloc] || 0) : 0;
 					return (
 						<li key={index}>
 							<span className={'text-sm'}>
