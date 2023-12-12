@@ -3,8 +3,8 @@ import { cx } from '~/cx';
 import { allocationUtil } from '~/utils/allocation.util';
 
 interface Props<T> {
-	initial: Record<keyof T, number>;
-	labels: Record<keyof T, string>;
+	initial: Record<keyof T, number | undefined>;
+	labels: Partial<Record<keyof T, string>>;
 	total?: number;
 	readOnly?: boolean;
 }

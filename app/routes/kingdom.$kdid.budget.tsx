@@ -14,7 +14,7 @@ const LABELS: Record<keyof Budget, string> = {
 	construction: 'Construction',
 	exploration: 'Exploration',
 	military: 'Military',
-	research: 'Research',
+	// research: 'Research',
 };
 
 export const loader = async (args: LoaderFunctionArgs) => {
@@ -53,7 +53,8 @@ export const action: ActionFunction = async args => {
 		construction: Number(form.get('construction')),
 		exploration: Number(form.get('exploration')),
 		military: Number(form.get('military')),
-		research: Number(form.get('research')),
+		// @ts-ignore
+		research: 0, //Number(form.get('research')),
 	};
 	if (allocationUtil.balance(budget) < 0) {
 		throw new Error(`Incorrect budget allocation ${allocationUtil.balance(budget)}%`);

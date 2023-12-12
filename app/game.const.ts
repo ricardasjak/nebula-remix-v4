@@ -7,9 +7,21 @@ const militaryNetworth: Record<keyof Military, number> = {
 	lt: 7,
 	ld: 8,
 	sci: 8,
-	hgl: 12,
+	// hgl: 12,
 	t: 22,
-	tf: 18,
+	// tf: 18,
+};
+
+const militaryPower: Record<keyof Military, number> = {
+	sold: 0.7,
+	sci: 0.7,
+	// hgl: 0.7,
+	lt: 0.7,
+	// tf: 1.4,
+	t: 1.4,
+	ld: 0.7,
+	tr: 0.7,
+	dr: 0.7,
 };
 
 export const GAME = {
@@ -54,17 +66,6 @@ export const GAME = {
 			land: 0.25,
 			pop: 0.33,
 		},
-		military: {
-			id: 0,
-			sold: 0.7,
-			sci: 0.7,
-			hgl: 0.7,
-			lt: 0.7,
-			tf: 1.4,
-			t: 1.4,
-			ld: 0.7,
-			tr: 0.7,
-			dr: 0.7,
-		} as Record<keyof Military, number>,
+		military: militaryPower,
 	},
 };

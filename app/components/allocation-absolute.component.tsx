@@ -5,7 +5,7 @@ interface Props<T> {
 	values: Record<keyof T, number | undefined>;
 	nextValues?: Record<keyof T, number | undefined>;
 	labels: Record<keyof T, string>;
-	maxValue: number;
+	maxValue?: number;
 	total?: number;
 	readOnly?: boolean;
 }
@@ -26,7 +26,7 @@ export function AllocationAbsolute<T>({
 			<ul className={'list'}>
 				{allocations.map((aloc, index) => {
 					const val = values[aloc] || 0;
-					const ratio = (100 * val) / maxValue;
+					const ratio = maxValue ? (100 * val) / maxValue : undefined;
 					const diff = nextValues ? (nextValues[aloc] || 0) - (values[aloc] || 0) : 0;
 					return (
 						<li key={index}>

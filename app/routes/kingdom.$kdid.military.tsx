@@ -11,13 +11,14 @@ import { routesUtil } from '~/routes.util';
 import { db } from '~/services';
 import { allocationUtil } from '~/utils/allocation.util';
 
-const LABELS: Record<keyof MilitaryPlan, string> = {
+const LABELS: Partial<Record<keyof MilitaryPlan, string>> = {
 	sold: 'Soldiers',
-	dr: 'Dragoons',
-	ld: 'Laser Dragoons',
+	// dr: 'Dragoons',
+	// ld: 'Laser Dragoons',
 	tr: 'Troopers',
 	lt: 'Laser Troopers',
 	t: 'Tanks',
+	sci: 'Scientists',
 };
 
 export const loader = async (args: LoaderFunctionArgs) => {
@@ -85,6 +86,7 @@ export const action: ActionFunction = async args => {
 		lt: Number(form.get('lt')),
 		ld: Number(form.get('ld')),
 		t: Number(form.get('t')),
+		sci: Number(form.get('sci')),
 	};
 	console.log({ plan });
 	if (allocationUtil.balance(plan) < 0) {

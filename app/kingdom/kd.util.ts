@@ -35,10 +35,10 @@ const builtLand = (buildings: BuildingsPlan) => {
 
 const getKingdomDefaults = (id: number) => {
 	const budget: Budget = {
-		military: 20,
-		research: 20,
-		exploration: 27,
-		construction: 33,
+		military: 40,
+		// research: 20,
+		exploration: 25,
+		construction: 35,
 	};
 
 	const buildings: Buildings = {
@@ -62,10 +62,21 @@ const getKingdomDefaults = (id: number) => {
 	const military: Military = {
 		sold: 200,
 		sci: 10,
+		tr: 0,
+		lt: 0,
+		t: 0,
+		ld: undefined,
+		dr: undefined,
 	};
 
 	const militaryPlan: MilitaryPlan = {
-		sold: 100,
+		sold: 20,
+		sci: 30,
+		tr: 0,
+		lt: 0,
+		t: 50,
+		ld: undefined,
+		dr: undefined,
 	};
 
 	const kingdomStatus: KingdomStatus = {

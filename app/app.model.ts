@@ -24,7 +24,7 @@ export interface Budget {
 	exploration: number;
 	construction: number;
 	military: number;
-	research: number;
+	// research: number;
 }
 
 export interface Buildings {
@@ -41,18 +41,18 @@ export interface BuildingsPlan extends Buildings {}
 export interface BuildingsBuilt extends Buildings {}
 
 export interface MilitaryBase {
-	sold?: number;
-	lt?: number;
-	ld?: number;
-	tr?: number;
-	dr?: number;
-	t?: number;
+	sold: number | undefined;
+	lt: number | undefined;
+	ld: number | undefined;
+	tr: number | undefined;
+	dr: number | undefined;
+	t: number | undefined;
 	// hgl?: number;
 	// tf?: number;
-	sci?: number;
+	sci: number | undefined;
 }
 
-export interface MilitaryPlan extends Omit<MilitaryBase, 'sci'> {}
+export interface MilitaryPlan extends MilitaryBase {} //Omit<MilitaryBase, 'sci'> {}
 
 export interface Military extends MilitaryBase {}
 
