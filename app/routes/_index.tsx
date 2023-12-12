@@ -19,7 +19,7 @@ export default function Index() {
 	const [showMap, setShowMap] = useState(false);
 
 	const kingdoms = useMemo(
-		() => (rootData?.kingdoms as PlayerKingdom[]).sort((a, b) => b.land - a.land),
+		() => ([...rootData?.kingdoms] as PlayerKingdom[]).sort((a, b) => b.land - a.land),
 		[rootData?.kingdoms]
 	);
 	const ownedKingdoms = useMemo(() => kingdoms.map(k => k.id), [kingdoms]);
