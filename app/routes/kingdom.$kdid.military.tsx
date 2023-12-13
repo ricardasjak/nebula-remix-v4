@@ -38,8 +38,6 @@ const KingdomMilitaryPage: React.FC = () => {
 	const { plan, military, militaryNext } = useTypedLoaderData<typeof loader>();
 	const isSubmitting = !!useNavigation().formAction;
 
-	console.log({ plan });
-
 	if (!kd) {
 		return null;
 	}
@@ -88,7 +86,6 @@ export const action: ActionFunction = async args => {
 		t: Number(form.get('t')),
 		sci: Number(form.get('sci')),
 	};
-	console.log({ plan });
 	if (allocationUtil.balance(plan) < 0) {
 		throw new Error(`Incorrect military allocation ${allocationUtil.balance(plan)}%`);
 	}

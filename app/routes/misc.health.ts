@@ -16,7 +16,7 @@ export const loader: LoaderFunction = async (args: LoaderFunctionArgs) => {
 			console.error('FATAL error, missing data. Cannot save!');
 			return;
 		}
-		console.log('*** Start save all ***', minutes, ':', seconds);
+		console.info('*** Start save all ***', minutes, ':', seconds);
 		console.time();
 		const promises = [
 			db.kingdomStatus.saveAll(app.kingdomsStatus),
@@ -30,7 +30,7 @@ export const loader: LoaderFunction = async (args: LoaderFunctionArgs) => {
 		Promise.allSettled(promises)
 			.then(() => {
 				console.timeEnd();
-				console.log('*** Start save all SUCCESS ***');
+				console.info('*** Start save all SUCCESS ***');
 			})
 			.catch(ex => {
 				console.error('*** Failed to save all ***', ex);

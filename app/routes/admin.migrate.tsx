@@ -21,7 +21,7 @@ export const action: ActionFunction = async () => {
 	kingdoms.forEach(kd => {
 		const id = kd.id;
 		const { budget, buildings, buildingsPlan, military, militaryPlan, kingdomStatus } =
-			kdUtil.getKingdomDefaults(id);
+			kdUtil.getKingdomDefaults();
 
 		app.budgets.set(id, budget);
 		app.buildings.set(id, buildings);

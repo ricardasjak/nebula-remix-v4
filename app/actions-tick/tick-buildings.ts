@@ -18,7 +18,7 @@ export const tickBuildings = (
 	plan: BuildingsPlan
 ) => {
 	const freeLand = landNext - kdUtil.builtLand(buildings);
-	if (freeLand === 0) {
+	if (freeLand <= 0) {
 		return {
 			constructed: { ...empty },
 			constructionCost: 0,
@@ -28,6 +28,10 @@ export const tickBuildings = (
 	const { cost } = GAME.building;
 	const buildingCost = cost(landNext);
 	const canAffordToBuild = Math.min(freeLand, Math.floor(budget / buildingCost));
+
+	if (!canAffordToBuild) {
+		return empty;
+	}
 
 	const planned: BuildingsPlan = (Object.keys(plan) as Array<keyof BuildingsPlan>).reduce(
 		(result, type) => {

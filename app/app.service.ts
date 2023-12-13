@@ -35,7 +35,7 @@ export const printStatus = () => {
 		`app state - military count: ${app.military.length}`,
 		`app state - militaryPlan count: ${app.militaryPlan.length}`,
 	].join('\n');
-	console.log(summary);
+	console.info(summary);
 	return summary;
 };
 
@@ -58,11 +58,11 @@ export const appState = async (): Promise<AppState> => {
 			const int = setInterval(() => {
 				if (app.status === 'ready') {
 					clearInterval(int);
-					console.log('finally loaded');
+					console.info('finally loaded');
 					printStatus();
 					resolve(app);
 				} else {
-					console.log('loading state...');
+					console.info('loading state...');
 				}
 			}, 1000);
 

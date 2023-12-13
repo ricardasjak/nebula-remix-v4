@@ -60,7 +60,7 @@ export const createKingdomAction: ActionFunction = async args => {
 	player.kingdoms.push(id);
 
 	const { budget, buildings, buildingsPlan, military, militaryPlan, kingdomStatus } =
-		kdUtil.getKingdomDefaults(id);
+		kdUtil.getKingdomDefaults();
 
 	app.budgets.set(id, budget);
 	app.buildings.set(id, buildings);
@@ -77,7 +77,7 @@ export const createKingdomAction: ActionFunction = async args => {
 	await db.military.saveOne(id, military);
 	await db.militaryPlan.saveOne(id, militaryPlan);
 	await db.kingdomStatus.saveOne(id, kingdomStatus);
-	console.log('action: kd successfully created!');
+	console.info('action: kd successfully created!');
 
 	return redirect(routesUtil.kd.home(newKingdom.id));
 };

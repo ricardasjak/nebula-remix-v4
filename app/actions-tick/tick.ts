@@ -1,6 +1,7 @@
 import { tickBuildings } from '~/actions-tick/tick-buildings';
 import { tickExplore } from '~/actions-tick/tick-explore';
 import { tickIncome } from '~/actions-tick/tick-income';
+import { tickMilitary } from '~/actions-tick/tick-military';
 import { tickMoney } from '~/actions-tick/tick-money';
 import { tickNetworth } from '~/actions-tick/tick-networth';
 import { tickPopulation } from '~/actions-tick/tick-population';
@@ -11,7 +12,7 @@ import { type BuildingsPlan, type KingdomFull } from '~/app.model';
 import { mapUtil } from '~/utils';
 
 export const tickKingdom = (kd: KingdomFull) => {
-	let { status, buildings, buildingsPlan, budget } = kd;
+	let { status, buildings, buildingsPlan, budget, military, militaryPlan } = kd;
 
 	status.income = tickIncome(status.pop, buildings.starMines);
 	const { explored, exploredCost } = tickExplore(
@@ -27,6 +28,18 @@ export const tickKingdom = (kd: KingdomFull) => {
 		buildings,
 		buildingsPlan
 	);
+
+	const { nextMilitary, militaryCost } = tickMilitary(
+		Math.floor((status.income * budget.military) / 100),
+		status.pop,
+		military,
+		militaryPlan
+	);
+
+	status.money -= militaryCost;
+	military = nextMilitary;
+
+	console.debug({ constructed, budget });
 
 	(Object.keys(constructed) as Array<keyof BuildingsPlan>).forEach(key => {
 		buildings[key] += constructed[key];

@@ -33,7 +33,7 @@ const builtLand = (buildings: BuildingsPlan) => {
 	);
 };
 
-const getKingdomDefaults = (id: number) => {
+const getKingdomDefaults = () => {
 	const budget: Budget = {
 		military: 40,
 		// research: 20,

@@ -45,13 +45,13 @@ const makeRepository = <T>(key: string) => ({
 	 */
 	saveOne: async (id: number, entity: object) => {
 		console.time(`redis: ${key}: saved id: ${id}`);
-		console.log(`redis: ${key}: saving id: ${id}`);
+		console.info(`redis: ${key}: saving id: ${id}`);
 		await redis.hset(key, { [id]: entity });
 		console.timeEnd(`redis: ${key}: saved id: ${id}`);
 		return 0;
 	},
 	createOne: async (id: number, entity: object) => {
-		console.log(`redis: ${key}: creating entity ${JSON.stringify(entity)}`);
+		console.info(`redis: ${key}: creating entity ${JSON.stringify(entity)}`);
 		const n = await redis.hexists(key, id.toString());
 		if (n > 0) throw `${key}: entity already exists`;
 		return makeRepository(key).saveOne(id, entity);

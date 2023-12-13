@@ -24,6 +24,18 @@ const militaryPower: Record<keyof Military, number> = {
 	dr: 0.7,
 };
 
+const militaryCost: Record<keyof Military, number> = {
+	sold: 150,
+	tr: 350,
+	lt: 400,
+	sci: 1000,
+	t: 1750,
+	ld: 550,
+	dr: 450,
+	// hgl: 0.7,
+	// tf: 1.4,
+};
+
 export const GAME = {
 	kingdomsLimit: 5,
 	explore: {
@@ -67,5 +79,9 @@ export const GAME = {
 			pop: 0.33,
 		},
 		military: militaryPower,
+	},
+	military: {
+		cost: militaryCost,
+		soldiersRate: (pop: number) => Math.floor((pop * 0.15) / 24),
 	},
 };
