@@ -1,6 +1,12 @@
 import { type LoaderFunctionArgs } from '@remix-run/node';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
-import { KingdomSoKComponent, KingdomStatusComponent, PageTitle } from '~/components';
+import {
+	Allocation,
+	BudgetComponent,
+	KingdomSoKComponent,
+	KingdomStatusComponent,
+	PageTitle,
+} from '~/components';
 import { kdUtil } from '~/kingdom';
 import { kdidLoaderFn, kingdomLoaderFn, kingdomNextLoaderFn } from '~/kingdom/kingdom.loader';
 
@@ -28,6 +34,12 @@ const KingdomStatusPage: React.FC = () => {
 					<h2 className='text-xl text-primary font-bold mb-2'>&nbsp;</h2>
 					<KingdomStatusComponent kd={kd} kdNext={kdNext} />
 				</div>
+				<BudgetComponent
+					budget={kd.budget}
+					kdid={kd.kingdom.id}
+					money={kd.status.money}
+					income={kd.status.income}
+				/>
 			</div>
 		</>
 	);
