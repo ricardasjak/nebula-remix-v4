@@ -43,16 +43,20 @@ export const appState = async (): Promise<AppState> => {
 	const app = global.__appState__;
 	if (app.status === 'empty') {
 		app.status = 'loading';
-		app.users = await db.user.loadAll(app.users);
-		app.players = await db.player.loadAll(app.players);
-		app.kingdoms = await db.kingdom.loadAll(app.kingdoms);
-		app.kingdomsStatus = await db.kingdomStatus.loadAll(app.kingdomsStatus);
-		app.budgets = await db.budget.loadAll(app.budgets);
-		app.buildings = await db.buildings.loadAll(app.buildings);
-		app.buildingsPlan = await db.buildingsPlan.loadAll(app.buildingsPlan);
-		app.military = await db.military.loadAll(app.military);
-		app.militaryPlan = await db.militaryPlan.loadAll(app.militaryPlan);
-		app.status = 'ready';
+		try {
+			app.users = await db.user.loadAll(app.users);
+			app.players = await db.player.loadAll(app.players);
+			app.kingdoms = await db.kingdom.loadAll(app.kingdoms);
+			app.kingdomsStatus = await db.kingdomStatus.loadAll(app.kingdomsStatus);
+			app.budgets = await db.budget.loadAll(app.budgets);
+			app.buildings = await db.buildings.loadAll(app.buildings);
+			app.buildingsPlan = await db.buildingsPlan.loadAll(app.buildingsPlan);
+			app.military = await db.military.loadAll(app.military);
+			app.militaryPlan = await db.militaryPlan.loadAll(app.militaryPlan);
+			app.status = 'ready';
+		} catch (ex) {
+			console.error(ex);
+		}
 	} else if (app.status === 'loading') {
 		return new Promise(resolve => {
 			const int = setInterval(() => {
