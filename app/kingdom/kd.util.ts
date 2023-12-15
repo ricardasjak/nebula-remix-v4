@@ -9,7 +9,9 @@ import {
 	type MilitaryPlan,
 } from '~/app.model';
 import { GAME } from '~/game.const';
+import { type Kingdom } from '~/kingdom/kingdom.model';
 import { type WorldKingdom } from '~/loaders';
+import kingdom from '~/routes/kingdom';
 
 const getNetworth = (kd: KingdomStatus, buildings: Buildings, military: Military) => {
 	const nwItems = [
@@ -153,7 +155,10 @@ const getWorldKingdom = (kdid: number, app: AppState): WorldKingdom => {
 	};
 };
 
+const getKingdomNameXY = ({ name, x, y }: Kingdom) => `${name} (x:${x}, y:${y})`;
+
 export const kdUtil = {
+	getKingdomNameXY,
 	getNetworth,
 	getKingdomDefaults,
 	getFullKingdom,

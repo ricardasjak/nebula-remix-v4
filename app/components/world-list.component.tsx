@@ -1,5 +1,6 @@
 import { Link } from '@remix-run/react';
 import { cx } from '~/cx';
+import { PT_LABEL, RACE_LABEL } from '~/kingdom';
 import { type WorldKingdom } from '~/loaders/world.loader';
 import { routesUtil } from '~/routes.util';
 
@@ -44,8 +45,8 @@ export const WorldList: React.FC<Props> = ({ kingdoms, ownerKingdoms }) => {
 							<span className='col-span-2'>{`${'#' + (rank + 1)} ${kd.name} (${kd.x}:${
 								kd.y
 							})`}</span>
-							<span className={'hidden sm:block'}>{kd.planet}</span>
-							<span className={'hidden sm:block'}>{kd.race}</span>
+							<span className={'hidden sm:block'}>{PT_LABEL[kd.planet]}</span>
+							<span className={'hidden sm:block'}>{RACE_LABEL[kd.race]}</span>
 							<span>{kd.land.toLocaleString()}</span>
 							<span>{kd.nw.toLocaleString()}</span>
 							<span></span>

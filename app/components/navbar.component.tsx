@@ -1,7 +1,6 @@
 import { useAuth } from '@clerk/remix';
 import { Link, useNavigate, useParams } from '@remix-run/react';
 import { useCallback } from 'react';
-import { KingdomLine } from '~/components/kingdom-line.component';
 import { GAME } from '~/game.const';
 import { routesUtil } from '~/routes.util';
 
@@ -35,7 +34,7 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 	}, []);
 
 	return (
-		<div className='navbar bg-base-100 sticky top-0'>
+		<div className='navbar bg-base-100 sticky top-0 px-0'>
 			<div className='navbar-start'>
 				<div className='dropdown'>
 					<label tabIndex={0} className='btn btn-ghost text-primary'>
@@ -105,11 +104,6 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 				<Link className='btn btn-ghost text-primary' to={routesUtil.home}>
 					NEBULA
 				</Link>
-				{canCreateMore && (
-					<Link to={routesUtil.kd.create} className={'btn btn-primary btn-sm btn-outline ml-4'}>
-						Create Kingdom
-					</Link>
-				)}
 			</div>
 			<div className='navbar-center hidden lg:flex'>
 				{isLoggedIn && (
@@ -135,7 +129,12 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 				)}
 			</div>
 			<div className='navbar-end mr-4'>
-				<KingdomLine />
+				{/*<KingdomLine />*/}
+				{canCreateMore && (
+					<Link to={routesUtil.kd.create} className={'btn btn-primary btn-sm btn-outline ml-4'}>
+						Create Kingdom
+					</Link>
+				)}
 				{!isLoggedIn && (
 					<Link to={routesUtil.auth.signin} className='btn btn-ghost text-md text-primary'>
 						Login
