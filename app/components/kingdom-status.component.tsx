@@ -1,51 +1,69 @@
-import { type KingdomStatus, type Military } from '~/app.model';
-import { kdUtil, type Kingdom, PT_LABEL, RACE_LABEL } from '~/kingdom';
-import { formatNumber } from '~/utils';
+import { type KingdomFull } from '~/app.model';
+import { kdUtil, PT_LABEL, RACE_LABEL } from '~/kingdom';
+import { formatDiff, formatNumber } from '~/utils';
 
 export interface KingdomStatusProps {
-	kingdom: Kingdom;
-	status: KingdomStatus;
-	military: Military;
+	kd: KingdomFull;
+	kdNext: KingdomFull;
 }
 
-const StatLine: React.FC<{ label: string; value?: number | string }> = ({ label, value }) => {
+const StatLine: React.FC<{ label: string; value?: number | string; nextValue?: number }> = ({
+	label,
+	value,
+	nextValue,
+}) => {
+	const isNumber = typeof value === 'number';
+	const diff = nextValue && isNumber ? nextValue - value : undefined;
 	return (
-		<div className='flex flex-row'>
-			<label>{label}:</label>&nbsp;
-			<span className='font-bold'>
-				{typeof value === 'number' ? formatNumber(value || 0) : value}
-			</span>
-		</div>
+		<span>
+			<span>{label}:</span>&nbsp;
+			<span className='font-bold'>{isNumber ? formatNumber(value || 0) : value}</span>
+			&nbsp;
+			{diff ? <span className='text-secondary text-xs'>{formatDiff(diff)}</span> : null}
+		</span>
 	);
 };
 
-export const KingdomStatusComponent: React.FC<KingdomStatusProps> = ({
-	kingdom,
-	status,
-	military,
-}) => {
+export const KingdomSoKComponent: React.FC<KingdomStatusProps> = ({ kd, kdNext }) => {
+	const { kingdom, status, military } = kd;
+
 	return (
 		<div className='grid grid-cols-1'>
-			<h2 className='text-xl text-primary font-bold mb-2'>{kdUtil.getKingdomNameXY(kingdom)}</h2>
 			<StatLine label='Ruler' value={kingdom.ruler} />
 			<StatLine label='Planet' value={PT_LABEL[kingdom.planet]} />
 			<StatLine label='Race' value={RACE_LABEL[kingdom.race]} />
 			<br />
-			<StatLine label='Land' value={status.land} />
-			<StatLine label='Networth' value={status.nw} />
-			<StatLine label='Population' value={status.pop} />
-			<StatLine label='Probes' value={status.probes} />
+			<StatLine label='Networth' value={status.nw} nextValue={kdNext.status.nw} />
+			<StatLine label='Land' value={status.land} nextValue={kdNext.status.land} />
 			<br />
+			<StatLine label='Money' value={status.money} nextValue={kdNext.status.money} />
+			<StatLine label='Power' value={status.power} nextValue={kdNext.status.power} />
+			<StatLine label='Population' value={status.pop} nextValue={kdNext.status.pop} />
+			<StatLine label='Probes' value={status.probes} nextValue={kdNext.status.probes} />
+			<br />
+			<StatLine label='Soldiers' value={military.sold} nextValue={kdNext.military.sold} />
+			<StatLine label='Troopers' value={military.tr} nextValue={kdNext.military.tr} />
+			<StatLine label='Laser troopers' value={military.lt} nextValue={kdNext.military.lt} />
+			<StatLine label='Tanks' value={military.t} nextValue={kdNext.military.t} />
+			<StatLine label='Scientists' value={military.sci} nextValue={kdNext.military.sci} />
+		</div>
+	);
+};
+
+export const KingdomStatusComponent: React.FC<KingdomStatusProps> = ({ kd, kdNext }) => {
+	const { status, buildings, military } = kd;
+	const bcapacity = kdUtil.getBarracksCapacity(military, buildings.barracks).toPrecision(3) + '%';
+	const space = kdUtil.getMilitarySpace(military);
+	const bspace = kdUtil.getBarracksSpace(buildings.barracks);
+
+	return (
+		<div className='grid grid-cols-1'>
 			<StatLine label='Income' value={status.income} />
-			<StatLine label='Money' value={status.money} />
-			<StatLine label='Power' value={status.power} />
 			<StatLine label='Power Change' value={status.powerChange} />
 			<br />
-			<StatLine label='Soldiers' value={military.sold} />
-			<StatLine label='Troopers' value={military.tr} />
-			<StatLine label='Laser troopers' value={military.lt} />
-			<StatLine label='Tanks' value={military.t} />
-			<StatLine label='Scientists' value={military.sci} />
+			<StatLine label='Barracks capacity' value={bcapacity} />
+			<StatLine label='Military space' value={space} />
+			<StatLine label='Barracks space' value={bspace} />
 		</div>
 	);
 };

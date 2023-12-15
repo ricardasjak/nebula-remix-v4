@@ -1,6 +1,7 @@
 import { type LoaderFunctionArgs } from '@remix-run/node';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
-import { KingdomStatusComponent, PageTitle } from '~/components';
+import { KingdomSoKComponent, KingdomStatusComponent, PageTitle } from '~/components';
+import { kdUtil } from '~/kingdom';
 import { kdidLoaderFn, kingdomLoaderFn, kingdomNextLoaderFn } from '~/kingdom/kingdom.loader';
 
 export const loader = async (args: LoaderFunctionArgs) => {
@@ -11,15 +12,21 @@ export const loader = async (args: LoaderFunctionArgs) => {
 };
 
 const KingdomStatusPage: React.FC = () => {
-	const { kd } = useTypedLoaderData<typeof loader>();
+	const { kd, kdNext } = useTypedLoaderData<typeof loader>();
 	return (
 		<>
 			<PageTitle title='Dear commander, review kingdom status' />
 
-			<div className={'grid grid-cols-2'}>
+			<div className={'grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'}>
 				<div>
-					<h2 className='mb-2 font-bold'></h2>
-					<KingdomStatusComponent kingdom={kd.kingdom} status={kd.status} military={kd.military} />
+					<h2 className='text-xl text-primary font-bold mb-2'>
+						{kdUtil.getKingdomNameXY(kd.kingdom)}
+					</h2>
+					<KingdomSoKComponent kd={kd} kdNext={kdNext} />
+				</div>
+				<div>
+					<h2 className='text-xl text-primary font-bold mb-2'>&nbsp;</h2>
+					<KingdomStatusComponent kd={kd} kdNext={kdNext} />
 				</div>
 			</div>
 		</>

@@ -130,13 +130,6 @@ const getPowerConsumption = (kd: KingdomFull): number => {
 	return Math.ceil(military + pop + land + building);
 };
 
-// const getPublicKingdomProfile = (kdid: number, app: AppState) => {
-// 	const {kingdom: {name, }, status} = getFullKingdom(kdid, app);
-// 	return {
-//
-// 	}
-// }
-
 const getWorldKingdom = (kdid: number, app: AppState): WorldKingdom => {
 	const {
 		kingdom: { name, x, y, planet, race },
@@ -157,10 +150,36 @@ const getWorldKingdom = (kdid: number, app: AppState): WorldKingdom => {
 
 const getKingdomNameXY = ({ name, x, y }: Kingdom) => `${name} (x:${x}, y:${y})`;
 
+const getMilitarySpace = (military: Military) => {
+	const space = (Object.keys(military) as Array<keyof Military>).reduce((acc, unit) => {
+		acc += GAME.military.space[unit] * (military[unit] || 0);
+		return acc;
+	}, 0);
+	return Math.ceil(space);
+};
+
+const getBarracksSpace = (barracks: number) => barracks * GAME.military.barrackSpace;
+
+const getUnsupportedMilitarySpace = (military: Military, barracks: number) => {
+	const space = getMilitarySpace(military);
+	const bspace = getBarracksSpace(barracks);
+	return Math.max(space - bspace, 0);
+};
+
+const getBarracksCapacity = (military: Military, barracks: number) => {
+	const space = getMilitarySpace(military);
+	const bspace = getBarracksSpace(barracks);
+	return (100 * space) / bspace;
+};
+
 export const kdUtil = {
 	getKingdomNameXY,
 	getNetworth,
 	getKingdomDefaults,
+	getMilitarySpace,
+	getUnsupportedMilitarySpace,
+	getBarracksSpace,
+	getBarracksCapacity,
 	getFullKingdom,
 	getPowerConsumption,
 	getWorldKingdom,

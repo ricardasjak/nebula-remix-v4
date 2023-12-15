@@ -36,6 +36,18 @@ const militaryCost: Record<keyof Military, number> = {
 	// tf: 1.4,
 };
 
+const militarySpace: Record<keyof Military, number> = {
+	sold: 1,
+	tr: 1,
+	lt: 1,
+	sci: 1,
+	t: 2,
+	ld: 1,
+	dr: 1,
+	// hgl: 0.7,
+	// tf: 1.4,
+};
+
 export const GAME = {
 	kingdomsLimit: 5,
 	explore: {
@@ -49,6 +61,7 @@ export const GAME = {
 	},
 	pop: {
 		residenceCapacity: 50,
+		residenceForMilitary: 50,
 		growthRatio: 0.025,
 		lossRatio: 0.05,
 		lossMinimum: 100,
@@ -82,6 +95,8 @@ export const GAME = {
 	},
 	military: {
 		cost: militaryCost,
+		space: militarySpace,
 		soldiersRate: (pop: number) => Math.floor((pop * 0.15) / 24),
+		barrackSpace: 75,
 	},
 };

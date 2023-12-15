@@ -9,6 +9,7 @@ import { tickPower } from '~/actions-tick/tick-power';
 import { tickPowerIncome } from '~/actions-tick/tick-power-income';
 import { tickProbes } from '~/actions-tick/tick-probes';
 import { type BuildingsPlan, type KingdomFull } from '~/app.model';
+import { kdUtil } from '~/kingdom';
 import { mapUtil } from '~/utils';
 
 export const tickKingdom = (kd: KingdomFull) => {
@@ -48,7 +49,12 @@ export const tickKingdom = (kd: KingdomFull) => {
 	status.powerChange = tickPowerIncome(kd);
 	status.power = tickPower(status.power, status.powerChange, kd.buildings.powerPlants);
 
-	status.pop = tickPopulation(status.pop, buildings.residences, status.land);
+	status.pop = tickPopulation(
+		status.pop,
+		buildings.residences,
+		status.land,
+		kdUtil.getUnsupportedMilitarySpace(military, buildings.barracks)
+	);
 	status.probes = tickProbes(status.probes, buildings.probeFactories);
 	status.money = tickMoney(status.money, status.income);
 
