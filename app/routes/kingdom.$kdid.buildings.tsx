@@ -72,15 +72,14 @@ const KingdomBuildingPage: React.FC = () => {
 						readOnly
 					/>
 					<h3>
-						Free land: {formatNumber(freeLand)}{' '}
-						{freeLandNext - freeLand ? (
-							<span className={'text-primary'}>({formatDiff(freeLandNext - freeLand)})</span>
-						) : null}
+						Free land: {formatNumber(freeLand)} {/*{freeLandNext - freeLand ? (*/}
+						{/*	<span className={'text-primary'}>({formatDiff(freeLandNext - freeLand)})</span>*/}
+						{/*) : null}*/}
 					</h3>
 					<h3>
 						Total land: {formatNumber(land)}{' '}
 						{landNext - land ? (
-							<span className={'text-primary'}>({formatDiff(landNext - land)})</span>
+							<span className={'text-secondary'}>{formatDiff(landNext - land)}</span>
 						) : null}
 					</h3>
 				</div>

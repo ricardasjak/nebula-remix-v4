@@ -39,10 +39,7 @@ export const tickMilitary = (
 		},
 		military
 	);
-
 	nextMilitary.sold! -= soldiers - soldiersLeft;
-
-	console.log({ nextMilitary, militaryCost: money - moneyLeft });
 
 	return {
 		nextMilitary,

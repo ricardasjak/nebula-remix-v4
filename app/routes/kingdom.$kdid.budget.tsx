@@ -19,13 +19,13 @@ const LABELS: Record<keyof Budget, string> = {
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const kdid = await kdidLoaderFn(args);
-	const { budget } = await kingdomLoaderFn(kdid);
-	return typedjson({ budget });
+	const { budget, status } = await kingdomLoaderFn(kdid);
+	return typedjson({ budget, status });
 };
 
 const KingdomBudgetPage: React.FC = () => {
 	const kd = useKingdom();
-	const { budget } = useTypedLoaderData<typeof loader>();
+	const { budget, status } = useTypedLoaderData<typeof loader>();
 	const isSubmitting = !!useNavigation().formAction;
 
 	if (!kd) {
@@ -37,7 +37,7 @@ const KingdomBudgetPage: React.FC = () => {
 			<PageTitle title='Adjust kingdom budget' />
 			<Form method='POST'>
 				<input type={'hidden'} name={'kdid'} value={kd.id}></input>
-				<Allocation initial={budget} labels={LABELS} total={50_000} />
+				<Allocation initial={budget} labels={LABELS} total={status.income + status.money} />
 				<button className={'btn btn-primary mt-8'} disabled={isSubmitting}>
 					Confirm budget
 				</button>

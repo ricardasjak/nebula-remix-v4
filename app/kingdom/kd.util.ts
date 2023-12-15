@@ -11,7 +11,6 @@ import {
 import { GAME } from '~/game.const';
 import { type Kingdom } from '~/kingdom/kingdom.model';
 import { type WorldKingdom } from '~/loaders';
-import kingdom from '~/routes/kingdom';
 
 const getNetworth = (kd: KingdomStatus, buildings: Buildings, military: Military) => {
 	const nwItems = [

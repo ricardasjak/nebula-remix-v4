@@ -16,35 +16,30 @@ export const tickKingdom = (kd: KingdomFull) => {
 	let { status, buildings, buildingsPlan, budget, military, militaryPlan } = kd;
 
 	status.income = tickIncome(status.pop, buildings.starMines);
-	const { explored, exploredCost } = tickExplore(
-		status.land,
-		(status.income * budget.exploration) / 100
-	);
+	status.money = tickMoney(status.money, status.income);
+
+	let money = status.money;
+
+	const { explored, exploredCost } = tickExplore(status.land, (money * budget.exploration) / 100);
 	status.land += explored;
-	status.money -= exploredCost;
 
 	const { constructed, constructionCost } = tickBuildings(
 		status.land,
-		Math.floor((status.income * budget.construction) / 100),
+		Math.floor((money * budget.construction) / 100),
 		buildings,
 		buildingsPlan
 	);
+	(Object.keys(constructed) as Array<keyof BuildingsPlan>).forEach(key => {
+		buildings[key] += constructed[key];
+	});
 
 	const { nextMilitary, militaryCost } = tickMilitary(
-		Math.floor((status.income * budget.military) / 100),
+		Math.floor((money * budget.military) / 100),
 		status.pop,
 		military,
 		militaryPlan
 	);
-
-	status.money -= militaryCost;
 	military = nextMilitary;
-
-	console.debug({ constructed, budget });
-
-	(Object.keys(constructed) as Array<keyof BuildingsPlan>).forEach(key => {
-		buildings[key] += constructed[key];
-	});
 
 	status.powerChange = tickPowerIncome(kd);
 	status.power = tickPower(status.power, status.powerChange, kd.buildings.powerPlants);
@@ -56,9 +51,12 @@ export const tickKingdom = (kd: KingdomFull) => {
 		kdUtil.getUnsupportedMilitarySpace(military, buildings.barracks)
 	);
 	status.probes = tickProbes(status.probes, buildings.probeFactories);
-	status.money = tickMoney(status.money, status.income);
 
-	status.money -= constructionCost;
+	money -= exploredCost;
+	money -= constructionCost;
+	money -= militaryCost;
+	status.money = money;
+
 	status.nw = tickNetworth(kd);
 	return kd;
 };
