@@ -3,6 +3,7 @@ import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import {
 	Allocation,
 	BudgetComponent,
+	BuildingPlanComponent,
 	KingdomSoKComponent,
 	KingdomStatusComponent,
 	PageTitle,
@@ -23,23 +24,23 @@ const KingdomStatusPage: React.FC = () => {
 		<>
 			<PageTitle title='Dear commander, review kingdom status' />
 
-			<div className={'grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'}>
+			<div className={'grid gap-4 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'}>
 				<div>
 					<h2 className='text-xl text-primary font-bold mb-2'>
 						{kdUtil.getKingdomNameXY(kd.kingdom)}
 					</h2>
+					<KingdomStatusComponent kd={kd} kdNext={kdNext} />
+					<br />
 					<KingdomSoKComponent kd={kd} kdNext={kdNext} />
 				</div>
-				<div>
-					<h2 className='text-xl text-primary font-bold mb-2'>&nbsp;</h2>
-					<KingdomStatusComponent kd={kd} kdNext={kdNext} />
-				</div>
+
 				<BudgetComponent
 					budget={kd.budget}
 					kdid={kd.kingdom.id}
 					money={kd.status.money}
 					income={kd.status.income}
 				/>
+				<BuildingPlanComponent plan={kd.buildingsPlan} kdid={kd.kingdom.id} />
 			</div>
 		</>
 	);

@@ -53,17 +53,16 @@ export const KingdomSoKComponent: React.FC<KingdomStatusProps> = ({ kd, kdNext }
 export const KingdomStatusComponent: React.FC<KingdomStatusProps> = ({ kd, kdNext }) => {
 	const { status, buildings, military } = kd;
 	const bcapacity = kdUtil.getBarracksCapacity(military, buildings.barracks).toPrecision(3) + '%';
-	const space = kdUtil.getMilitarySpace(military);
-	const bspace = kdUtil.getBarracksSpace(buildings.barracks);
+	// const space = kdUtil.getMilitarySpace(military);
+	// const bspace = kdUtil.getBarracksSpace(buildings.barracks);
 
 	return (
 		<div className='grid grid-cols-1'>
 			<StatLine label='Income' value={status.income} />
 			<StatLine label='Power Change' value={status.powerChange} />
-			<br />
 			<StatLine label='Barracks capacity' value={bcapacity} />
-			<StatLine label='Military space' value={space} />
-			<StatLine label='Barracks space' value={bspace} />
+			{/*<StatLine label='Military space' value={space} />*/}
+			{/*<StatLine label='Barracks space' value={bspace} />*/}
 		</div>
 	);
 };

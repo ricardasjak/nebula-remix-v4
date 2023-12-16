@@ -1,6 +1,7 @@
 export * from './allocation.component';
 export * from './allocation-absolute.component';
 export * from './budget.component';
+export * from './buildings-plan.component';
 export * from './navbar.component';
 export * from './world.component';
 export * from './world-list.component';

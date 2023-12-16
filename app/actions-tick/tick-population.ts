@@ -11,7 +11,6 @@ export const tickPopulation = (
 	const maxPop = (residences - militaryResidences) * residenceCapacity;
 
 	let result = currentPopulation;
-	console.log({ maxPop, currentPopulation });
 	if (maxPop >= currentPopulation) {
 		const maxGrowth = currentPopulation * growthRatio;
 		result = Math.min(currentPopulation + maxGrowth, maxPop);

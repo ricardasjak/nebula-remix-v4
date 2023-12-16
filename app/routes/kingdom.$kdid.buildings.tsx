@@ -1,14 +1,12 @@
-import { type ActionFunction, type LoaderFunctionArgs, redirect } from '@remix-run/node';
-import { Form, useNavigation } from '@remix-run/react';
+import { type ActionFunction, type LoaderFunctionArgs } from '@remix-run/node';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { type BuildingsPlan } from '~/app.model';
 import { appState } from '~/app.service';
-import { Allocation, AllocationAbsolute, PageTitle } from '~/components';
+import { AllocationAbsolute, BuildingPlanComponent, PageTitle } from '~/components';
 import { useKingdom } from '~/hooks/use-kingdom.hook';
 import { kdUtil } from '~/kingdom/kd.util';
 import { kdidLoaderFn, kingdomLoaderFn, kingdomNextLoaderFn } from '~/kingdom/kingdom.loader';
 import { authRequiredLoader, validatePlayerKingdom } from '~/loaders';
-import { routesUtil } from '~/routes.util';
 import { db } from '~/services';
 import { formatDiff, formatNumber } from '~/utils';
 import { allocationUtil } from '~/utils/allocation.util';
@@ -36,12 +34,34 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	});
 };
 
+export const action: ActionFunction = async args => {
+	const form = await args.request.formData();
+	const session = await authRequiredLoader(args);
+	const kdid = Number(form.get('kdid'));
+	await validatePlayerKingdom(session.userId, kdid);
+	const plan: BuildingsPlan = {
+		residences: Number(form.get('residences')),
+		barracks: Number(form.get('barracks')),
+		powerPlants: Number(form.get('powerPlants')),
+		starMines: Number(form.get('starMines')),
+		trainingCamps: Number(form.get('trainingCamps')),
+		probeFactories: Number(form.get('probeFactories')),
+	};
+	if (allocationUtil.balance(plan) < 0) {
+		throw new Error(`Incorrect buildings allocation ${allocationUtil.balance(plan)}%`);
+	}
+
+	const app = await appState();
+	app.buildingsPlan.set(kdid, plan);
+	await db.buildingsPlan.saveOne(kdid, plan);
+	return typedjson({ success: true });
+};
+
 const KingdomBuildingPage: React.FC = () => {
 	const kd = useKingdom();
 	const { plan, buildings, land, landNext, buildingsNext } = useTypedLoaderData<typeof loader>();
 	const freeLand = land - kdUtil.builtLand(buildings);
-	const freeLandNext = landNext - kdUtil.builtLand(buildingsNext);
-	const isSubmitting = !!useNavigation().formAction;
+	// const freeLandNext = landNext - kdUtil.builtLand(buildingsNext);
 
 	if (!kd) {
 		return null;
@@ -54,13 +74,7 @@ const KingdomBuildingPage: React.FC = () => {
 			<div className={'flex flex-col md:flex-row gap-4'}>
 				<div className={'flex-grow flex-1'}>
 					<h3 className={'text-md my-2'}>Construction plan</h3>
-					<Form method='POST'>
-						<input type={'hidden'} name={'kdid'} value={kd.id}></input>
-						<Allocation initial={plan} labels={LABELS} />
-						<button className={'btn btn-primary mt-8'} disabled={isSubmitting}>
-							Confirm buildings plan
-						</button>
-					</Form>
+					<BuildingPlanComponent plan={plan} kdid={kd.id} />
 				</div>
 				<div className={'flex-grow flex-1'}>
 					<h3 className={'text-md my-2'}>Buildings</h3>
@@ -86,29 +100,6 @@ const KingdomBuildingPage: React.FC = () => {
 			</div>
 		</>
 	);
-};
-
-export const action: ActionFunction = async args => {
-	const form = await args.request.formData();
-	const session = await authRequiredLoader(args);
-	const kdid = Number(form.get('kdid'));
-	await validatePlayerKingdom(session.userId, kdid);
-	const plan: BuildingsPlan = {
-		residences: Number(form.get('residences')),
-		barracks: Number(form.get('barracks')),
-		powerPlants: Number(form.get('powerPlants')),
-		starMines: Number(form.get('starMines')),
-		trainingCamps: Number(form.get('trainingCamps')),
-		probeFactories: Number(form.get('probeFactories')),
-	};
-	if (allocationUtil.balance(plan) < 0) {
-		throw new Error(`Incorrect buildings allocation ${allocationUtil.balance(plan)}%`);
-	}
-
-	const app = await appState();
-	app.buildingsPlan.set(kdid, plan);
-	await db.buildingsPlan.saveOne(kdid, plan);
-	return redirect(routesUtil.kd.buildings(kdid));
 };
 
 export default KingdomBuildingPage;
