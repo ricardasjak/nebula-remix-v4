@@ -15,6 +15,7 @@ import { mapUtil } from '~/utils';
 export const tickKingdom = (kd: KingdomFull) => {
 	let { status, buildings, buildingsPlan, budget, military, militaryPlan } = kd;
 
+	status.tick = (status?.tick || 1) + 1;
 	status.income = tickIncome(status.pop, buildings.starMines);
 	status.money = tickMoney(status.money, status.income);
 

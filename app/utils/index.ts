@@ -1,3 +1,4 @@
+export * from './game.util';
 export * from './map.util';
 export * from './now.util';
 

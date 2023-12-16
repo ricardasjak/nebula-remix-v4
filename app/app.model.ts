@@ -71,6 +71,7 @@ export interface KingdomStatus {
 	power: number;
 	powerChange: number;
 	probes: number;
+	tick?: number;
 }
 
 export type KingdomFull = {

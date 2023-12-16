@@ -4,9 +4,11 @@ import { routesUtil } from '~/routes.util';
 
 interface Props {
 	kdid: number;
+	tick: number;
+	tickLimit: number;
 }
 
-export const KingdomNavbar: React.FC<Props> = ({ kdid }) => {
+export const KingdomNavbar: React.FC<Props> = ({ kdid, tick, tickLimit }) => {
 	return (
 		<div className={'border-b-2 border-primary mb-4'}>
 			<ul className={'list flex xs:flex-column sm:flex-row gap-4 mb-2'}>
@@ -23,7 +25,7 @@ export const KingdomNavbar: React.FC<Props> = ({ kdid }) => {
 					<Link to={routesUtil.kd.military(kdid)}>Military</Link>
 				</li>
 				<li className={'flex-grow'}>
-					<TickButton kdid={kdid} />
+					<TickButton kdid={kdid} tick={tick} tickLimit={tickLimit} />
 				</li>
 			</ul>
 		</div>
