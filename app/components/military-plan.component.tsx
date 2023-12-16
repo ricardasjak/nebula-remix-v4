@@ -19,7 +19,7 @@ interface Props {
 }
 
 export const MilitaryPlanComponent: React.FC<Props> = ({ kdid, plan }) => {
-	const fetcher = useFetcher({ key: 'set-budget' });
+	const fetcher = useFetcher({ key: 'set-military-plan' });
 	return (
 		<fetcher.Form method='POST' action={routesUtil.kd.military(kdid)}>
 			<input type={'hidden'} name={'kdid'} value={kdid}></input>

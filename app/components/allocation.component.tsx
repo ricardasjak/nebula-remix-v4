@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useNavigation } from '@remix-run/react';
+import { useEffect, useState } from 'react';
 import { cx } from '~/cx';
 import { allocationUtil } from '~/utils/allocation.util';
 
@@ -13,6 +14,10 @@ export function Allocation<T>({ initial, labels, total = 0, readOnly }: Props<T>
 	const [values, setValues] = useState(initial);
 	const allocations = values ? (Object.keys(labels) as Array<keyof T>) : [];
 	const balance = 100 - allocationUtil.balance(values);
+
+	useEffect(() => {
+		setValues(initial);
+	}, [initial]);
 
 	const handleChange = (key: keyof T) => (e: React.FormEvent<HTMLInputElement>) => {
 		const value = Number(e.currentTarget.value);
