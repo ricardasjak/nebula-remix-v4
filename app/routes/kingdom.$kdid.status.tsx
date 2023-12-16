@@ -6,6 +6,7 @@ import {
 	BuildingPlanComponent,
 	KingdomSoKComponent,
 	KingdomStatusComponent,
+	MilitaryPlanComponent,
 	PageTitle,
 } from '~/components';
 import { kdUtil } from '~/kingdom';
@@ -41,6 +42,7 @@ const KingdomStatusPage: React.FC = () => {
 					income={kd.status.income}
 				/>
 				<BuildingPlanComponent plan={kd.buildingsPlan} kdid={kd.kingdom.id} />
+				<MilitaryPlanComponent plan={kd.militaryPlan} kdid={kd.kingdom.id} />
 			</div>
 		</>
 	);

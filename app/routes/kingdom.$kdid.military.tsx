@@ -1,13 +1,12 @@
-import { type ActionFunction, type LoaderFunctionArgs, redirect } from '@remix-run/node';
+import { type ActionFunction, type LoaderFunctionArgs } from '@remix-run/node';
 import { Form, useNavigation } from '@remix-run/react';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { type MilitaryPlan } from '~/app.model';
 import { appState } from '~/app.service';
-import { Allocation, AllocationAbsolute, PageTitle } from '~/components';
+import { Allocation, AllocationAbsolute, MilitaryPlanComponent, PageTitle } from '~/components';
 import { useKingdom } from '~/hooks/use-kingdom.hook';
 import { kdidLoaderFn, kingdomLoaderFn, kingdomNextLoaderFn } from '~/kingdom/kingdom.loader';
 import { authRequiredLoader, validatePlayerKingdom } from '~/loaders';
-import { routesUtil } from '~/routes.util';
 import { db } from '~/services';
 import { allocationUtil } from '~/utils/allocation.util';
 
@@ -33,45 +32,6 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	});
 };
 
-const KingdomMilitaryPage: React.FC = () => {
-	const kd = useKingdom();
-	const { plan, military, militaryNext } = useTypedLoaderData<typeof loader>();
-	const isSubmitting = !!useNavigation().formAction;
-
-	if (!kd) {
-		return null;
-	}
-
-	return (
-		<>
-			<PageTitle title='Military overview' />
-
-			<div className={'flex flex-col md:flex-row gap-4'}>
-				<div className={'flex-grow flex-1'}>
-					<h3 className={'text-md my-2'}>Military budget allocation</h3>
-					<Form method='POST'>
-						<input type={'hidden'} name={'kdid'} value={kd.id}></input>
-						<Allocation initial={plan} labels={LABELS} />
-						<button className={'btn btn-primary mt-8'} disabled={isSubmitting}>
-							Confirm military plan
-						</button>
-					</Form>
-				</div>
-				<div className={'flex-grow flex-1'}>
-					<h3 className={'text-md my-2'}>Military units you have</h3>
-					<AllocationAbsolute
-						values={military}
-						nextValues={militaryNext}
-						labels={LABELS}
-						// maxValue={land}
-						readOnly
-					/>
-				</div>
-			</div>
-		</>
-	);
-};
-
 export const action: ActionFunction = async args => {
 	const form = await args.request.formData();
 	const session = await authRequiredLoader(args);
@@ -93,7 +53,39 @@ export const action: ActionFunction = async args => {
 	const app = await appState();
 	app.militaryPlan.set(kdid, plan);
 	await db.militaryPlan.saveOne(kdid, plan);
-	return redirect(routesUtil.kd.military(kdid));
+	return typedjson({ success: true });
+};
+
+const KingdomMilitaryPage: React.FC = () => {
+	const kd = useKingdom();
+	const { plan, military, militaryNext } = useTypedLoaderData<typeof loader>();
+
+	if (!kd) {
+		return null;
+	}
+
+	return (
+		<>
+			<PageTitle title='Military overview' />
+
+			<div className={'flex flex-col md:flex-row gap-4'}>
+				<div className={'flex-grow flex-1'}>
+					<h3 className={'text-md my-2'}>Military budget allocation</h3>
+					<MilitaryPlanComponent plan={plan} kdid={kd.id} />
+				</div>
+				<div className={'flex-grow flex-1'}>
+					<h3 className={'text-md my-2'}>Military units you have</h3>
+					<AllocationAbsolute
+						values={military}
+						nextValues={militaryNext}
+						labels={LABELS}
+						// maxValue={land}
+						readOnly
+					/>
+				</div>
+			</div>
+		</>
+	);
 };
 
 export default KingdomMilitaryPage;

@@ -30,7 +30,7 @@ export const action: ActionFunction = async args => {
 	const app = await appState();
 	app.budgets.set(kdid, budget);
 	await db.budget.saveOne(kdid, budget);
-	return typedjson({ ok: true });
+	return typedjson({ success: true });
 };
 
 const KingdomBudgetPage: React.FC = () => {
