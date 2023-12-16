@@ -1,9 +1,8 @@
 import { type ActionFunction, type LoaderFunctionArgs } from '@remix-run/node';
-import { Form, useNavigation } from '@remix-run/react';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { type MilitaryPlan } from '~/app.model';
 import { appState } from '~/app.service';
-import { Allocation, AllocationAbsolute, MilitaryPlanComponent, PageTitle } from '~/components';
+import { AllocationAbsolute, MilitaryPlanComponent, PageTitle } from '~/components';
 import { useKingdom } from '~/hooks/use-kingdom.hook';
 import { kdidLoaderFn, kingdomLoaderFn, kingdomNextLoaderFn } from '~/kingdom/kingdom.loader';
 import { authRequiredLoader, validatePlayerKingdom } from '~/loaders';
