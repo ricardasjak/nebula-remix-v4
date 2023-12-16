@@ -17,6 +17,7 @@ export const mapUtil = {
 		return map;
 	},
 	toAppStateObject: (state: AppState) => ({
+		rounds: mapUtil.toValues(state.rounds),
 		users: mapUtil.toValues(state.users),
 		players: mapUtil.toValues(state.players),
 		kingdoms: mapUtil.toValues(state.kingdoms),

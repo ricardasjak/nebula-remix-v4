@@ -13,6 +13,12 @@ export interface User {
 	lastActiveAt?: string;
 }
 
+export interface Round {
+	id: number;
+	startAt: number;
+	tickLength: number;
+}
+
 export interface Player {
 	id: number;
 	userId: number;
@@ -78,6 +84,7 @@ export type KingdomFull = {
 };
 
 export interface AppState {
+	rounds: Map<number, Round>;
 	users: Map<number, User>;
 	players: Map<number, Player>;
 	kingdoms: Map<number, Kingdom>;

@@ -7,6 +7,7 @@ import {
 	type Military,
 	type MilitaryPlan,
 	type Player,
+	type Round,
 	type User,
 } from '~/app.model';
 import { type Kingdom } from '~/kingdom';
@@ -14,6 +15,7 @@ import { mapUtil } from '~/utils';
 
 const redis = Redis.fromEnv();
 const KEYS = {
+	rounds: 'rounds',
 	users: 'users',
 	players: 'players',
 	kingdoms: 'kingdoms',
@@ -59,6 +61,7 @@ const makeRepository = <T>(key: string) => ({
 });
 
 export const db = {
+	round: makeRepository<Round>(KEYS.rounds),
 	user: makeRepository<User>(KEYS.users),
 	player: makeRepository<Player>(KEYS.players),
 	kingdom: makeRepository<Kingdom>(KEYS.kingdoms),

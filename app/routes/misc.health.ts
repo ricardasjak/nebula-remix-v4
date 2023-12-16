@@ -24,8 +24,8 @@ export const loader: LoaderFunction = async (args: LoaderFunctionArgs) => {
 			db.buildings.saveAll(app.buildings),
 			db.buildingsPlan.saveAll(app.buildingsPlan),
 			// await db.kingdom.saveAll(app.kingdoms),
-			await db.military.saveAll(app.military),
-			await db.militaryPlan.saveAll(app.militaryPlan),
+			db.military.saveAll(app.military),
+			db.militaryPlan.saveAll(app.militaryPlan),
 		];
 		Promise.allSettled(promises)
 			.then(() => {

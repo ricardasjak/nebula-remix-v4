@@ -9,6 +9,7 @@ declare global {
 if (!global.__appState__) {
 	global.__appState__ = {
 		status: 'empty',
+		rounds: new Map(),
 		users: new Map(),
 		players: new Map(),
 		kingdoms: new Map(),
@@ -25,6 +26,7 @@ export const printStatus = () => {
 	const app = mapUtil.toAppStateObject(global.__appState__);
 	const summary = [
 		'app state',
+		`app state - rounds count: ${app.rounds.length}`,
 		`app state - users count: ${app.users.length}`,
 		`app state - players count: ${app.players.length}`,
 		`app state - kingdoms count: ${app.kingdoms.length}`,
@@ -44,6 +46,7 @@ export const appState = async (): Promise<AppState> => {
 	if (app.status === 'empty') {
 		app.status = 'loading';
 		try {
+			app.rounds = await db.round.loadAll(app.rounds);
 			app.users = await db.user.loadAll(app.users);
 			app.players = await db.player.loadAll(app.players);
 			app.kingdoms = await db.kingdom.loadAll(app.kingdoms);
