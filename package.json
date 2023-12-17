@@ -12,7 +12,8 @@
 		"fix": "npm run format && npm run lint -- --fix",
 		"deploy": "flyctl deploy",
 		"restart": "flyctl apps restart",
-		"stop": "flyctl machines stop e7842061f435d8",
+		"app-stop": "flyctl scale count 0",
+		"app-start": "flyctl scale count 1",
 		"typecheck": "tsc"
 	},
 	"dependencies": {
