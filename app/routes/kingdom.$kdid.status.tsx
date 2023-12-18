@@ -23,7 +23,7 @@ const KingdomStatusPage: React.FC = () => {
 
 	return (
 		<>
-			<PageTitle title='Dear commander, review kingdom status' />
+			<PageTitle title='Review your kingdom status' />
 
 			<div
 				className={'grid gap-4 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-4'}

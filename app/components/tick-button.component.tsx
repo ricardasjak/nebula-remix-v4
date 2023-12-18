@@ -1,4 +1,5 @@
 import { useFetcher } from '@remix-run/react';
+import { cx } from '~/cx';
 import { routesUtil } from '~/routes.util';
 
 interface Props {
@@ -14,13 +15,15 @@ export const TickButton: React.FC<Props> = ({ kdid, tick, tickLimit }) => {
 			{tick < tickLimit ? (
 				<button
 					type={'submit'}
-					className={'btn btn-primary btn-sm float-right'}
+					className={cx('float-right', {
+						'text-primary hover:text-secondary': fetcher.state === 'idle',
+					})}
 					disabled={fetcher.state !== 'idle'}
 				>
-					Tick {tick}
+					Tick {tick++}
 				</button>
 			) : (
-				<div className={'btn btn-sm float-right'}>Tick {tick}</div>
+				<div className={'float-right'}>Tick {tick}</div>
 			)}
 		</fetcher.Form>
 	);

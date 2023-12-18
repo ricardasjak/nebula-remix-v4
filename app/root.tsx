@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import { useTypedLoaderData } from 'remix-typedjson';
 import { type UserSession } from '~/app.model';
 import { appState } from '~/app.service';
+import { KingdomNavbar } from '~/components';
 import { Navbar, type NavbarKingdom } from '~/components/navbar.component';
 import { authLoader } from '~/loaders';
 import { playerKingdomsLoader } from '~/loaders/player-kingdoms.loader';
@@ -110,10 +111,20 @@ const App = () => {
 				<Links />
 			</head>
 			<body>
-				<Navbar isLoggedIn={!!rootData.userId} kingdoms={kingdoms} />
-				<div className={'container mx-auto px-4'}>
-					<Outlet />
+				<div className='flex flex-col h-screen text-sm'>
+					<header className='sticky top-0 z-10'>
+						<Navbar isLoggedIn={!!rootData.userId} kingdoms={kingdoms} />
+					</header>
+					<main className='flex-grow border-0 border-t-2 border-t-primary'>
+						<div className={'container mx-auto px-4'}>
+							<Outlet />
+						</div>
+					</main>
+					<footer className='sticky bottom-0 block sm:hidden bg-accent-content border-0 border-t-2 border-t-primary'>
+						<KingdomNavbar />
+					</footer>
 				</div>
+
 				<ScrollRestoration />
 				<Scripts />
 				<LiveReload />
