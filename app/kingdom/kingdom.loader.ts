@@ -4,7 +4,7 @@ import { tickNextKingdom } from '~/actions-tick/tick';
 import { appState } from '~/app.service';
 import { kdUtil } from '~/kingdom/kd.util';
 import { authRequiredLoader } from '~/loaders';
-import { mapUtil } from '~/utils';
+import { gameUtil, mapUtil } from '~/utils';
 
 /**
  * Loads kingdom data by kdid from the route params
@@ -12,9 +12,11 @@ import { mapUtil } from '~/utils';
  */
 export const kingdomLoader = async (args: LoaderFunctionArgs) => {
 	const kdid = await kdidLoaderFn(args);
+	const ticksLimit = gameUtil(await appState()).getTicksLimit();
+	// const ticksLimit = Math.ceil(Math.random() * 1000);
 	const { kingdom, status } = await kingdomLoaderFn(kdid);
 
-	return typedjson({ kingdom, status });
+	return typedjson({ kingdom, status, ticksLimit });
 };
 
 export const kdidLoaderFn = async (args: LoaderFunctionArgs) => {

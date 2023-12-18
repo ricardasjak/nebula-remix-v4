@@ -6,13 +6,18 @@ interface Props {
 	kdid: number;
 	tick: number;
 	tickLimit: number;
+	times?: number;
+	label: string;
 }
 
-export const TickButton: React.FC<Props> = ({ kdid, tick, tickLimit }) => {
+export const TickButton: React.FC<Props> = ({ kdid, tick, tickLimit, times = 1, label }) => {
 	const fetcher = useFetcher({ key: 'next-tick' });
+	if (tickLimit <= tick) {
+		return null;
+	}
 	return (
 		<fetcher.Form method='post' action={routesUtil.kd.tick(kdid)}>
-			{tick < tickLimit ? (
+			{tick <= tickLimit ? (
 				<button
 					type={'submit'}
 					className={cx('float-right', {
@@ -20,11 +25,12 @@ export const TickButton: React.FC<Props> = ({ kdid, tick, tickLimit }) => {
 					})}
 					disabled={fetcher.state !== 'idle'}
 				>
-					Tick {tick++}
+					{label}
 				</button>
 			) : (
 				<div className={'float-right'}>Tick {tick}</div>
 			)}
+			<input type='hidden' value={times} name='times'></input>
 		</fetcher.Form>
 	);
 };

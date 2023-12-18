@@ -29,9 +29,8 @@ const KingdomStatusPage: React.FC = () => {
 				className={'grid gap-4 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-4'}
 			>
 				<div>
-					<h2 className='text-xl text-primary font-bold mb-2'>
-						{kdUtil.getKingdomNameXY(kd.kingdom)}
-					</h2>
+					<h2 className='text-xl text-primary font-bold'>{kdUtil.getKingdomNameXY(kd.kingdom)} </h2>
+					<span className='text-sm text-secondary mb-2 block'>Tick: {kd.status.tick}</span>
 					<KingdomStatusComponent kd={kd} kdNext={kdNext} />
 					<br />
 					<KingdomSoKComponent kd={kd} kdNext={kdNext} />

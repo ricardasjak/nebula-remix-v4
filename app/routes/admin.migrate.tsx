@@ -23,6 +23,19 @@ export const action: ActionFunction = async () => {
 		const { budget, buildings, buildingsPlan, military, militaryPlan, kingdomStatus } =
 			kdUtil.getKingdomDefaults();
 
+		// @ts-ignore
+		delete budget.id;
+		// @ts-ignore
+		delete buildingsPlan.id;
+		// @ts-ignore
+		delete buildings.id;
+		// @ts-ignore
+		delete military.id;
+		// @ts-ignore
+		delete militaryPlan.id;
+		// @ts-ignore
+		delete kingdomStatus.id;
+
 		app.budgets.set(id, budget);
 		app.buildings.set(id, buildings);
 		app.buildingsPlan.set(id, buildingsPlan);

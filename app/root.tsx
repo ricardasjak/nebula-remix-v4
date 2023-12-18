@@ -15,14 +15,12 @@ import {
 import { useEffect } from 'react';
 import { useTypedLoaderData } from 'remix-typedjson';
 import { type UserSession } from '~/app.model';
-import { appState } from '~/app.service';
 import { KingdomNavbar } from '~/components';
 import { Navbar, type NavbarKingdom } from '~/components/navbar.component';
 import { authLoader } from '~/loaders';
 import { playerKingdomsLoader } from '~/loaders/player-kingdoms.loader';
 import { routesUtil } from '~/routes.util';
 import stylesheet from '~/tailwind.css';
-import { gameUtil } from '~/utils';
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesheet }];
 
@@ -42,11 +40,9 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		// const { userId, sessionClaims } = request.auth;
 		const auth = await authLoader(args);
 		const kingdoms = await playerKingdomsLoader(args);
-		const ticksLimit = gameUtil(await appState()).getTicksLimit();
 		return {
 			...auth,
 			kingdoms,
-			ticksLimit,
 		};
 
 		// if (userId && sessionClaims?.email) {

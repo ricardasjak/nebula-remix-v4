@@ -1,12 +1,8 @@
 import { useAuth } from '@clerk/remix';
 import { Link, useNavigate, useParams } from '@remix-run/react';
 import { useCallback } from 'react';
-import { useTypedLoaderData, useTypedRouteLoaderData } from 'remix-typedjson';
 import { KingdomNavbar } from '~/components/kd.navbar.component';
 import { GAME } from '~/game.const';
-import { useKingdomId } from '~/hooks';
-import { type kingdomLoader } from '~/kingdom/kingdom.loader';
-import { loader } from '~/routes/kingdom.$kdid';
 import { routesUtil } from '~/routes.util';
 
 type Props = {
@@ -71,7 +67,9 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 										<ul className='p-2'>
 											{kingdoms.map(kd => (
 												<li key={kd.id} onClick={handleClick}>
-													<Link to={routesUtil.kd.home(kd.id)}>{kd.name}</Link>
+													<Link to={routesUtil.kd.home(kd.id)} reloadDocument={true}>
+														{kd.name}
+													</Link>
 												</li>
 											))}
 											{kingdoms.length < GAME.kingdomsLimit && (
@@ -122,6 +120,7 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 										prefetch='none'
 										className={'btn btn-ghost font-normal'}
 										style={{ minWidth: '120px' }}
+										reloadDocument={true}
 									>{`${kd.name}`}</Link>
 								</li>
 							))}

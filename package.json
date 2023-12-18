@@ -9,7 +9,7 @@
 		"start": "remix-serve ./build/index.js",
 		"format": "prettier --write .",
 		"lint": "eslint .",
-		"fix": "npm run format && npm run lint -- --fix",
+		"fix": "npm run format && npm run lint -- --fix && npm run typecheck",
 		"deploy": "flyctl deploy",
 		"restart": "flyctl apps restart",
 		"app-stop": "flyctl scale count 0",

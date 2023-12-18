@@ -7,11 +7,19 @@ import { gameUtil } from '~/utils';
 export const kingdomTickActionFn: ActionFunction = async args => {
 	const kdid = await kdidLoaderFn(args);
 	const kd = await kingdomLoaderFn(kdid);
+	const form = await args.request.formData();
+	let times = Number(form.get('times')) || 1;
 
 	const maxTick = gameUtil(await appState()).getTicksLimit();
 	if ((kd.status.tick || 1) > maxTick) {
 		throw new Error('You cannot tick over the limit');
 	}
 
-	tickKingdom(kd);
+	const limit = Math.min(maxTick, (kd.status.tick || 0) + times);
+	times = limit - (kd.status.tick || 0);
+
+	console.log({ times });
+	for (let i = 0; i < times; i++) {
+		tickKingdom(kd);
+	}
 };
