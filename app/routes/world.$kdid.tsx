@@ -2,6 +2,7 @@ import { type LoaderFunctionArgs } from '@remix-run/node';
 import { Link } from '@remix-run/react';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { appState } from '~/app.service';
+import { PageTitle } from '~/components';
 import { kdUtil } from '~/kingdom/kd.util';
 import { routesUtil } from '~/routes.util';
 
@@ -17,7 +18,7 @@ const WorldKingdomPage: React.FC = () => {
 	const handleClick = () => alert('Not yet');
 	return (
 		<div>
-			<h1>Kingdom page</h1>
+			<PageTitle title='Kingdom profile' />
 			<Link to={routesUtil.home} className='btn btn-primary btn-sm my-4'>
 				Back to World map
 			</Link>

@@ -1,4 +1,5 @@
 import { Form } from '@remix-run/react';
+import { PageTitle } from '~/components';
 import { GAME } from '~/game.const';
 import { useSubmitting } from '~/hooks';
 import { PlanetTypes, RaceTypes } from '~/kingdom';
@@ -13,9 +14,7 @@ const CreateKingdomPage = () => {
 	return (
 		<div className={'content'}>
 			<div className={'mb-8'}>
-				<h1 className={'size text- mb-1 text-xl font-bold'}>
-					{"Dear commander, it's time to start your kingdom"}
-				</h1>
+				<PageTitle title='Start your kingdom' />
 				<h2 className={'size text- mb-4 text-md'}>
 					{`You can create up to ${GAME.kingdomsLimit} kingdoms`}
 				</h2>

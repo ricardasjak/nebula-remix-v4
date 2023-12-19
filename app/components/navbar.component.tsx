@@ -21,7 +21,13 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 
 	const params = useParams();
 	const selected = Number(params?.kdid);
-	const canCreateMore = kingdoms.length < GAME.kingdomsLimit;
+	const allowed = GAME.kingdomsLimit - kingdoms.length;
+	const cta =
+		allowed === 1 || allowed === GAME.kingdomsLimit || !isLoggedIn
+			? `Create kingdom`
+			: allowed > 1
+			  ? `Create ${allowed} kingdoms`
+			  : ``;
 
 	const handSignOut = useCallback(() => {
 		signOut().then(() => navigate(routesUtil.home));
@@ -72,10 +78,10 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 													</Link>
 												</li>
 											))}
-											{kingdoms.length < GAME.kingdomsLimit && (
+											{allowed > 0 && (
 												<li onClick={handleClick}>
 													<Link to={routesUtil.kd.create} className='font-bold'>
-														Create kingdom
+														{cta}
 													</Link>
 												</li>
 											)}
@@ -124,21 +130,21 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 									>{`${kd.name}`}</Link>
 								</li>
 							))}
-							{kingdoms.length < GAME.kingdomsLimit && (
-								<li>
-									<Link to={routesUtil.kd.create} className='btn btn-ghost text-primary font-bold'>
-										Create Kingdom
-									</Link>
-								</li>
-							)}
+							{/*{allowed > 0 && (*/}
+							{/*	<li>*/}
+							{/*		<Link to={routesUtil.kd.create} className='btn btn-ghost text-primary font-bold'>*/}
+							{/*			{cta}*/}
+							{/*		</Link>*/}
+							{/*	</li>*/}
+							{/*)}*/}
 						</ul>
 					)}
 				</div>
 				<div className='navbar-end mr-4'>
 					{/*<KingdomLine />*/}
-					{canCreateMore && (
+					{allowed > 0 && (
 						<Link to={routesUtil.kd.create} className={'btn btn-primary btn-sm btn-outline ml-4'}>
-							Create Kingdom
+							{cta}
 						</Link>
 					)}
 					{!isLoggedIn && (

@@ -1,10 +1,11 @@
 import { SignedIn, UserButton } from '@clerk/remix';
+import { PageTitle } from '~/components';
 
 export default function Account() {
 	return (
 		<div>
 			<SignedIn>
-				<h1>My Account</h1>
+				<PageTitle title='My Account' />
 				<p>You are signed in!</p>
 				<UserButton />
 			</SignedIn>
