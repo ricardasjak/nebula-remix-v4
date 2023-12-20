@@ -22,7 +22,7 @@ export const BuildingPlanComponent: React.FC<Props> = ({ kdid, plan }) => {
 	return (
 		<fetcher.Form method='POST' action={routesUtil.kd.buildings(kdid)}>
 			<input type={'hidden'} name={'kdid'} value={kdid}></input>
-			<Allocation initial={plan} labels={BUILDING_LABELS} />
+			<Allocation initial={plan} labels={BUILDING_LABELS} maxValue={50} />
 			<button
 				className={'btn btn-primary btn-outline btn-sm mt-4'}
 				disabled={fetcher.state !== 'idle'}

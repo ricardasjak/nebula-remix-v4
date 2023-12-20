@@ -20,7 +20,7 @@ interface Props {
 export const BudgetComponent: React.FC<Props> = ({ kdid, budget, money, income }) => {
 	const fetcher = useFetcher({ key: 'set-budget' });
 	return (
-		<fetcher.Form method='POST' action={routesUtil.kd.budget(kdid)}>
+		<fetcher.Form method='POST' action={routesUtil.kd.budget(kdid)} className='max-w-2xl'>
 			<input type={'hidden'} name={'kdid'} value={kdid}></input>
 			<Allocation initial={budget} labels={BUDGET_LABELS} total={income + money} />
 			<button

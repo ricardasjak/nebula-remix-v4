@@ -7,9 +7,10 @@ interface Props<T> {
 	labels: Partial<Record<keyof T, string>>;
 	total?: number;
 	readOnly?: boolean;
+	maxValue?: number;
 }
 
-export function Allocation<T>({ initial, labels, total = 0, readOnly }: Props<T>) {
+export function Allocation<T>({ initial, labels, total = 0, maxValue = 100, readOnly }: Props<T>) {
 	const [values, setValues] = useState(initial);
 	const allocations = values ? (Object.keys(labels) as Array<keyof T>) : [];
 	const balance = 100 - allocationUtil.balance(values);
@@ -38,7 +39,7 @@ export function Allocation<T>({ initial, labels, total = 0, readOnly }: Props<T>
 								type='range'
 								name={aloc.toString()}
 								min={0}
-								max={50}
+								max={maxValue}
 								step={1}
 								value={rate}
 								className={readOnly ? 'range' : 'range range-primary'}
