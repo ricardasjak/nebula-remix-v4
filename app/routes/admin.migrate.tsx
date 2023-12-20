@@ -2,6 +2,7 @@ import { type ActionFunction, type LoaderFunctionArgs, redirect } from '@remix-r
 import { Form } from '@remix-run/react';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { appState, printStatus } from '~/app.service';
+import { PlanetTypes, RaceTypes } from '~/kingdom';
 import { kdUtil } from '~/kingdom/kd.util';
 import { authRequiredLoader } from '~/loaders';
 import { routesUtil } from '~/routes.util';
@@ -20,8 +21,11 @@ export const action: ActionFunction = async () => {
 	const kingdoms = mapUtil.toValues(app.kingdoms);
 	kingdoms.forEach(kd => {
 		const id = kd.id;
-		const { budget, buildings, buildingsPlan, military, militaryPlan, kingdomStatus } =
-			kdUtil.getKingdomDefaults();
+		// const { budget, buildings, buildingsPlan, military, militaryPlan, kingdomStatus } =
+		// 	kdUtil.getKingdomDefaults();
+
+		const kdFull = kdUtil.getFullKingdom(id, app);
+		const { budget, buildings, buildingsPlan, military, militaryPlan, status, kingdom } = kdFull;
 
 		// @ts-ignore
 		delete budget.id;
@@ -34,14 +38,17 @@ export const action: ActionFunction = async () => {
 		// @ts-ignore
 		delete militaryPlan.id;
 		// @ts-ignore
-		delete kingdomStatus.id;
+		delete status.id;
+
+		kingdom.race = RaceTypes[Math.floor(Math.random() * RaceTypes.length)];
+		kingdom.planet = PlanetTypes[Math.floor(Math.random() * PlanetTypes.length)];
 
 		app.budgets.set(id, budget);
 		app.buildings.set(id, buildings);
 		app.buildingsPlan.set(id, buildingsPlan);
 		app.military.set(id, military);
 		app.militaryPlan.set(id, militaryPlan);
-		app.kingdomsStatus.set(id, kingdomStatus);
+		app.kingdomsStatus.set(id, status);
 	});
 
 	await db.budget.saveAll(app.budgets);
