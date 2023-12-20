@@ -8,9 +8,17 @@ interface Props {
 	tickLimit: number;
 	times?: number;
 	label: string;
+	className?: string;
 }
 
-export const TickButton: React.FC<Props> = ({ kdid, tick, tickLimit, times = 1, label }) => {
+export const TickButton: React.FC<Props> = ({
+	kdid,
+	tick,
+	tickLimit,
+	times = 1,
+	label,
+	className,
+}) => {
 	const fetcher = useFetcher({ key: 'next-tick' });
 	if (tickLimit <= tick) {
 		return null;
@@ -20,9 +28,13 @@ export const TickButton: React.FC<Props> = ({ kdid, tick, tickLimit, times = 1, 
 			{tick <= tickLimit ? (
 				<button
 					type={'submit'}
-					className={cx('float-right', {
-						'text-primary hover:text-secondary': fetcher.state === 'idle',
-					})}
+					className={cx(
+						'float-right',
+						{
+							'text-primary hover:text-secondary': fetcher.state === 'idle',
+						},
+						className
+					)}
 					disabled={fetcher.state !== 'idle'}
 				>
 					{label}

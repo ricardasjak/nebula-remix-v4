@@ -39,24 +39,36 @@ export const KingdomNavbar: React.FC<Props> = () => {
 				</li>
 				<li className={'flex-grow'}>
 					<div className='flex justify-end gap-2 sm:gap-4'>
-						<TickButton
-							kdid={kdid}
-							tick={kingdomData.status.tick || 1}
-							tickLimit={kingdomData.ticksLimit}
-							times={1}
-							label={'T+1'}
-						/>
-						<span>
-							{kingdomData.status.tick === kingdomData.ticksLimit ? 'Tick' : ''}&nbsp;
-							{kingdomData.status.tick}
-						</span>
-						<TickButton
-							kdid={kdid}
-							tick={kingdomData.status.tick || 1}
-							tickLimit={kingdomData.ticksLimit}
-							times={10}
-							label={'T+10'}
-						/>
+						{(kingdomData?.status?.tick || 0) > 6 ? (
+							<>
+								<TickButton
+									kdid={kdid}
+									tick={kingdomData.status.tick || 1}
+									tickLimit={kingdomData.ticksLimit}
+									times={1}
+									label={'T+1'}
+								/>
+								<span>
+									{kingdomData.status.tick === kingdomData.ticksLimit ? 'Tick' : ''}&nbsp;
+									{kingdomData.status.tick || 1}
+								</span>
+								<TickButton
+									kdid={kdid}
+									tick={kingdomData.status.tick || 1}
+									tickLimit={kingdomData.ticksLimit}
+									times={10}
+									label={'T+10'}
+								/>
+							</>
+						) : (
+							<TickButton
+								kdid={kdid}
+								tick={kingdomData.status.tick || 1}
+								tickLimit={kingdomData.ticksLimit}
+								times={1}
+								label={'Go Next T+1'}
+							/>
+						)}
 					</div>
 				</li>
 			</ul>

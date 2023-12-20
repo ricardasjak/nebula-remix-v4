@@ -1,5 +1,6 @@
 import { type LoaderFunctionArgs } from '@remix-run/node';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
+import { appState } from '~/app.service';
 import {
 	BudgetComponent,
 	BuildingPlanComponent,
@@ -7,30 +8,56 @@ import {
 	KingdomStatusComponent,
 	MilitaryPlanComponent,
 	PageTitle,
+	TickButton,
 } from '~/components';
 import { kdUtil } from '~/kingdom';
 import { kdidLoaderFn, kingdomLoaderFn, kingdomNextLoaderFn } from '~/kingdom/kingdom.loader';
+import { gameUtil } from '~/utils';
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const kdid = await kdidLoaderFn(args);
 	const kd = await kingdomLoaderFn(kdid);
+	const ticksLimit = gameUtil(await appState()).getTicksLimit();
 	const kdNext = await kingdomNextLoaderFn(kdid);
-	return typedjson({ kd, kdNext });
+	return typedjson({ kd, kdNext, ticksLimit });
 };
 
 const KingdomStatusPage: React.FC = () => {
-	const { kd, kdNext } = useTypedLoaderData<typeof loader>();
+	const { kd, kdNext, ticksLimit } = useTypedLoaderData<typeof loader>();
 
 	return (
 		<>
-			<PageTitle title='Review your kingdom status' />
-
+			<PageTitle title={`Kingdom status`} />
 			<div
 				className={'grid gap-4 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-4'}
 			>
 				<div>
 					<h2 className='text-xl text-primary font-bold'>{kdUtil.getKingdomNameXY(kd.kingdom)} </h2>
-					<span className='text-sm text-secondary mb-2 block'>Tick: {kd.status.tick}</span>
+					<span className='text-sm mb-2  text-secondary'></span>
+					<div className='text-sm text-secondary mb-2 flex flex-row justify-between  items-center'>
+						<span>
+							Tick:{' '}
+							<span className='font-bold'>
+								{kd.status.tick}/{ticksLimit}
+							</span>
+						</span>
+						<TickButton
+							kdid={kd.kingdom.id}
+							tick={kd.status.tick || 1}
+							times={1}
+							tickLimit={ticksLimit}
+							label='Go +1 tick'
+							className='btn btn-ghost btn-sm text-secondary font-bold'
+						/>
+						<TickButton
+							kdid={kd.kingdom.id}
+							tick={kd.status.tick || 1}
+							tickLimit={ticksLimit}
+							times={10}
+							label='Go +10 ticks'
+							className='btn btn-ghost btn-sm text-secondary font-bold'
+						/>
+					</div>
 					<KingdomStatusComponent kd={kd} kdNext={kdNext} />
 					<br />
 					<KingdomSoKComponent kd={kd} kdNext={kdNext} />
