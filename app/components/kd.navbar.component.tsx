@@ -37,6 +37,9 @@ export const KingdomNavbar: React.FC<Props> = () => {
 				<li>
 					<NavLink url={routesUtil.kd.military(kdid)} title='Military' />
 				</li>
+				<li>
+					<NavLink url={routesUtil.kd.defence(kdid)} title='Defence' />
+				</li>
 				<li className={'flex-grow'}>
 					<div className='flex justify-end gap-2 sm:gap-4'>
 						{(kingdomData?.status?.tick || 0) > 6 ? (

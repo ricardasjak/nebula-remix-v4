@@ -3,6 +3,7 @@ import {
 	type Budget,
 	type Buildings,
 	type BuildingsPlan,
+	type DefenceAllocation,
 	type KingdomFull,
 	type KingdomStatus,
 	type Military,
@@ -80,6 +81,8 @@ const getKingdomDefaults = () => {
 		dr: undefined,
 	};
 
+	const defence: DefenceAllocation = { e: 25, n: 25, s: 25, w: 25 };
+
 	const kingdomStatus: KingdomStatus = {
 		pop: 2250,
 		land: 250,
@@ -96,6 +99,7 @@ const getKingdomDefaults = () => {
 		budget,
 		buildings,
 		buildingsPlan,
+		defence,
 		military,
 		militaryPlan,
 		kingdomStatus,
@@ -108,6 +112,7 @@ const getFullKingdom = (id: number, app: AppState): KingdomFull => {
 		status: app.kingdomsStatus.get(id)!,
 		buildings: app.buildings.get(id)!,
 		buildingsPlan: app.buildingsPlan.get(id)!,
+		defence: app.defence.get(id)!,
 		military: app.military.get(id)!,
 		militaryPlan: app.militaryPlan.get(id)!,
 		budget: app.budgets.get(id)!,

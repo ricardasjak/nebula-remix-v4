@@ -8,6 +8,7 @@ export const routesUtil = {
 		budget: (id: number) => `/kingdom/${id}/budget`,
 		buildings: (id: number) => `/kingdom/${id}/buildings`,
 		military: (id: number) => `/kingdom/${id}/military`,
+		defence: (id: number) => `/kingdom/${id}/defence`,
 		tick: (id: number) => `/kingdom/${id}/tick`,
 	},
 	world: {

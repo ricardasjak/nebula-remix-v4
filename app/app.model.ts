@@ -74,12 +74,20 @@ export interface KingdomStatus {
 	tick?: number;
 }
 
+export interface DefenceAllocation {
+	n: number;
+	e: number;
+	s: number;
+	w: number;
+}
+
 export type KingdomFull = {
 	kingdom: Kingdom;
 	status: KingdomStatus;
 	budget: Budget;
 	buildings: Buildings;
 	buildingsPlan: BuildingsPlan;
+	defence: DefenceAllocation;
 	military: MilitaryBase;
 	militaryPlan: MilitaryPlan;
 };
@@ -91,6 +99,7 @@ export interface AppState {
 	kingdoms: Map<number, Kingdom>;
 	kingdomsStatus: Map<number, KingdomStatus>;
 	budgets: Map<number, Budget>;
+	defence: Map<number, DefenceAllocation>;
 	buildings: Map<number, BuildingsBuilt>;
 	buildingsPlan: Map<number, BuildingsPlan>;
 	military: Map<number, Military>;
