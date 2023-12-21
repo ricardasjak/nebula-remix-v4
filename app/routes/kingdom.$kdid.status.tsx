@@ -38,7 +38,7 @@ const KingdomStatusPage: React.FC = () => {
 						<span>
 							Tick:{' '}
 							<span className='font-bold'>
-								{kd.status.tick}/{ticksLimit}
+								{kd.status.tick || 1}/{ticksLimit}
 							</span>
 						</span>
 						<TickButton
@@ -53,8 +53,8 @@ const KingdomStatusPage: React.FC = () => {
 							kdid={kd.kingdom.id}
 							tick={kd.status.tick || 1}
 							tickLimit={ticksLimit}
-							times={10}
-							label='Go +10 ticks'
+							times={24}
+							label='Go +24 ticks'
 							className='btn btn-ghost btn-sm text-secondary font-bold'
 						/>
 					</div>

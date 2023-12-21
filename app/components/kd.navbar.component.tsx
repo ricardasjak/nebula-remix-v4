@@ -56,8 +56,8 @@ export const KingdomNavbar: React.FC<Props> = () => {
 									kdid={kdid}
 									tick={kingdomData.status.tick || 1}
 									tickLimit={kingdomData.ticksLimit}
-									times={10}
-									label={'T+10'}
+									times={24}
+									label={'T+24'}
 								/>
 							</>
 						) : (
