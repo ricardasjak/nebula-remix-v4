@@ -1,7 +1,8 @@
 import { useAuth } from '@clerk/remix';
 import { Link, useNavigate, useParams } from '@remix-run/react';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { KingdomNavbar } from '~/components/kd.navbar.component';
+import { cx } from '~/cx';
 import { GAME } from '~/game.const';
 import { routesUtil } from '~/routes.util';
 
@@ -18,16 +19,18 @@ export interface NavbarKingdom {
 export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 	const { signOut } = useAuth();
 	const navigate = useNavigate();
+	const [ctaClass, setCtaClass] = useState('animate-bounce');
 
 	const params = useParams();
 	const selected = Number(params?.kdid);
 	const allowed = GAME.kingdomsLimit - kingdoms.length;
-	const cta =
-		allowed === 1 || allowed === GAME.kingdomsLimit || !isLoggedIn
-			? `Create kingdom`
-			: allowed > 1
-			  ? `Create ${allowed} kingdoms`
-			  : ``;
+	const cta = allowed > 0 || !isLoggedIn ? 'Create kingdom' : '';
+
+	useEffect(() => {
+		setTimeout(() => {
+			setCtaClass('animate-none');
+		}, 2400);
+	}, []);
 
 	const handSignOut = useCallback(() => {
 		signOut().then(() => navigate(routesUtil.home));
@@ -130,22 +133,20 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 									>{`${kd.name}`}</Link>
 								</li>
 							))}
-							{/*{allowed > 0 && (*/}
-							{/*	<li>*/}
-							{/*		<Link to={routesUtil.kd.create} className='btn btn-ghost text-primary font-bold'>*/}
-							{/*			{cta}*/}
-							{/*		</Link>*/}
-							{/*	</li>*/}
-							{/*)}*/}
 						</ul>
 					)}
 				</div>
 				<div className='navbar-end mr-4'>
 					{/*<KingdomLine />*/}
 					{allowed > 0 && (
-						<Link to={routesUtil.kd.create} className={'btn btn-primary btn-sm btn-outline ml-4'}>
-							{cta}
-						</Link>
+						<>
+							<Link
+								to={routesUtil.kd.create}
+								className={cx('btn btn-primary btn-sm btn-outline ml-4', ctaClass)}
+							>
+								{cta}
+							</Link>
+						</>
 					)}
 					{!isLoggedIn && (
 						<Link to={routesUtil.auth.signin} className='btn btn-ghost text-md text-primary'>
