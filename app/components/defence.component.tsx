@@ -8,7 +8,6 @@ const DEFENCE_LABELS: Record<keyof DefenceAllocation, string> = {
 	e: 'East',
 	s: 'South',
 	w: 'West',
-	// research: 'Research',
 };
 
 interface Props {

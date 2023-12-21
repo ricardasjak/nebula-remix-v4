@@ -37,7 +37,7 @@ export function AllocationAbsolute<T>({
 					const diff = nextValues ? (nextValues[aloc] || 0) - (values[aloc] || 0) : 0;
 					return (
 						<li key={index}>
-							<span className={'text-sm'}>
+							<span className={'text-sm block mb-1 mt-2'}>
 								{labels[aloc]}:{' '}
 								{ratio
 									? `${val.toLocaleString()} (${ratio.toLocaleString(undefined, {
@@ -46,22 +46,24 @@ export function AllocationAbsolute<T>({
 									: `${val.toLocaleString()}`}
 								{diff > 0 ? <span className={'text-secondary'}>&nbsp;+{diff}</span> : null}
 							</span>
-							<input
-								type='range'
-								name={aloc.toString()}
-								min={0}
-								max={maxValue1}
-								step={1}
-								value={val}
-								className={readOnly ? 'range' : 'range range-primary'}
-								readOnly={true}
-							/>
+							<div className='flex flex-row'>
+								<input
+									type='range'
+									name={aloc.toString()}
+									min={0}
+									max={maxValue1}
+									step={1}
+									value={val}
+									className={readOnly ? 'range' : 'range range-primary'}
+									readOnly={true}
+								/>
+							</div>
 						</li>
 					);
 				})}
 			</ul>
 			{!readOnly && (
-				<h3 className={cx({ 'text-primary animate-pulse': balance < 100 })}>
+				<h3 className={cx('mt-4', { 'text-primary animate-pulse': balance < 100 })}>
 					Total allocation: {balance}%
 				</h3>
 			)}
