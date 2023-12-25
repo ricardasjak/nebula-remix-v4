@@ -23,7 +23,7 @@ export const kdidLoaderFn = async (args: LoaderFunctionArgs) => {
 	const session = await authRequiredLoader(args);
 	const kdid = Number(args.params.kdid);
 	if (!kdid) {
-		throw 'Kingdom not found';
+		throw new Error('Kingdom not found');
 	}
 	const app = await appState();
 	const player = mapUtil.toValues(app.players).find(p => p.userId === session.userId);
@@ -31,6 +31,14 @@ export const kdidLoaderFn = async (args: LoaderFunctionArgs) => {
 		throw new Error('This kingdom does not belong to your account!');
 	}
 	return kdid;
+};
+
+export const targetLoaderFn = async (args: LoaderFunctionArgs) => {
+	const target = Number(args.params.target);
+	if (!target) {
+		throw new Error('Target kingdom not found');
+	}
+	return target;
 };
 
 export const kingdomLoaderFn = async (kdid: number) => {

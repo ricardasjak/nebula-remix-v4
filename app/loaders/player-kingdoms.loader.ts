@@ -1,4 +1,5 @@
-import { type LoaderFunction } from '@remix-run/node';
+import { type LoaderFunctionArgs } from '@remix-run/node';
+import { typedjson } from 'remix-typedjson';
 import { appState } from '~/app.service';
 import { type PlanetType, type RaceType } from '~/kingdom';
 import { kdUtil } from '~/kingdom/kd.util';
@@ -9,12 +10,13 @@ import { mapUtil } from '~/utils';
  * Loads list of player kingdoms
  * @param args
  */
-export const playerKingdomsLoader: LoaderFunction = async args => {
+export const playerKingdomsLoader = async (args: LoaderFunctionArgs) => {
 	const session = await authLoader(args);
 	if (!session) {
-		return [];
+		return typedjson([]);
 	}
-	return playerKingdomsLoaderFn(session.userId);
+	const data = await playerKingdomsLoaderFn(session.userId);
+	return typedjson(data);
 };
 
 export interface PlayerKingdom {

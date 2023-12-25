@@ -17,8 +17,7 @@ import { useTypedLoaderData } from 'remix-typedjson';
 import { type UserSession } from '~/app.model';
 import { KingdomNavbar } from '~/components';
 import { Navbar, type NavbarKingdom } from '~/components/navbar.component';
-import { authLoader } from '~/loaders';
-import { playerKingdomsLoader } from '~/loaders/player-kingdoms.loader';
+import { authLoader, playerKingdomsLoaderFn } from '~/loaders';
 import { routesUtil } from '~/routes.util';
 import stylesheet from '~/tailwind.css';
 
@@ -39,7 +38,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	return rootAuthLoader(args, async () => {
 		// const { userId, sessionClaims } = request.auth;
 		const auth = await authLoader(args);
-		const kingdoms = await playerKingdomsLoader(args);
+		const kingdoms = await playerKingdomsLoaderFn(auth.userId);
 		return {
 			...auth,
 			kingdoms,

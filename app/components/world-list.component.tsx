@@ -35,7 +35,7 @@ export const WorldList: React.FC<Props> = ({ kingdoms, ownerKingdoms }) => {
 				return (
 					<li key={kd.id} className={'list-item mb-2'}>
 						<Link
-							to={routesUtil.world.kd(kd.id)}
+							to={routesUtil.world.target(kd.id)}
 							className={cx(
 								isOwner ? 'text-primary' : '',
 								'link link-hover grid gap-2 grid-flow-col sm:grid-cols-6 xs:grid-cols-4'

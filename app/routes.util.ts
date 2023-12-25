@@ -12,7 +12,12 @@ export const routesUtil = {
 		tick: (id: number) => `/kingdom/${id}/tick`,
 	},
 	world: {
-		kd: (kdid: number) => `/world/${kdid}`,
+		target: (target: number) => `/world/${target}`,
+		targetWith: (target: number, kdid: number) => `/world/${target}/${kdid}`,
+		attack: (target: number) => `/world/${target}/attack`,
+		probe: (target: number) => `/world/${target}/probe`,
+		attackWith: (target: number, kdid: number) => `/world/${target}/attack/${kdid}`,
+		probeWith: (target: number, kdid: number) => `/world/${target}/probe/${kdid}`,
 	},
 	signup: '/sign-up',
 	auth: {

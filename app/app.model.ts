@@ -74,6 +74,9 @@ export interface KingdomStatus {
 	tick?: number;
 }
 
+export const SIDES = ['n', 'e', 's', 'w'];
+export type Side = (typeof SIDES)[number];
+
 export interface DefenceAllocation {
 	n: number;
 	e: number;
