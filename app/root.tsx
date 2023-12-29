@@ -16,8 +16,8 @@ import { useEffect } from 'react';
 import { useTypedLoaderData } from 'remix-typedjson';
 import { type UserSession } from '~/app.model';
 import { KingdomNavbar } from '~/components';
-import { Navbar, type NavbarKingdom } from '~/components/navbar.component';
-import { authLoader, playerKingdomsLoaderFn } from '~/loaders';
+import { Navbar } from '~/components/navbar.component';
+import { authLoader, type PlayerKingdom, playerKingdomsLoaderFn } from '~/loaders';
 import { routesUtil } from '~/routes.util';
 import stylesheet from '~/tailwind.css';
 
@@ -94,7 +94,7 @@ const App = () => {
 	}, [auth.userId, rootData.clerkUserId]);
 
 	// @ts-ignore
-	const kingdoms: NavbarKingdom[] = rootData.kingdoms;
+	const kingdoms: PlayerKingdom[] = rootData.kingdoms;
 	// console.log({ rootData });
 	return (
 		<html lang='en'>

@@ -7,7 +7,7 @@ import { usePlayerKingdoms } from '~/hooks';
 import { PT_LABEL, RACE_LABEL } from '~/kingdom';
 import { kdUtil } from '~/kingdom/kd.util';
 import { routesUtil } from '~/routes.util';
-import { formatNumber } from '~/utils';
+import { formatNumber, padZero } from '~/utils';
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const targetId = Number(args.params.target);
@@ -28,7 +28,7 @@ const TargetPage: React.FC = () => {
 			<div className='grid grid-cols-2 max-w-xs gap-2'>
 				<span>Kingdom:</span>
 				<span className='font-bold text-secondary'>
-					{target.name}&nbsp;({target.y}:{target.x})
+					{target.name}&nbsp;({padZero(target.y)}:{padZero(target.x)})
 				</span>
 
 				<span>Planet:</span>
@@ -66,7 +66,7 @@ const TargetPage: React.FC = () => {
 				</>
 			) : (
 				<div>
-					<h3 className='text-lg mb-2'>Wanna attack?</h3>
+					<h3 className='text-lg mb-2 mt-8'>Wanna attack?</h3>
 					<Link to={routesUtil.kd.create} className='btn btn-primary'>
 						Create Your Kingdom
 					</Link>

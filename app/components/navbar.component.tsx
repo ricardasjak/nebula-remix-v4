@@ -4,17 +4,18 @@ import { useCallback, useEffect, useState } from 'react';
 import { KingdomNavbar } from '~/components/kd.navbar.component';
 import { cx } from '~/cx';
 import { GAME } from '~/game.const';
+import { type PlayerKingdom } from '~/loaders';
 import { routesUtil } from '~/routes.util';
 
 type Props = {
 	isLoggedIn: boolean;
-	kingdoms: NavbarKingdom[];
+	kingdoms: PlayerKingdom[];
 };
 
-export interface NavbarKingdom {
-	id: number;
-	name: string;
-}
+// export interface NavbarKingdom {
+// 	id: number;
+// 	name: string;
+// }
 
 export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 	const { signOut } = useAuth();
@@ -76,8 +77,22 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 										<ul className='p-2'>
 											{kingdoms.map(kd => (
 												<li key={kd.id} onClick={handleClick}>
-													<Link to={routesUtil.kd.home(kd.id)} reloadDocument={true}>
+													<Link
+														to={
+															kd.unreadNews ? routesUtil.kd.news(kd.id) : routesUtil.kd.home(kd.id)
+														}
+														reloadDocument={true}
+														className='indicator'
+													>
 														{kd.name}
+														{!!kd.unreadNews && (
+															<>
+																&nbsp;&nbsp;
+																<span className='indicator-item badge indicator-middle badge-sm badge-secondary'>
+																	{kd.unreadNews}
+																</span>
+															</>
+														)}
 													</Link>
 												</li>
 											))}
@@ -125,12 +140,19 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 							{kingdoms.map(kd => (
 								<li key={kd.id} className={selected === kd.id ? 'text-primary' : undefined}>
 									<Link
-										to={routesUtil.kd.status(kd.id)}
+										to={kd.unreadNews ? routesUtil.kd.news(kd.id) : routesUtil.kd.status(kd.id)}
 										prefetch='none'
-										className={'btn btn-ghost font-normal'}
+										className={'btn btn-ghost font-normal indicator'}
 										style={{ minWidth: '120px' }}
 										reloadDocument={true}
-									>{`${kd.name}`}</Link>
+									>
+										{`${kd.name}`}
+										{!!kd.unreadNews && (
+											<span className='indicator-item badge indicator-middle badge-sm badge-secondary'>
+												{kd.unreadNews}
+											</span>
+										)}
+									</Link>
 								</li>
 							))}
 						</ul>

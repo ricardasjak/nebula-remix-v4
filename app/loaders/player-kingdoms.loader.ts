@@ -36,6 +36,7 @@ export interface PlayerKingdom {
 	probes: number;
 	attempts: number;
 	tick: number;
+	unreadNews: number;
 }
 
 export const playerKingdomsLoaderFn = async (userId: number): Promise<PlayerKingdom[]> => {
@@ -48,7 +49,8 @@ export const playerKingdomsLoaderFn = async (userId: number): Promise<PlayerKing
 		.map(id => {
 			const kd = kdUtil.getFullKingdom(id, app);
 			const { name, sector, galaxy, planet, race, x, y } = kd.kingdom;
-			const { land, nw, money, pop, power, probes, attempts, tick } = kd.status;
+			const { land, nw, money, pop, power, probes, attempts, tick, lastNewsId } = kd.status;
+			const unreadNews = kd.news.filter(n => n.id > lastNewsId).length;
 			return {
 				id,
 				name,
@@ -66,6 +68,7 @@ export const playerKingdomsLoaderFn = async (userId: number): Promise<PlayerKing
 				probes,
 				attempts,
 				tick,
+				unreadNews,
 			};
 		})
 		.filter(Boolean);

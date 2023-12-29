@@ -73,6 +73,7 @@ export interface KingdomStatus {
 	probes: number;
 	attempts: number;
 	tick: number;
+	lastNewsId: number;
 }
 
 export const PROBE_MISSIONS = ['SOK', 'SOM'] as const;
@@ -118,15 +119,25 @@ export interface Probing {
 export type News = ProbesNews | AttackNews;
 
 export interface ProbesNews {
+	id: number;
 	attackerId: number;
 	probeId: number;
-	seen: boolean;
 }
 
 export interface AttackNews {
+	id: number;
 	attackerId: number;
 	attackId: number;
-	seen: boolean;
+}
+
+export interface PersonalProbeNews {
+	id: number;
+	at: string;
+	attackerId?: number;
+	attackerName?: string;
+	type: 'probe' | 'attack';
+	success: boolean;
+	report: string;
 }
 
 export const SIDES = ['n', 'e', 's', 'w'];
@@ -148,6 +159,7 @@ export type KingdomFull = {
 	defence: DefenceAllocation;
 	military: MilitaryBase;
 	militaryPlan: MilitaryPlan;
+	news: Array<News>;
 };
 
 export interface AppState {

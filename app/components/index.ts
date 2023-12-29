@@ -10,5 +10,6 @@ export * from './world-list.component';
 export * from './kd.navbar.component';
 export * from './kingdom-line.component';
 export * from './kingdom-status.component';
+export * from './news.component';
 export * from './page-title.component';
 export * from './tick-button.component';

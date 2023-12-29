@@ -78,11 +78,12 @@ export const probeActionFn = async (args: ActionFunctionArgs) => {
 	void db.probings(attackerId).createOne(probeId, probing);
 
 	// register target's news
-	const probeNews: ProbesNews = { probeId, attackerId, seen: false };
 	const targetNews = app.news.get(targetId)!;
 	const newsId = mapUtil.nextKey(targetNews);
+
+	const probeNews: ProbesNews = { id: newsId, probeId, attackerId };
 	targetNews.set(newsId, probeNews);
-	void db.news(targetId).createOne(newsId, probing);
+	void db.news(targetId).createOne(newsId, probeNews);
 
 	// target.news.list.push({ probeId, seen: false });
 

@@ -43,7 +43,7 @@ const ProbePage: React.FC = () => {
 				<label htmlFor='race'>Choose mission</label>
 				<select name='mission' className={'select select-primary select-sm'} required>
 					<option value={'SOK'}>Spy on Kingdom</option>
-					<option value={'SOM'}>Spy on Military</option>
+					{/*<option value={'SOM'}>Spy on Military</option>*/}
 				</select>
 
 				<label htmlFor='probes'>Probes count</label>

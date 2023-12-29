@@ -168,6 +168,7 @@ const ensureDataModel = (app: AppState) => {
 
 		kdFull.status.tick = kdFull.status.tick || 1;
 		kdFull.status.attempts = kdFull.status.attempts || 0;
+		kdFull.status.lastNewsId = kdFull.status.lastNewsId || -1;
 
 		// @ts-ignore
 		delete kdFull.status.probings;

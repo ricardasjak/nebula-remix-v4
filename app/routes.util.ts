@@ -9,11 +9,11 @@ export const routesUtil = {
 		buildings: (id: number) => `/kingdom/${id}/buildings`,
 		military: (id: number) => `/kingdom/${id}/military`,
 		defence: (id: number) => `/kingdom/${id}/defence`,
+		news: (id: number) => `/kingdom/${id}/news`,
 		tick: (id: number) => `/kingdom/${id}/tick`,
 	},
 	world: {
 		target: (target: number) => `/world/${target}`,
-		targetWith: (target: number, kdid: number) => `/world/${target}/${kdid}`,
 		attack: (target: number) => `/world/${target}/attack`,
 		probe: (target: number) => `/world/${target}/probe`,
 		attackWith: (target: number, kdid: number) => `/world/${target}/attack/${kdid}`,

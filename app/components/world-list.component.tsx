@@ -3,6 +3,7 @@ import { cx } from '~/cx';
 import { PT_LABEL, RACE_LABEL } from '~/kingdom';
 import { type WorldKingdom } from '~/loaders/world.loader';
 import { routesUtil } from '~/routes.util';
+import { padZero } from '~/utils';
 
 interface Props {
 	kingdoms: WorldKingdom[];
@@ -42,9 +43,9 @@ export const WorldList: React.FC<Props> = ({ kingdoms, ownerKingdoms }) => {
 							)}
 						>
 							{/*<span className='shrink'>{rank + 1}</span>*/}
-							<span className='col-span-2'>{`${'#' + (rank + 1)} ${kd.name} (${kd.x}:${
+							<span className='col-span-2'>{`${'#' + (rank + 1)} ${kd.name} (${padZero(
 								kd.y
-							})`}</span>
+							)}:${padZero(kd.x)})`}</span>
 							<span className={'hidden sm:block'}>{PT_LABEL[kd.planet]}</span>
 							<span className={'hidden sm:block'}>{RACE_LABEL[kd.race]}</span>
 							<span>{kd.land.toLocaleString()}</span>

@@ -7,7 +7,7 @@ import { routesUtil } from '~/routes.util';
 
 interface Props {}
 
-const linkStyle = 'text-primary hover:text-secondary';
+const linkStyle = 'text-primary hover:text-secondary text-sm md: text-md';
 const NavLink = ({ url, title }: { url: string; title: string }) => (
 	<Link to={url} className={linkStyle} reloadDocument={true}>
 		{title}
@@ -24,7 +24,11 @@ export const KingdomNavbar: React.FC<Props> = () => {
 
 	return (
 		<div className={'container mx-auto px-2 sm:px-4 py-2 visible xs:hidden'}>
-			<ul className={'list flex xs:flex-column sm:flex-row gap-4 sm:gap-8 mb-2 text-xs sm:text-lg'}>
+			<ul
+				className={
+					'list flex flex-wrap xs:flex-column sm:flex-row gap-4 sm:gap-8 mb-2 text-xs sm:text-lg'
+				}
+			>
 				<li>
 					<NavLink url={routesUtil.kd.status(kdid)} title='Status' />
 				</li>
@@ -39,6 +43,9 @@ export const KingdomNavbar: React.FC<Props> = () => {
 				</li>
 				<li>
 					<NavLink url={routesUtil.kd.defence(kdid)} title='Defence' />
+				</li>
+				<li>
+					<NavLink url={routesUtil.kd.news(kdid)} title='News' />
 				</li>
 				<li className={'flex-grow'}>
 					<div className='flex justify-end gap-2 sm:gap-4'>

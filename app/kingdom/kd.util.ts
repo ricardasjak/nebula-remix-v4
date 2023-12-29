@@ -12,6 +12,7 @@ import {
 import { GAME } from '~/game.const';
 import { type Kingdom } from '~/kingdom/kingdom.model';
 import { type WorldKingdom } from '~/loaders';
+import { mapUtil, padZero } from '~/utils';
 
 const getNetworth = (kd: KingdomStatus, buildings: Buildings, military: Military) => {
 	const nwItems = [
@@ -94,6 +95,7 @@ const getKingdomDefaults = () => {
 		power: 1_000,
 		income: 0,
 		powerChange: 0,
+		lastNewsId: -1,
 	};
 	kingdomStatus.nw = kdUtil.getNetworth(kingdomStatus, buildings, military);
 
@@ -109,15 +111,17 @@ const getKingdomDefaults = () => {
 };
 
 const getFullKingdom = (id: number, app: AppState): KingdomFull => {
+	const status = app.kingdomsStatus.get(id)!;
 	return {
 		kingdom: app.kingdoms.get(id)!,
-		status: app.kingdomsStatus.get(id)!,
+		status,
 		buildings: app.buildings.get(id)!,
 		buildingsPlan: app.buildingsPlan.get(id)!,
 		defence: app.defence.get(id)!,
 		military: app.military.get(id)!,
 		militaryPlan: app.militaryPlan.get(id)!,
 		budget: app.budgets.get(id)!,
+		news: mapUtil.toValues(app.news.get(id)!).reverse(),
 	};
 };
 
@@ -154,7 +158,7 @@ const getWorldKingdom = (kdid: number, app: AppState): WorldKingdom => {
 	};
 };
 
-const getKingdomNameXY = ({ name, x, y }: Kingdom) => `${name} (x:${x}, y:${y})`;
+const getKingdomNameXY = ({ name, x, y }: Kingdom) => `${name} (${padZero(y)}:${padZero(x)})`;
 
 const getMilitarySpace = (military: Military) => {
 	const space = (Object.keys(military) as Array<keyof Military>).reduce((acc, unit) => {
