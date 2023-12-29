@@ -23,7 +23,7 @@ export const KingdomNavbar: React.FC<Props> = () => {
 	}
 
 	return (
-		<div className={'container mx-auto px-4 py-2 visible xs:hidden'}>
+		<div className={'container mx-auto px-2 sm:px-4 py-2 visible xs:hidden'}>
 			<ul className={'list flex xs:flex-column sm:flex-row gap-4 sm:gap-8 mb-2 text-xs sm:text-lg'}>
 				<li>
 					<NavLink url={routesUtil.kd.status(kdid)} title='Status' />

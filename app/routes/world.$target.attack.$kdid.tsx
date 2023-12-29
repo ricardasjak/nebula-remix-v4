@@ -97,7 +97,7 @@ const AttackPage: React.FC = () => {
 					</div>
 				</div>
 
-				<button type='submit' className={'col-span-2 btn btn-primary'} disabled={pending}>
+				<button type='submit' className={'col-span-2 btn btn-primary btn-sm'} disabled={pending}>
 					Attack!
 				</button>
 				<label></label>

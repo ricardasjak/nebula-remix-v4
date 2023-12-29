@@ -71,7 +71,62 @@ export interface KingdomStatus {
 	power: number;
 	powerChange: number;
 	probes: number;
-	tick?: number;
+	attempts: number;
+	tick: number;
+}
+
+export const PROBE_MISSIONS = ['SOK', 'SOM'] as const;
+export type ProbesMission = (typeof PROBE_MISSIONS)[number];
+
+export interface SOKReport {
+	at: string;
+	name: string;
+	ruler: string;
+	pop: number;
+	money: number;
+	income: number;
+	nw: number;
+	land: number;
+	power: number;
+	powerChange: number;
+	attempts: number;
+	tick: number;
+	military: Military;
+}
+
+export interface FailedSpy {
+	message: string;
+}
+
+export type ProbeReport = SOKReport | FailedSpy;
+
+export interface Probing {
+	attackerId: number;
+	targetId: number;
+	createdAt: string;
+	probes: number;
+	success: boolean;
+	successRate: number;
+	probesLost: number;
+	damage: number;
+	mission: ProbesMission;
+	report: ProbeReport;
+}
+
+// export type News = ProbesNews | AttackNews;
+
+export type News = ProbesNews | AttackNews;
+
+export interface ProbesNews {
+	attackerId: number;
+	probeId: number;
+	seen: boolean;
+}
+
+export interface AttackNews {
+	attackerId: number;
+	attackId: number;
+	seen: boolean;
 }
 
 export const SIDES = ['n', 'e', 's', 'w'];
@@ -107,5 +162,7 @@ export interface AppState {
 	buildingsPlan: Map<number, BuildingsPlan>;
 	military: Map<number, Military>;
 	militaryPlan: Map<number, MilitaryPlan>;
+	probings: Map<number, Map<number, Probing>>;
+	news: Map<number, Map<number, News>>;
 	status: 'empty' | 'loading' | 'ready';
 }

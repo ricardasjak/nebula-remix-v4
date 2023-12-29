@@ -28,6 +28,8 @@ export const mapUtil = {
 		status: mapUtil.toValues(state.kingdomsStatus),
 		military: mapUtil.toValues(state.military),
 		militaryPlan: mapUtil.toValues(state.militaryPlan),
+		probings: mapUtil.toValues(state.probings),
+		news: mapUtil.toValues(state.news),
 	}),
 	toClone: <T>(o: T): T => {
 		const copy = JSON.parse(JSON.stringify(o));

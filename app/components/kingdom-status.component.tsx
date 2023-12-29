@@ -40,6 +40,11 @@ export const KingdomSoKComponent: React.FC<KingdomStatusProps> = ({ kd, kdNext }
 			<StatLine label='Power' value={status.power} nextValue={kdNext.status.power} />
 			<StatLine label='Population' value={status.pop} nextValue={kdNext.status.pop} />
 			<StatLine label='Probes' value={status.probes} nextValue={kdNext.status.probes} />
+			<StatLine
+				label='Probes Attempts'
+				value={status.attempts}
+				nextValue={kdNext.status.attempts}
+			/>
 			<br />
 			<StatLine label='Soldiers' value={military.sold} />
 			<StatLine label='Troopers' value={military.tr} nextValue={kdNext.military.tr} />

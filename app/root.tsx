@@ -111,7 +111,7 @@ const App = () => {
 						<Navbar isLoggedIn={!!rootData.userId} kingdoms={kingdoms} />
 					</header>
 					<main className='flex-grow border-0 border-t-2 border-t-primary'>
-						<div className={'container mx-auto px-4'}>
+						<div className={'container mx-auto px-2 sm:px-4'}>
 							<Outlet />
 						</div>
 					</main>

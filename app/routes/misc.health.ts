@@ -1,8 +1,6 @@
 import { type LoaderFunction, type LoaderFunctionArgs } from '@remix-run/node';
 import { appState } from '~/app.service';
-import { kdUtil } from '~/kingdom';
 import { db } from '~/services';
-import { mapUtil } from '~/utils';
 
 const INTERVAL_MINUTES = 5;
 const SECONDS_BELOW = 30;
@@ -20,14 +18,6 @@ export const loader: LoaderFunction = async (args: LoaderFunctionArgs) => {
 		}
 		console.info('*** Start save all ***', minutes, ':', seconds);
 		console.time();
-
-		const kingdoms = mapUtil.toValues(app.kingdoms);
-		const { defence } = kdUtil.getKingdomDefaults();
-		kingdoms.forEach(kd => {
-			if (!app.defence.get(kd.id)) {
-				app.defence.set(kd.id, { ...defence });
-			}
-		});
 
 		const promises = [
 			db.kingdomStatus.saveAll(app.kingdomsStatus),

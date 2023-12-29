@@ -84,10 +84,12 @@ const getKingdomDefaults = () => {
 	const defence: DefenceAllocation = { e: 25, n: 25, s: 25, w: 25 };
 
 	const kingdomStatus: KingdomStatus = {
+		tick: 1,
 		pop: 2250,
 		land: 250,
 		nw: 0,
 		probes: 1000,
+		attempts: 0,
 		money: 225_000,
 		power: 1_000,
 		income: 0,

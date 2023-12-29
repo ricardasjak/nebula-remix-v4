@@ -82,6 +82,10 @@ export const GAME = {
 	probes: {
 		pfOutput: 0.75,
 		pfLimit: 80,
+		landDefence: 4,
+		maxDefensePerLand: 20,
+		lossRatio: 0.25,
+		attemptsLimit: 24,
 	},
 	power: {
 		plantOutput: 140,

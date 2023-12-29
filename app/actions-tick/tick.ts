@@ -9,6 +9,7 @@ import { tickPower } from '~/actions-tick/tick-power';
 import { tickPowerIncome } from '~/actions-tick/tick-power-income';
 import { tickProbes } from '~/actions-tick/tick-probes';
 import { type BuildingsPlan, type KingdomFull } from '~/app.model';
+import { GAME } from '~/game.const';
 import { kdUtil } from '~/kingdom';
 import { mapUtil } from '~/utils';
 
@@ -52,6 +53,7 @@ export const tickKingdom = (kd: KingdomFull) => {
 		kdUtil.getUnsupportedMilitarySpace(military, buildings.barracks)
 	);
 	status.probes = tickProbes(status.probes, buildings.probeFactories);
+	status.attempts = Math.min(GAME.probes.attemptsLimit, status.attempts + 1);
 
 	money -= exploredCost;
 	money -= constructionCost;

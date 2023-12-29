@@ -7,7 +7,9 @@ import {
 	type KingdomStatus,
 	type Military,
 	type MilitaryPlan,
+	type News,
 	type Player,
+	type Probing,
 	type Round,
 	type User,
 } from '~/app.model';
@@ -27,13 +29,20 @@ const KEYS = {
 	buildingsPlan: 'buildings-plan',
 	military: 'military',
 	militaryPlan: 'military-plan',
+	probings: 'probe',
+	news: 'news',
 };
 
+const makeRepositoryForIndividualKingdom =
+	<T>(name: string) =>
+	(key: number | string) =>
+		makeRepository<T>(`${name}-${key}`);
+
 const makeRepository = <T>(key: string) => ({
-	loadAll: async (map: Map<number, T>) => {
+	loadAll: async () => {
 		console.time(`redis: ${key}: load all`);
 		const data = (await redis.hgetall(key)) as Record<number, T> | undefined;
-		map = mapUtil.toMap(data);
+		const map = mapUtil.toMap(data);
 		console.timeEnd(`redis: ${key}: load all`);
 		return map;
 	},
@@ -74,4 +83,7 @@ export const db = {
 	buildingsPlan: makeRepository<BuildingsPlan>(KEYS.buildingsPlan),
 	military: makeRepository<Military>(KEYS.military),
 	militaryPlan: makeRepository<MilitaryPlan>(KEYS.militaryPlan),
+	//probings: makeRepository<Probing>(KEYS.probings),
+	probings: makeRepositoryForIndividualKingdom<Probing>(KEYS.probings),
+	news: makeRepositoryForIndividualKingdom<News>(KEYS.news),
 };
