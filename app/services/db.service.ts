@@ -1,5 +1,6 @@
 import { Redis } from '@upstash/redis';
 import {
+	type Attack,
 	type Budget,
 	type BuildingsBuilt,
 	type BuildingsPlan,
@@ -31,6 +32,7 @@ const KEYS = {
 	militaryPlan: 'military-plan',
 	probings: 'probe',
 	news: 'news',
+	attacks: 'attacks',
 };
 
 const makeRepositoryForIndividualKingdom =
@@ -86,4 +88,5 @@ export const db = {
 	//probings: makeRepository<Probing>(KEYS.probings),
 	probings: makeRepositoryForIndividualKingdom<Probing>(KEYS.probings),
 	news: makeRepositoryForIndividualKingdom<News>(KEYS.news),
+	attacks: makeRepositoryForIndividualKingdom<Attack>(KEYS.attacks),
 };

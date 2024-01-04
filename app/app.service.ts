@@ -23,6 +23,7 @@ if (!global.__appState__) {
 		militaryPlan: new Map(),
 		probings: new Map(),
 		news: new Map(),
+		attacks: new Map(),
 	};
 }
 
@@ -43,6 +44,7 @@ export const printStatus = () => {
 		`app state - militaryPlan count: ${app.militaryPlan.length}`,
 		`app state - probings count: ${app.probings.reduce((acc, p) => acc + p.size, 0)}`,
 		`app state - news count: ${app.news.reduce((acc, p) => acc + p.size, 0)}`,
+		`app state - attacks count: ${app.attacks.reduce((acc, p) => acc + p.size, 0)}`,
 	].join('\n');
 	console.info(summary);
 	return summary;
@@ -130,6 +132,16 @@ export const appState = async (): Promise<AppState> => {
 			});
 			console.info('*** News loaded ***');
 
+			const promisesAttacks = ids.map(id => {
+				app.attacks.set(id, new Map());
+				return db.attacks(id).loadAll();
+			});
+			const attacks = await Promise.all(promisesAttacks);
+			attacks.forEach((a, index) => {
+				app.attacks.set(ids[index], a);
+			});
+			console.info('*** Attacks loaded ***');
+
 			ensureDataModel(app);
 			app.status = 'ready';
 			console.info('*** App is READY ***');
@@ -166,6 +178,7 @@ const ensureDataModel = (app: AppState) => {
 			app.defence.set(kd.id, { ...defence });
 		}
 
+		kdFull.status.attackMeter = kdFull.status.attackMeter || 100;
 		kdFull.status.tick = kdFull.status.tick || 1;
 		kdFull.status.attempts = kdFull.status.attempts || 0;
 		kdFull.status.lastNewsId = kdFull.status.lastNewsId || -1;

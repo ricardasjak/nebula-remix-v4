@@ -1,6 +1,6 @@
 import { type ActionFunction, type LoaderFunctionArgs } from '@remix-run/node';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
-import { type PersonalProbeNews } from '~/app.model';
+import { type PersonalAttackNews, type PersonalProbeNews } from '~/app.model';
 import { appState } from '~/app.service';
 import { NewsComponent, PageTitle } from '~/components';
 import { useKingdom } from '~/hooks/use-kingdom.hook';
@@ -16,7 +16,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	status.lastNewsId = news[0]?.id || status.lastNewsId;
 
 	// @ts-ignore
-	const personalNews: PersonalProbeNews[] = (showAll ? news : unseenNews)
+	const personalNews: PersonalNews[] = (showAll ? news : unseenNews)
 		.map(n => {
 			if ('probeId' in n) {
 				const probing = app.probings.get(n.attackerId)?.get(n.probeId);
@@ -24,17 +24,61 @@ export const loader = async (args: LoaderFunctionArgs) => {
 					console.error('Probing not found: ', n.attackerId, n.probeId);
 					return undefined;
 				}
-				return {
-					success: probing.success,
+				const probeNews: PersonalProbeNews = {
 					attackerId: probing.success ? undefined : n.attackerId,
 					at: probing.createdAt,
-					type: 'probe',
 					attackerName: probing.success
 						? 'success'
 						: kdUtil.getKingdomNameXY(app.kingdoms.get(probing.attackerId)!),
-					report: probing.success ? 'Somebody probed your kingdom' : 'failed probe mission',
+					// report: probing.success ? 'Somebody probed your kingdom' : 'failed probe mission',
 					id: n.id,
+					probing: {
+						success: probing.success,
+						successPercentage: probing.successRate,
+						damage: probing.damage,
+						probesLost: probing.probesLost,
+					},
 				};
+				return probeNews;
+			}
+			if ('attackId' in n) {
+				const attack = app.attacks.get(n.attackerId)?.get(n.attackId);
+				if (!attack) {
+					console.error('Attack not found: ', n.attackerId, n.attackId);
+					return undefined;
+				}
+
+				if (attack.success && attack.gains) {
+					const attackNews: PersonalAttackNews = {
+						attackerId: n.attackerId,
+						at: attack.createdAt,
+						attackerName: kdUtil.getKingdomNameXY(app.kingdoms.get(attack.attackerId)!),
+						id: n.id,
+						attack: {
+							success: attack.success,
+							successPercentage: attack.successPercentage,
+							gains: attack.gains,
+							defenderLosses: attack.defenderLosses,
+							attackerLosses: attack.attackerLosses,
+						},
+					};
+					return attackNews;
+				} else {
+					const attackNews: PersonalAttackNews = {
+						attackerId: n.attackerId,
+						at: attack.createdAt,
+						attackerName: kdUtil.getKingdomNameXY(app.kingdoms.get(attack.attackerId)!),
+						id: n.id,
+						attack: {
+							success: attack.success,
+							successPercentage: attack.successPercentage,
+							gains: attack.gains,
+							defenderLosses: attack.defenderLosses,
+							attackerLosses: attack.attackerLosses,
+						},
+					};
+					return attackNews;
+				}
 			}
 			return undefined;
 		})
@@ -63,7 +107,7 @@ const KingdomNewsPage: React.FC = () => {
 						<PageTitle title={showAll ? 'All personal news of' : 'Recent news of'} />
 						<span className='text-primary text-lg'>{kdUtil.getKingdomNameXY(kingdom)}</span>
 					</div>
-					<NewsComponent news={personalNews} />
+					<NewsComponent newsList={personalNews} />
 					<p className='text-secondary'>News count: {personalNews.length}</p>
 				</>
 			) : (

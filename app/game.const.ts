@@ -7,17 +7,13 @@ const militaryNetworth: Record<keyof Military, number> = {
 	lt: 7,
 	ld: 8,
 	sci: 8,
-	// hgl: 12,
 	t: 22,
-	// tf: 18,
 };
 
 const militaryPower: Record<keyof Military, number> = {
 	sold: 0.7,
 	sci: 0.7,
-	// hgl: 0.7,
 	lt: 0.7,
-	// tf: 1.4,
 	t: 1.4,
 	ld: 0.7,
 	tr: 0.7,
@@ -32,10 +28,27 @@ const militaryCost: Record<keyof Military, number> = {
 	t: 1750,
 	ld: 550,
 	dr: 450,
-	// hgl: 0.7,
-	// tf: 1.4,
 };
 
+const militaryDefense: Record<keyof Military, number> = {
+	sold: 1,
+	tr: 0,
+	lt: 4,
+	sci: 0,
+	t: 9,
+	ld: 5,
+	dr: 0,
+};
+
+const militaryOffense: Record<keyof Military, number> = {
+	sold: 1,
+	tr: 4,
+	lt: 0,
+	sci: 0,
+	t: 9,
+	ld: 0,
+	dr: 5,
+};
 const militarySpace: Record<keyof Military, number> = {
 	sold: 1,
 	tr: 1,
@@ -44,11 +57,13 @@ const militarySpace: Record<keyof Military, number> = {
 	t: 2,
 	ld: 1,
 	dr: 1,
-	// hgl: 0.7,
-	// tf: 1.4,
 };
 
 export const GAME = {
+	round: {
+		startAt: new Date('2024-01-01T00:00:00Z').getTime(),
+		tickLength: 15, // minutes
+	},
 	kingdomsLimit: 5,
 	explore: {
 		cost: (land: number) => Math.round(Math.pow(land, 0.4) * 111),
@@ -102,5 +117,14 @@ export const GAME = {
 		space: militarySpace,
 		soldiersRate: (pop: number) => Math.floor((pop * 0.15) / 24),
 		barrackSpace: 75,
+		defence: militaryDefense,
+		offense: militaryOffense,
+		successRateMax: 90, // percentage
+		grabMaxRatio: 0.1,
+		attackMaxLossRatio: 0.1,
+		defenderUnitsMaxLossRatio: 0.05,
+		powerlessPenalty: 0.2,
+		attackMeterMax: 100,
+		attackMeterPerTick: 20,
 	},
 };

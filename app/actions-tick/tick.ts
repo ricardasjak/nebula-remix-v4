@@ -59,6 +59,10 @@ export const tickKingdom = (kd: KingdomFull) => {
 	money -= constructionCost;
 	money -= militaryCost;
 	status.money = money;
+	status.attackMeter = Math.min(
+		status.attackMeter + GAME.military.attackMeterPerTick,
+		GAME.military.attackMeterMax
+	);
 
 	status.nw = tickNetworth(kd);
 	return kd;

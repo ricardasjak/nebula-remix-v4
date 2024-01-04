@@ -2,22 +2,17 @@ import { type ActionFunction, type LoaderFunctionArgs } from '@remix-run/node';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { type MilitaryPlan } from '~/app.model';
 import { appState } from '~/app.service';
-import { AllocationAbsolute, MilitaryPlanComponent, PageTitle } from '~/components';
+import {
+	AllocationAbsolute,
+	MILITARY_LABELS_MINI,
+	MilitaryPlanComponent,
+	PageTitle,
+} from '~/components';
 import { useKingdom } from '~/hooks/use-kingdom.hook';
 import { kdidLoaderFn, kingdomLoaderFn, kingdomNextLoaderFn } from '~/kingdom/kingdom.loader';
 import { authRequiredLoader, validatePlayerKingdom } from '~/loaders';
 import { db } from '~/services';
 import { allocationUtil } from '~/utils/allocation.util';
-
-const LABELS: Partial<Record<keyof MilitaryPlan, string>> = {
-	sold: 'Soldiers',
-	// dr: 'Dragoons',
-	// ld: 'Laser Dragoons',
-	tr: 'Troopers',
-	lt: 'Laser Troopers',
-	t: 'Tanks',
-	sci: 'Scientists',
-};
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const kdid = await kdidLoaderFn(args);
@@ -77,7 +72,7 @@ const KingdomMilitaryPage: React.FC = () => {
 					<AllocationAbsolute
 						values={military}
 						nextValues={militaryNext}
-						labels={LABELS}
+						labels={MILITARY_LABELS_MINI}
 						// maxValue={land}
 						readOnly
 					/>

@@ -74,6 +74,7 @@ export interface KingdomStatus {
 	attempts: number;
 	tick: number;
 	lastNewsId: number;
+	attackMeter: number;
 }
 
 export const PROBE_MISSIONS = ['SOK', 'SOM'] as const;
@@ -114,6 +115,33 @@ export interface Probing {
 	report: ProbeReport;
 }
 
+export type AttackStatus = 'forward' | 'return' | 'complete';
+
+export interface AttackGains {
+	land: number;
+	money: number;
+	pop: number;
+	power: number;
+	sci: number;
+	probes: number;
+}
+
+export interface Attack {
+	attackerId: number;
+	targetId: number;
+	createdAt: string;
+	success: boolean;
+	successNumber: number;
+	successPercentage: number;
+	attackerMilitary: Military;
+	attackerPoints: number;
+	attackerLosses: Partial<Military>;
+	defenderPoints: number;
+	defenderMilitary: Military;
+	defenderLosses: Partial<Military>;
+	gains?: AttackGains;
+}
+
 // export type News = ProbesNews | AttackNews;
 
 export type News = ProbesNews | AttackNews;
@@ -130,14 +158,34 @@ export interface AttackNews {
 	attackId: number;
 }
 
+export type PersonalNews = PersonalAttackNews | PersonalProbeNews;
+
 export interface PersonalProbeNews {
 	id: number;
 	at: string;
 	attackerId?: number;
 	attackerName?: string;
-	type: 'probe' | 'attack';
-	success: boolean;
-	report: string;
+	probing: {
+		success: boolean;
+		successPercentage: number;
+		damage: number;
+		probesLost: number;
+	};
+}
+
+export interface PersonalAttackNews {
+	id: number;
+	at: string;
+	attackerId: number;
+	attackerName: string;
+	attack: {
+		success: boolean;
+		successPercentage: number;
+		gains?: AttackGains;
+		// report: string;
+		defenderLosses: Partial<Military>;
+		attackerLosses: Partial<Military>;
+	};
 }
 
 export const SIDES = ['n', 'e', 's', 'w'];
@@ -176,5 +224,6 @@ export interface AppState {
 	militaryPlan: Map<number, MilitaryPlan>;
 	probings: Map<number, Map<number, Probing>>;
 	news: Map<number, Map<number, News>>;
+	attacks: Map<number, Map<number, Attack>>;
 	status: 'empty' | 'loading' | 'ready';
 }

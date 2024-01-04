@@ -1,9 +1,10 @@
 export * from './game.util';
 export * from './map.util';
+export * from './military.util';
 export * from './now.util';
 export * from './probes.util';
 
-export const formatNumber = (val: number): string => val.toLocaleString();
+export const formatNumber = (val: number = 0): string => val.toLocaleString();
 export const formatDiff = (val: number): string =>
 	val > 0 ? `+${val.toLocaleString()}` : `${val.toLocaleString()}`;
 /**
@@ -13,7 +14,10 @@ export const randomNumber = () => Math.ceil(Math.random() * 100);
 
 export const padZero = (n: number) => (n >= 10 ? n.toString() : `0${n}`);
 
-export const plural = (n: number, noun: string) => `${n} ${noun}${n === 1 ? '' : 's'}`;
+export const plural = (n: number, noun: string) =>
+	`${formatNumber(n)} ${noun}${n === 1 ? '' : 's'}`;
+export const singular = (n: number, plural: string) =>
+	`${formatNumber(n)} ${n === 1 ? plural.slice(0, -1) : plural}`;
 
 export const timeDiff = (diff: number) => {
 	const sec = Math.floor(diff / 1000);

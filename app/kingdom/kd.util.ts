@@ -96,6 +96,7 @@ const getKingdomDefaults = () => {
 		income: 0,
 		powerChange: 0,
 		lastNewsId: -1,
+		attackMeter: 0,
 	};
 	kingdomStatus.nw = kdUtil.getNetworth(kingdomStatus, buildings, military);
 
