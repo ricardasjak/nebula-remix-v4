@@ -3,13 +3,13 @@ import { rootAuthLoader } from '@clerk/remix/ssr.server';
 
 import { type LinksFunction, type LoaderFunctionArgs, type MetaFunction } from '@remix-run/node';
 import {
-	Link,
 	Links,
 	LiveReload,
 	Meta,
 	Outlet,
 	Scripts,
 	ScrollRestoration,
+	useNavigate,
 	useRouteError,
 } from '@remix-run/react';
 import { useEffect } from 'react';
@@ -18,7 +18,6 @@ import { type UserSession } from '~/app.model';
 import { KingdomNavbar } from '~/components';
 import { Navbar } from '~/components/navbar.component';
 import { authLoader, type PlayerKingdom, playerKingdomsLoaderFn } from '~/loaders';
-import { routesUtil } from '~/routes.util';
 import stylesheet from '~/tailwind.css';
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesheet }];
@@ -58,6 +57,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 function RootErrorBoundary() {
 	const error = useRouteError();
+	const navigate = useNavigate();
 	let msg = 'Unknown error';
 	try {
 		// @ts-ignore
@@ -75,12 +75,15 @@ function RootErrorBoundary() {
 				{/* add the UI you want your users to see */}
 				<h1>Some error happened</h1>
 				<pre>{msg}</pre>
-				<Link to={routesUtil.home}>Go back</Link>
+				<button onClick={() => navigate(-1)} className={'link link-primary'}>
+					Go back
+				</button>
 				<Scripts />
 			</body>
 		</html>
 	);
 }
+
 export const ErrorBoundary = ClerkErrorBoundary(RootErrorBoundary);
 
 const App = () => {

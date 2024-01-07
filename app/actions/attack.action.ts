@@ -5,7 +5,7 @@ import { GAME } from '~/game.const';
 
 import { kdidLoaderFn, kingdomLoaderFn, targetLoaderFn } from '~/kingdom/kingdom.loader';
 import { db } from '~/services';
-import { mapUtil, militaryUtil, now, randomNumber } from '~/utils';
+import { errorUtil, mapUtil, militaryUtil, now, randomNumber } from '~/utils';
 
 export const attackActionFn = async (args: ActionFunctionArgs) => {
 	const attackerId = await kdidLoaderFn(args);
@@ -28,11 +28,11 @@ export const attackActionFn = async (args: ActionFunctionArgs) => {
 		troopers > (attacker.military.tr || 0) ||
 		tanks > (attacker.military.t || 0)
 	) {
-		throw new Error("You don't have that many units to send");
+		errorUtil.throwUserError(`You don't have that many units to send.`);
 	}
 
 	if (attacker.status.attackMeter < GAME.military.attackMeterMax) {
-		throw new Error(
+		errorUtil.throwUserError(
 			`Your attack meter ${attacker.status.attackMeter}% hasn't reached required value of ${GAME.military.attackMeterMax}%. Advance few more ticks before trying again.`
 		);
 	}

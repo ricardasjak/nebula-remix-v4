@@ -1,8 +1,9 @@
-import { Link, Outlet, useRouteError } from '@remix-run/react';
-import { routesUtil } from '~/routes.util';
+import { Outlet, useNavigate, useRouteError } from '@remix-run/react';
 
 export function ErrorBoundary() {
 	const error = useRouteError();
+	const navigate = useNavigate();
+
 	let msg = 'Unknown error';
 	try {
 		// @ts-ignore
@@ -15,9 +16,9 @@ export function ErrorBoundary() {
 			<div className={'my-4'}>
 				<code className={'text-error'}>{msg}</code>
 			</div>
-			<Link to={routesUtil.home} className={'link link-primary'}>
+			<button onClick={() => navigate(-1)} className={'link link-primary'}>
 				Go back
-			</Link>
+			</button>
 		</div>
 	);
 }

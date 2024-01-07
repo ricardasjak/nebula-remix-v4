@@ -2,7 +2,7 @@ import { type ActionFunctionArgs, type LoaderFunctionArgs } from '@remix-run/nod
 import { Form } from '@remix-run/react';
 import { typedjson, useTypedActionData, useTypedLoaderData } from 'remix-typedjson';
 import { attackActionFn } from '~/actions/attack.action';
-import { PageTitle } from '~/components';
+import { ErrorComponent, PageTitle } from '~/components';
 import { cx } from '~/cx';
 import { GAME } from '~/game.const';
 import { useSubmitting } from '~/hooks';
@@ -19,6 +19,8 @@ export const action = async (args: ActionFunctionArgs) => {
 	const { attack } = await attackActionFn(args);
 	return typedjson({ attack });
 };
+
+export const ErrorBoundary = ErrorComponent;
 
 const AttackPage: React.FC = () => {
 	const { military, attackMeter } = useTypedLoaderData<typeof loader>();

@@ -7,11 +7,12 @@ import { usePlayerKingdoms } from '~/hooks';
 import { PT_LABEL, RACE_LABEL } from '~/kingdom';
 import { kdUtil } from '~/kingdom/kd.util';
 import { routesUtil } from '~/routes.util';
-import { formatNumber, padZero } from '~/utils';
+import { errorUtil, formatNumber, padZero } from '~/utils';
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const targetId = Number(args.params.target);
 	const app = await appState();
+	if (!app.kingdoms.get(targetId)) errorUtil.throwUserError('Kingdom not found', 404);
 	const worldKingdom = kdUtil.getWorldKingdom(targetId, app);
 	return typedjson({ target: worldKingdom });
 };

@@ -1,6 +1,7 @@
 export * from './allocation.component';
 export * from './allocation-absolute.component';
 export * from './budget.component';
+export * from './error.component';
 export * from './defence.component';
 export * from './buildings-plan.component';
 export * from './military-plan.component';

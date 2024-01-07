@@ -1,3 +1,4 @@
+export * from './error.util';
 export * from './game.util';
 export * from './map.util';
 export * from './military.util';
