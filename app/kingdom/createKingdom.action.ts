@@ -68,6 +68,9 @@ export const createKingdomAction: ActionFunction = async args => {
 	app.military.set(id, military);
 	app.militaryPlan.set(id, militaryPlan);
 	app.kingdomsStatus.set(id, kingdomStatus);
+	app.news.set(id, new Map());
+	app.attacks.set(id, new Map());
+	app.probings.set(id, new Map());
 
 	await db.kingdom.createOne(id, newKingdom);
 	await db.player.saveOne(player.id, player);

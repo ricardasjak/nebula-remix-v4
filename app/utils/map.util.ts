@@ -1,7 +1,7 @@
 import { type AppState } from '~/app.model';
 
 export const mapUtil = {
-	toValues: <K, V>(map: Map<K, V>) => Array.from(map, ([, v]) => v),
+	toValues: <K, V>(map: Map<K, V>) => (map ? Array.from(map, ([, v]) => v) : []),
 	toKeys: <K, V>(map: Map<K, V>) => Array.from(map, ([k]) => k),
 	nextKey: (map: Map<string | number, any>) => {
 		const keys = mapUtil.toKeys(map);
