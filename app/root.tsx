@@ -4,7 +4,6 @@ import { rootAuthLoader } from '@clerk/remix/ssr.server';
 import { type LinksFunction, type LoaderFunctionArgs, type MetaFunction } from '@remix-run/node';
 import {
 	Links,
-	LiveReload,
 	Meta,
 	Outlet,
 	Scripts,
@@ -18,7 +17,7 @@ import { type UserSession } from '~/app.model';
 import { KingdomNavbar } from '~/components';
 import { Navbar } from '~/components/navbar.component';
 import { authLoader, type PlayerKingdom, playerKingdomsLoaderFn } from '~/loaders';
-import stylesheet from '~/tailwind.css';
+import stylesheet from '~/tailwind.css?url';
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesheet }];
 
@@ -125,7 +124,6 @@ const App = () => {
 
 				<ScrollRestoration />
 				<Scripts />
-				<LiveReload />
 			</body>
 		</html>
 	);

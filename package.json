@@ -4,9 +4,9 @@
 	"sideEffects": false,
 	"type": "module",
 	"scripts": {
-		"build": "remix build",
-		"dev": "PORT=3004 remix dev --manual",
-		"start": "remix-serve ./build/index.js",
+		"dev": "remix vite:dev",
+		"build": "remix vite:build",
+		"start": "remix-serve ./build/server/index.js",
 		"format": "prettier --write .",
 		"lint": "eslint .",
 		"fix": "npm run format && npm run lint -- --fix && npm run typecheck",
@@ -18,7 +18,6 @@
 	},
 	"dependencies": {
 		"@clerk/remix": "^3.2.1",
-		"@remix-run/css-bundle": "^2.8.1",
 		"@remix-run/node": "^2.8.1",
 		"@remix-run/react": "^2.8.1",
 		"@remix-run/serve": "^2.8.1",
@@ -42,7 +41,9 @@
 		"prettier": "3.2.5",
 		"prettier-plugin-tailwindcss": "^0.5.13",
 		"tailwindcss": "^3.4.3",
-		"typescript": "^5.4.3"
+		"typescript": "^5.4.3",
+		"vite": "^5.2.8",
+		"vite-tsconfig-paths": "^4.3.2"
 	},
 	"engines": {
 		"node": ">=18.0.0"
