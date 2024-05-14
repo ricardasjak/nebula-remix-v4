@@ -1,17 +1,10 @@
 import { type LoaderFunctionArgs } from '@remix-run/node';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { appState } from '~/app.service';
-import {
-	BudgetComponent,
-	BuildingPlanComponent,
-	KingdomSoKComponent,
-	KingdomStatusComponent,
-	MilitaryPlanComponent,
-	PageTitle,
-	TickButton,
-} from '~/components';
+import { PageTitle } from '~/components';
 import { kdUtil } from '~/kingdom';
 import { kdidLoaderFn, kingdomLoaderFn, kingdomNextLoaderFn } from '~/kingdom/kingdom.loader';
+import { ActionList } from '~/kingdom-actions';
 import { gameUtil } from '~/utils';
 
 export const loader = async (args: LoaderFunctionArgs) => {
@@ -27,13 +20,13 @@ const KingdomDevelopmentPage: React.FC = () => {
 
 	return (
 		<>
-			<PageTitle title={`Develop your kingdom`} />
-			<div
-				className={'grid gap-4 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-4'}
-			>
-				<div>
-					<h2 className='text-xl text-primary font-bold'>{kdUtil.getKingdomNameXY(kd.kingdom)} </h2>
-					<span className='text-sm mb-2  text-secondary'></span>
+			<PageTitle title={kdUtil.getKingdomNameXY(kd.kingdom)} />
+			<div className={'grid gap-4 grid-cols-1 mb-4'}>
+				<div className='max-w-screen-md'>
+					{/*<h2 className='text-lg text-primary font-bold'>{kdUtil.getKingdomNameXY(kd.kingdom)} </h2>*/}
+					<h2 className='text-lg text-primary font-bold'>Pick your next action</h2>
+					<span className='text-sm mb-2 text-secondary'></span>
+					<ActionList />
 				</div>
 			</div>
 		</>

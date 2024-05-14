@@ -4,7 +4,7 @@ import { routesUtil } from '~/routes.util';
 
 export const loader = (args: LoaderFunctionArgs) => {
 	const kdid = Number(args.params.kdid);
-	return redirect(routesUtil.kd.status(kdid));
+	return redirect(routesUtil.kd.action(kdid));
 };
 
 const KingdomPage: React.FC = () => {

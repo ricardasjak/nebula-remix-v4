@@ -4,6 +4,7 @@ export const routesUtil = {
 	kd: {
 		create: '/kingdom/create',
 		home: (id: number) => `/kingdom/${id}`,
+		action: (id: number) => `/kingdom/${id}/action`,
 		status: (id: number) => `/kingdom/${id}/status`,
 		budget: (id: number) => `/kingdom/${id}/budget`,
 		buildings: (id: number) => `/kingdom/${id}/buildings`,
