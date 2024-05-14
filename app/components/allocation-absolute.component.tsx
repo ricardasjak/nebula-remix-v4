@@ -42,7 +42,7 @@ export function AllocationAbsolute<T>({
 								{ratio
 									? `${val.toLocaleString()} (${ratio.toLocaleString(undefined, {
 											maximumFractionDigits: 1,
-									  })}%)`
+										})}%)`
 									: `${val.toLocaleString()}`}
 								{diff > 0 ? <span className={'text-secondary'}>&nbsp;+{diff}</span> : null}
 							</span>

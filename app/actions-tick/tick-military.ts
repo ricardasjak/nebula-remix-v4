@@ -26,8 +26,8 @@ export const tickMilitary = (
 			units = useSoldiers
 				? Math.min(units, soldiersLeft)
 				: unit === 'sold'
-				  ? Math.min(units, soldiersRate(pop))
-				  : units;
+					? Math.min(units, soldiersRate(pop))
+					: units;
 
 			const unitsCost = units * cost[unit];
 
