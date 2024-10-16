@@ -29,9 +29,9 @@ export const KingdomNavbar: React.FC<Props> = () => {
 					'list flex flex-wrap xs:flex-column sm:flex-row gap-4 sm:gap-8 mb-2 text-xs sm:text-lg'
 				}
 			>
-				<li>
-					<NavLink url={routesUtil.kd.action(kdid)} title='Development' />
-				</li>
+				{/*<li>*/}
+				{/*	<NavLink url={routesUtil.kd.action(kdid)} title='Development' />*/}
+				{/*</li>*/}
 				<li>
 					<NavLink url={routesUtil.kd.status(kdid)} title='Status' />
 				</li>
