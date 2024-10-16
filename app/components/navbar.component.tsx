@@ -131,7 +131,7 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 						</ul>
 					</div>
 					<Link className='btn btn-ghost text-primary' to={routesUtil.home}>
-						NEBULA
+						UNIVERSE MAP
 					</Link>
 				</div>
 				<div className='navbar-center xs:hidden sm:visible max-w-3xl max-h-64 overflow-auto'>
