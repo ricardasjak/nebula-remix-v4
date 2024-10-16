@@ -54,6 +54,7 @@ export const appState = async (): Promise<AppState> => {
 	const app = global.__appState__;
 	if (app.status === 'empty') {
 		app.status = 'loading';
+		console.time('*** Loading database ***');
 		const [
 			rounds,
 			users,
@@ -107,41 +108,50 @@ export const appState = async (): Promise<AppState> => {
 			app.militaryPlan = mplans;
 
 			console.info('*** Main data loaded ***');
-			const ids = mapUtil.toKeys(app.kingdoms);
+			let idsAll = mapUtil.toKeys(app.kingdoms);
+			if (process.env.MAX_KINGDOMS_COUNT) {
+				idsAll = idsAll.slice(0, parseInt(process.env.MAX_KINGDOMS_COUNT));
+			}
+			console.log('*** Kingdoms count to load:', idsAll.length);
 
-			const promisesProbes = ids.map(id => {
-				app.probings.set(id, new Map());
-				return db.probings(id).loadAll();
-			});
-			const probings = await Promise.all(promisesProbes);
-			probings.forEach((p, index) => {
-				app.probings.set(ids[index], p);
-				if (ids[index] === 13) {
-					console.debug('kd 13 probings count:', p.size);
-				}
-			});
-			console.info('*** Probings loaded ***');
+			const size = 50;
+			let n = Math.ceil(idsAll.length / size);
+			let m = 0;
+			while (m < n) {
+				const ids = idsAll.slice(m * size, (m + 1) * size);
+				console.log(
+					'*** Loading Kingdoms:',
+					`${ids[0]} ... ${ids[ids.length - 1]}, ${Math.ceil((m / n) * 100)}%`
+				);
+				m = m + 1;
+				const promisesProbes = ids.map(id => {
+					app.probings.set(id, new Map());
+					return db.probings(id).loadAll();
+				});
+				const probings = await Promise.all(promisesProbes);
+				probings.forEach((p, index) => {
+					app.probings.set(ids[index], p);
+				});
 
-			const promisesNews = ids.map(id => {
-				app.news.set(id, new Map());
-				return db.news(id).loadAll();
-			});
-			const news = await Promise.all(promisesNews);
-			news.forEach((n, index) => {
-				app.news.set(ids[index], n);
-			});
-			console.info('*** News loaded ***');
+				const promisesNews = ids.map(id => {
+					app.news.set(id, new Map());
+					return db.news(id).loadAll();
+				});
+				const news = await Promise.all(promisesNews);
+				news.forEach((n, index) => {
+					app.news.set(ids[index], n);
+				});
 
-			const promisesAttacks = ids.map(id => {
-				app.attacks.set(id, new Map());
-				return db.attacks(id).loadAll();
-			});
-			const attacks = await Promise.all(promisesAttacks);
-			attacks.forEach((a, index) => {
-				app.attacks.set(ids[index], a);
-			});
-			console.info('*** Attacks loaded ***');
-
+				const promisesAttacks = ids.map(id => {
+					app.attacks.set(id, new Map());
+					return db.attacks(id).loadAll();
+				});
+				const attacks = await Promise.all(promisesAttacks);
+				attacks.forEach((a, index) => {
+					app.attacks.set(ids[index], a);
+				});
+			}
+			console.timeEnd('*** Loading database ***');
 			ensureDataModel(app);
 			app.status = 'ready';
 			console.info('*** App is READY ***');
