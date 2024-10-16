@@ -134,9 +134,9 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 						NEBULA
 					</Link>
 				</div>
-				<div className='navbar-center hidden lg:flex'>
+				<div className='navbar-center xs:hidden sm:visible max-w-3xl max-h-64 overflow-auto'>
 					{isLoggedIn && (
-						<ul className='p-2 flex justify-evenly'>
+						<ul className='p-2 flex flex-wrap justify-evenly'>
 							{kingdoms.map(kd => (
 								<li key={kd.id} className={selected === kd.id ? 'text-primary' : undefined}>
 									<Link
