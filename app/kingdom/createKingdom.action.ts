@@ -1,5 +1,5 @@
 import { redirect, type ActionFunction } from '@remix-run/node';
-import { type Player } from '~/app.model';
+import { type AppState, type Player, type User } from '~/app.model';
 import { appState } from '~/app.service';
 import { canCreateKingdom } from '~/can-do/can-create-kingdom.can-do';
 import { makeCoords } from '~/game-logic';
@@ -16,19 +16,7 @@ import { db } from '~/services';
 import { now } from '~/utils';
 import { mapUtil } from '~/utils/map.util';
 
-export const createKingdomAction: ActionFunction = async args => {
-	const body = await args.request.formData();
-	const kd: CreateKingdom = {
-		name: body.get('name') as string,
-		planet: body.get('planet') as PlanetType,
-		race: body.get('race') as RaceType,
-		ruler: body.get('ruler') as string,
-	};
-	const round = 1;
-	const session = await authRequiredLoader(args);
-	const app = await appState();
-	const user = app.users.get(session.userId)!;
-
+async function createKingdom(app: AppState, kd: CreateKingdom, user: User, round: number) {
 	const id = mapUtil.nextKey(app.kingdoms);
 	const newKingdom: Kingdom = {
 		id,
@@ -81,6 +69,29 @@ export const createKingdomAction: ActionFunction = async args => {
 	await db.militaryPlan.saveOne(id, militaryPlan);
 	await db.kingdomStatus.saveOne(id, kingdomStatus);
 	console.info('action: kd successfully created!');
+	return newKingdom;
+}
 
-	return redirect(routesUtil.kd.home(newKingdom.id));
+export const createKingdomAction: ActionFunction = async args => {
+	const body = await args.request.formData();
+	const kd: CreateKingdom = {
+		name: body.get('name') as string,
+		planet: body.get('planet') as PlanetType,
+		race: body.get('race') as RaceType,
+		ruler: body.get('ruler') as string,
+	};
+	const round = 1;
+	const session = await authRequiredLoader(args);
+	const app = await appState();
+	const user = app.users.get(session.userId)!;
+
+	let lastId = 0;
+	// for (let i = 1; i <= 3; i++) {
+	// 	const newKingdom = await createKingdom(app, { ...kd, name: kd.name + ' ' + i }, user, round);
+	// 	lastId = newKingdom.id;
+	// }
+	const newKingdom = await createKingdom(app, kd, user, round);
+	lastId = newKingdom.id;
+
+	return redirect(routesUtil.kd.home(lastId));
 };
