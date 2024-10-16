@@ -7,3 +7,7 @@ export const tickProbes = (probes: number, probeFactories: number) => {
 	);
 	return Math.max(Math.floor(newValue), probes);
 };
+
+export const tickProbeAttempts = (attempts = 0) => {
+	return Math.min(attempts + 1, GAME.probes.attemptsLimit);
+};
