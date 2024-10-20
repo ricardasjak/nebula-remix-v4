@@ -1,10 +1,10 @@
 import { type LoaderFunctionArgs } from '@remix-run/node';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
+import { ActionList } from 'app/kingdom-action-cards';
 import { kdidLoaderFn, kingdomLoaderFn, kingdomNextLoaderFn } from '~/.server/kingdom.loader';
 import { appState } from '~/app.service';
 import { PageTitle } from '~/components';
 import { kdUtil } from '~/kingdom';
-import { ActionList } from '~/kingdom-actions';
 import { gameUtil } from '~/utils';
 
 export const loader = async (args: LoaderFunctionArgs) => {

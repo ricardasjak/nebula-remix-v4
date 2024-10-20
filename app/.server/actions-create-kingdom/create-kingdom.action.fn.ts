@@ -4,7 +4,7 @@ import { makeCoords } from './make-coords';
 import { kdUtil } from '~/kingdom/kd.util';
 import { type CreateKingdom, type Kingdom } from '~/kingdom/kingdom.model';
 
-import { db } from '~/services';
+import { db } from '~/.server/db';
 import { now } from '~/utils';
 import { mapUtil } from '~/utils/map.util';
 

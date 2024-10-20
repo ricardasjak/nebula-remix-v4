@@ -1,5 +1,6 @@
 import { type ActionFunction, type LoaderFunctionArgs } from '@remix-run/node';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
+import { db } from '~/.server/db';
 import { kdidLoaderFn, kingdomLoaderFn, kingdomNextLoaderFn } from '~/.server/kingdom.loader';
 import { type BuildingsPlan } from '~/app.model';
 import { appState } from '~/app.service';
@@ -7,7 +8,6 @@ import { AllocationAbsolute, BuildingPlanComponent, PageTitle } from '~/componen
 import { useKingdom } from '~/hooks/use-kingdom.hook';
 import { kdUtil } from '~/kingdom/kd.util';
 import { authRequiredLoader, validatePlayerKingdom } from '~/loaders';
-import { db } from '~/services';
 import { formatDiff, formatNumber } from '~/utils';
 import { allocationUtil } from '~/utils/allocation.util';
 

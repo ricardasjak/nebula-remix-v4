@@ -1,5 +1,6 @@
 import { type ActionFunction, type LoaderFunctionArgs } from '@remix-run/node';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
+import { db } from '~/.server/db';
 import { kdidLoaderFn, kingdomLoaderFn, kingdomNextLoaderFn } from '~/.server/kingdom.loader';
 import { type MilitaryPlan } from '~/app.model';
 import { appState } from '~/app.service';
@@ -11,7 +12,6 @@ import {
 } from '~/components';
 import { useKingdom } from '~/hooks/use-kingdom.hook';
 import { authRequiredLoader, validatePlayerKingdom } from '~/loaders';
-import { db } from '~/services';
 import { allocationUtil } from '~/utils/allocation.util';
 
 export const loader = async (args: LoaderFunctionArgs) => {

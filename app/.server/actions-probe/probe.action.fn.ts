@@ -7,7 +7,7 @@ import {
 	type Probing,
 } from '~/app.model';
 import { appState } from '~/app.service';
-import { db } from '~/services';
+import { db } from '~/.server/db';
 import { mapUtil, now, probesUtil, randomNumber } from '~/utils';
 
 export const probeActionFn = async (

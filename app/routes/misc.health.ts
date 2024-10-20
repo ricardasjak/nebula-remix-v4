@@ -1,6 +1,6 @@
 import { type LoaderFunction, type LoaderFunctionArgs } from '@remix-run/node';
+import { db } from '~/.server/db';
 import { appState } from '~/app.service';
-import { db } from '~/services';
 
 const INTERVAL_MINUTES = 15;
 const SECONDS_BELOW = 30;

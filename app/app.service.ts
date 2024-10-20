@@ -1,6 +1,6 @@
+import { db } from '~/.server/db';
 import { type AppState } from '~/app.model';
 import { kdUtil } from '~/kingdom';
-import { db } from '~/services';
 import { mapUtil } from '~/utils/map.util';
 
 declare global {

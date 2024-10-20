@@ -1,10 +1,10 @@
 import { type ActionFunction, type LoaderFunction, redirect } from '@remix-run/node';
 import { Form } from '@remix-run/react';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
+import { db } from '~/.server/db';
 import { appState } from '~/app.service';
 import { authRequiredLoader } from '~/loaders';
 import { routesUtil } from '~/routes.util';
-import { db } from '~/services';
 import { mapUtil } from '~/utils/map.util';
 
 export const loader: LoaderFunction = async args => {

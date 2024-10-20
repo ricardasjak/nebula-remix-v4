@@ -2,7 +2,7 @@ import { type Attack, type AttackNews, KingdomFull, type Military } from '~/app.
 import { appState } from '~/app.service';
 import { GAME } from '~/game.const';
 
-import { db } from '~/services';
+import { db } from '~/.server/db';
 import { errorUtil, mapUtil, militaryUtil, now, randomNumber } from '~/utils';
 
 export const attackActionFn = async (

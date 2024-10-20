@@ -1,9 +1,9 @@
 import { getAuth } from '@clerk/remix/ssr.server';
 import { type LoaderFunction, redirect } from '@remix-run/node';
+import { db } from '~/.server/db';
 import { type User } from '~/app.model';
 import { appState } from '~/app.service';
 import { routesUtil } from '~/routes.util';
-import { db } from '~/services';
 import { mapUtil } from '~/utils/map.util';
 
 export const loader: LoaderFunction = async args => {
