@@ -35,15 +35,15 @@ export const KingdomNavbar: React.FC<Props> = () => {
 				<li>
 					<NavLink url={routesUtil.kd.status(kdid)} title='Status' />
 				</li>
-				{/*<li>*/}
-				{/*	<NavLink url={routesUtil.kd.budget(kdid)} title='Budget' />*/}
-				{/*</li>*/}
-				{/*<li>*/}
-				{/*	<NavLink url={routesUtil.kd.buildings(kdid)} title='Buildings' />*/}
-				{/*</li>*/}
-				{/*<li>*/}
-				{/*	<NavLink url={routesUtil.kd.military(kdid)} title='Military' />*/}
-				{/*</li>*/}
+				<li>
+					<NavLink url={routesUtil.kd.budget(kdid)} title='Budget' />
+				</li>
+				<li>
+					<NavLink url={routesUtil.kd.buildings(kdid)} title='Buildings' />
+				</li>
+				<li>
+					<NavLink url={routesUtil.kd.military(kdid)} title='Military' />
+				</li>
 				{/*<li>*/}
 				{/*	<NavLink url={routesUtil.kd.defence(kdid)} title='Defence' />*/}
 				{/*</li>*/}
