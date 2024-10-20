@@ -28,36 +28,36 @@ const KingdomStatusPage: React.FC = () => {
 	return (
 		<>
 			<PageTitle title={`Kingdom status`} />
+			<div className='text-sm text-secondary mb-2 flex flex-row items-center gap-2'>
+				<span>
+					Tick:{' '}
+					<span className='font-bold'>
+						{kd.status.tick || 1}/{ticksLimit}
+					</span>
+				</span>
+				<TickButton
+					kdid={kd.kingdom.id}
+					tick={kd.status.tick || 1}
+					times={1}
+					tickLimit={ticksLimit}
+					label='Go +1 tick'
+					className='btn btn-ghost btn-sm text-secondary font-bold'
+				/>
+				<TickButton
+					kdid={kd.kingdom.id}
+					tick={kd.status.tick || 1}
+					tickLimit={ticksLimit}
+					times={24}
+					label='Go +24 ticks'
+					className='btn btn-ghost btn-sm text-secondary font-bold'
+				/>
+			</div>
 			<div
 				className={'grid gap-4 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-4'}
 			>
 				<div>
 					<h2 className='text-xl text-primary font-bold'>{kdUtil.getKingdomNameXY(kd.kingdom)} </h2>
 					<span className='text-sm mb-2  text-secondary'></span>
-					<div className='text-sm text-secondary mb-2 flex flex-row justify-between  items-center'>
-						<span>
-							Tick:{' '}
-							<span className='font-bold'>
-								{kd.status.tick || 1}/{ticksLimit}
-							</span>
-						</span>
-						<TickButton
-							kdid={kd.kingdom.id}
-							tick={kd.status.tick || 1}
-							times={1}
-							tickLimit={ticksLimit}
-							label='Go +1 tick'
-							className='btn btn-ghost btn-sm text-secondary font-bold'
-						/>
-						<TickButton
-							kdid={kd.kingdom.id}
-							tick={kd.status.tick || 1}
-							tickLimit={ticksLimit}
-							times={24}
-							label='Go +24 ticks'
-							className='btn btn-ghost btn-sm text-secondary font-bold'
-						/>
-					</div>
 					<KingdomStatusComponent kd={kd} kdNext={kdNext} />
 					<br />
 					<KingdomSoKComponent kd={kd} kdNext={kdNext} />

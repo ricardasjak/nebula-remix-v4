@@ -46,7 +46,7 @@ const ProbePage: React.FC = () => {
 					{/*<option value={'SOM'}>Spy on Military</option>*/}
 				</select>
 
-				<label htmlFor='probes'>Probes count</label>
+				<label htmlFor='probes'>Probes to send</label>
 				<input
 					name='probes'
 					type='number'
@@ -56,6 +56,8 @@ const ProbePage: React.FC = () => {
 					min={0}
 					max={99999999}
 				></input>
+				<span>Attempts left: </span>
+				<span className='mx-2'>{attacker.attempts}</span>
 				<div className='hidden sm:block'></div>
 				<button
 					type='submit'

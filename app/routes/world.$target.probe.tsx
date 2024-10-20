@@ -11,7 +11,7 @@ const AttackWithPage: React.FC = () => {
 
 	return (
 		<div>
-			<h3 className='text-primary text-lg block'>Choose your probes kingdom:</h3>
+			<h3 className='text-primary text-lg block'>Choose your kingdom:</h3>
 			<div className='flex flex-row gap-4'>
 				<ul className='my-2 flex flex-wrap justify-evenly'>
 					{kingdoms.map(kd => (
