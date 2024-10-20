@@ -5,7 +5,8 @@
 	"type": "module",
 	"scripts": {
 		"dev": "remix vite:dev",
-		"build": "remix vite:build",
+		"build": "remix vite:build --minify=false",
+		"build2": "npm run fix && remix vite:build --minify=false",
 		"start": "remix-serve ./build/server/index.js",
 		"format": "prettier --write .",
 		"lint": "eslint .",
