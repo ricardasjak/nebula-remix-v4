@@ -1,11 +1,11 @@
 import { type ActionFunction, type LoaderFunctionArgs } from '@remix-run/node';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
+import { kdidLoaderFn, kingdomLoaderFn } from '~/.server/kingdom.loader';
 import { type PersonalAttackNews, type PersonalProbeNews } from '~/app.model';
 import { appState } from '~/app.service';
 import { NewsComponent, PageTitle } from '~/components';
 import { useKingdom } from '~/hooks/use-kingdom.hook';
 import { kdUtil } from '~/kingdom';
-import { kdidLoaderFn, kingdomLoaderFn } from '~/kingdom/kingdom.loader';
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const kdid = await kdidLoaderFn(args);

@@ -1,6 +1,6 @@
 import { type LoaderFunctionArgs } from '@remix-run/node';
 import { typedjson } from 'remix-typedjson';
-import { tickNextKingdom } from '~/actions-tick/tick';
+import { tickNextKingdom } from '~/.server/actions-tick-kingdom/tick';
 import { appState } from '~/app.service';
 import { kdUtil } from '~/kingdom/kd.util';
 import { authRequiredLoader } from '~/loaders';

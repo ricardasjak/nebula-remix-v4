@@ -1,7 +1,7 @@
 import { useTypedRouteLoaderData } from 'remix-typedjson';
+import { type kingdomLoader } from '~/.server/kingdom.loader';
 import { type KingdomStatus } from '~/app.model';
 import { type Kingdom } from '~/kingdom';
-import { type kingdomLoader } from '~/kingdom/kingdom.loader';
 
 /**
  * Returns active kingdom on the client side (if one selected)

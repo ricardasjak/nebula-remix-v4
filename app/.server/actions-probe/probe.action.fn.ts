@@ -1,20 +1,23 @@
-import { type ActionFunctionArgs } from '@remix-run/node';
-import { makeSOKReport } from '~/actions/probe/sok-report';
-import { PROBE_MISSIONS, type ProbeReport, type ProbesNews, type Probing } from '~/app.model';
+import { makeSOKReport } from '~/.server/actions-probe/probe.sok-report';
+import {
+	KingdomFull,
+	PROBE_MISSIONS,
+	type ProbeReport,
+	type ProbesNews,
+	type Probing,
+} from '~/app.model';
 import { appState } from '~/app.service';
-import { kdidLoaderFn, kingdomLoaderFn, targetLoaderFn } from '~/kingdom/kingdom.loader';
 import { db } from '~/services';
 import { mapUtil, now, probesUtil, randomNumber } from '~/utils';
 
-export const probeActionFn = async (args: ActionFunctionArgs) => {
-	const attackerId = await kdidLoaderFn(args);
-	const targetId = await targetLoaderFn(args);
-	const attacker = await kingdomLoaderFn(attackerId);
-	const target = await kingdomLoaderFn(targetId);
-	const form = await args.request.formData();
-
-	let probes = Number(form.get('probes')) || 0;
-	const missionStr = (form.get('mission') || '') as string;
+export const probeActionFn = async (
+	probes: number,
+	missionStr: string,
+	attacker: KingdomFull,
+	target: KingdomFull,
+	attackerId: number,
+	targetId: number
+) => {
 	const mission = PROBE_MISSIONS.find(m => missionStr.toUpperCase() === m);
 	if (!mission) {
 		throw new Error('Please, select supported probes mission');

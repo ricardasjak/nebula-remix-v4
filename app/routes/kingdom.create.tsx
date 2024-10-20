@@ -1,9 +1,9 @@
 import { Form } from '@remix-run/react';
+import { createKingdomAction } from '~/.server/createKingdom.action';
 import { PageTitle } from '~/components';
 import { GAME } from '~/game.const';
 import { usePlayerKingdoms, useSubmitting } from '~/hooks';
 import { PlanetTypes, RaceTypes } from '~/kingdom';
-import { createKingdomAction } from '~/kingdom/createKingdom.action';
 import { authRequiredLoader } from '~/loaders';
 
 export const action = createKingdomAction;

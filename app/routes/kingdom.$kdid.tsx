@@ -1,5 +1,5 @@
 import { Outlet } from '@remix-run/react';
-import { kingdomLoader } from '~/kingdom/kingdom.loader';
+import { kingdomLoader } from '~/.server/kingdom.loader';
 
 export const loader = kingdomLoader;
 

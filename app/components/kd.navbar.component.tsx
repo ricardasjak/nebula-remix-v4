@@ -1,8 +1,8 @@
 import { Link } from '@remix-run/react';
 import { useTypedRouteLoaderData } from 'remix-typedjson';
+import { type kingdomLoader } from '~/.server/kingdom.loader';
 import { TickButton } from '~/components';
 import { useKingdomId } from '~/hooks';
-import { type kingdomLoader } from '~/kingdom/kingdom.loader';
 import { routesUtil } from '~/routes.util';
 
 interface Props {}

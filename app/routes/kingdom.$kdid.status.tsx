@@ -1,5 +1,6 @@
 import { type LoaderFunctionArgs } from '@remix-run/node';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
+import { kdidLoaderFn, kingdomLoaderFn, kingdomNextLoaderFn } from '~/.server/kingdom.loader';
 import { appState } from '~/app.service';
 import {
 	BudgetComponent,
@@ -11,7 +12,6 @@ import {
 	TickButton,
 } from '~/components';
 import { kdUtil } from '~/kingdom';
-import { kdidLoaderFn, kingdomLoaderFn, kingdomNextLoaderFn } from '~/kingdom/kingdom.loader';
 import { gameUtil } from '~/utils';
 
 export const loader = async (args: LoaderFunctionArgs) => {

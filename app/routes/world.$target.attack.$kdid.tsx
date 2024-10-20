@@ -1,12 +1,12 @@
 import { type ActionFunctionArgs, type LoaderFunctionArgs } from '@remix-run/node';
 import { Form } from '@remix-run/react';
 import { typedjson, useTypedActionData, useTypedLoaderData } from 'remix-typedjson';
-import { attackActionFn } from '~/actions/attack.action';
+import { attackAction } from '~/.server/attack.action';
+import { kdidLoaderFn, kingdomLoaderFn } from '~/.server/kingdom.loader';
 import { ErrorComponent, PageTitle } from '~/components';
 import { cx } from '~/cx';
 import { GAME } from '~/game.const';
 import { useSubmitting } from '~/hooks';
-import { kdidLoaderFn, kingdomLoaderFn } from '~/kingdom/kingdom.loader';
 import { formatNumber, militaryUtil } from '~/utils';
 
 export const loader = async (args: LoaderFunctionArgs) => {
@@ -16,7 +16,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 };
 
 export const action = async (args: ActionFunctionArgs) => {
-	const { attack } = await attackActionFn(args);
+	const { attack } = await attackAction(args);
 	return typedjson({ attack });
 };
 

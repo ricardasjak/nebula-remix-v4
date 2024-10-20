@@ -1,11 +1,11 @@
 import { type ActionFunctionArgs, type LoaderFunctionArgs } from '@remix-run/node';
 
 import { typedjson } from 'remix-typedjson';
-import { kingdomTickActionFn } from '~/actions';
-import { kdidLoaderFn, kingdomNextLoaderFn } from '~/kingdom/kingdom.loader';
+import { kdidLoaderFn, kingdomNextLoaderFn } from '~/.server/kingdom.loader';
+import { tickKingdomAction } from '~/.server/tick-kingdom.action';
 
 export const action = async (args: ActionFunctionArgs) => {
-	await kingdomTickActionFn(args);
+	await tickKingdomAction(args);
 	return typedjson({ ok: true });
 };
 

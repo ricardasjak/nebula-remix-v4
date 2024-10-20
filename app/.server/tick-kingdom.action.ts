@@ -1,10 +1,10 @@
 import { type ActionFunction } from '@remix-run/node';
-import { tickKingdom } from '~/actions-tick/tick';
+import { tickKingdom } from '~/.server/actions-tick-kingdom/tick';
 import { appState } from '~/app.service';
-import { kdidLoaderFn, kingdomLoaderFn } from '~/kingdom/kingdom.loader';
+import { kdidLoaderFn, kingdomLoaderFn } from '~/.server/kingdom.loader';
 import { gameUtil } from '~/utils';
 
-export const kingdomTickActionFn: ActionFunction = async args => {
+export const tickKingdomAction: ActionFunction = async args => {
 	const kdid = await kdidLoaderFn(args);
 	const kd = await kingdomLoaderFn(kdid);
 	const form = await args.request.formData();

@@ -2,13 +2,13 @@ import { type ActionFunctionArgs, type LoaderFunctionArgs } from '@remix-run/nod
 import { Form } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import { typedjson, useTypedActionData, useTypedLoaderData } from 'remix-typedjson';
-import { probeActionFn } from '~/actions/probe.action';
+import { kdidLoaderFn, kingdomLoaderFn } from '~/.server/kingdom.loader';
+import { probeAction } from '~/.server/probe.action';
 import { PageTitle } from '~/components';
 import { useSubmitting } from '~/hooks';
-import { kdidLoaderFn, kingdomLoaderFn } from '~/kingdom/kingdom.loader';
 
 export const action = async (args: ActionFunctionArgs) => {
-	const { probing } = await probeActionFn(args);
+	const { probing } = await probeAction(args);
 	return typedjson({ probing });
 };
 
