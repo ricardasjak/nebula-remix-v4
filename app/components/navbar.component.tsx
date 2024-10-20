@@ -12,11 +12,6 @@ type Props = {
 	kingdoms: PlayerKingdom[];
 };
 
-// export interface NavbarKingdom {
-// 	id: number;
-// 	name: string;
-// }
-
 export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 	const { signOut } = useAuth();
 	const navigate = useNavigate();
@@ -25,7 +20,10 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 	const params = useParams();
 	const selected = Number(params?.kdid);
 	const allowed = GAME.kingdomsLimit - kingdoms.length;
-	const cta = allowed > 0 || !isLoggedIn ? 'Create kingdom' : '';
+	let cta = allowed > 0 || !isLoggedIn ? 'Create kingdom' : '';
+	if (allowed > 0 && kingdoms.length > 0) {
+		cta = 'Expand Your Empire';
+	}
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -131,10 +129,10 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 						</ul>
 					</div>
 					<Link className='btn btn-ghost text-primary' to={routesUtil.home}>
-						UNIVERSE MAP
+						UNIVERSE
 					</Link>
 				</div>
-				<div className='navbar-center xs:hidden sm:visible max-w-3xl max-h-64 overflow-auto'>
+				<div className='navbar-center hidden lg:block max-w-3xl max-h-64 overflow-auto'>
 					{isLoggedIn && (
 						<ul className='p-2 flex flex-wrap justify-evenly'>
 							{kingdoms.map(kd => (

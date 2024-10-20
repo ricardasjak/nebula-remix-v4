@@ -1,7 +1,7 @@
 import { Form } from '@remix-run/react';
 import { PageTitle } from '~/components';
 import { GAME } from '~/game.const';
-import { useSubmitting } from '~/hooks';
+import { usePlayerKingdoms, useSubmitting } from '~/hooks';
 import { PlanetTypes, RaceTypes } from '~/kingdom';
 import { createKingdomAction } from '~/kingdom/createKingdom.action';
 import { authRequiredLoader } from '~/loaders';
@@ -11,12 +11,13 @@ export const loader = authRequiredLoader;
 
 const CreateKingdomPage = () => {
 	const pending = useSubmitting();
+	const kingdoms = usePlayerKingdoms();
 	return (
 		<div className={'content'}>
 			<div className={'mb-8'}>
-				<PageTitle title='Start your kingdom' />
-				<h2 className={'size text- mb-4 text-md'}>
-					{`You can create up to ${GAME.kingdomsLimit} kingdoms`}
+				<PageTitle title={kingdoms.length ? 'Expand Your Empire' : 'Start your first kingdom'} />
+				<h2 className={'size text-primary mb-4 text-md'}>
+					{`You can control up to ${GAME.kingdomsLimit} kingdoms`}
 				</h2>
 			</div>
 			<Form method='post' className={'grid lg:w-1/2 lg:grid-cols-2 gap-4 mt-4'}>
