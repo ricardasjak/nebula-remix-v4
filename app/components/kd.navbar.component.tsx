@@ -1,21 +1,31 @@
-import { Link } from '@remix-run/react';
+import { Link, useLocation } from '@remix-run/react';
 import { useTypedRouteLoaderData } from 'remix-typedjson';
 import { type kingdomLoader } from '~/.server/kingdom.loader';
 import { TickButton } from '~/components';
+import { cx } from '~/cx';
 import { useKingdomId } from '~/hooks';
 import { routesUtil } from '~/routes.util';
 
 interface Props {}
 
 const linkStyle = 'text-primary hover:text-secondary text-sm md: text-md';
-const NavLink = ({ url, title }: { url: string; title: string }) => (
-	<Link to={url} className={linkStyle} reloadDocument={true}>
-		{title}
-	</Link>
-);
+const NavLink = ({ url, title }: { url: string; title: string }) => {
+	const { pathname } = useLocation();
+	const isActive = pathname === url;
+	return (
+		<Link
+			to={url}
+			className={cx(linkStyle, { 'text-primary': isActive, 'text-base-content': !isActive })}
+			reloadDocument={false}
+		>
+			{title}
+		</Link>
+	);
+};
 
 export const KingdomNavbar: React.FC<Props> = () => {
 	const kdid = useKingdomId();
+
 	const kingdomData = useTypedRouteLoaderData<typeof kingdomLoader>('routes/kingdom.$kdid');
 
 	if (!kingdomData) {
