@@ -108,7 +108,7 @@ const KingdomNewsPage: React.FC = () => {
 						<span className='text-primary text-lg'>{kdUtil.getKingdomNameXY(kingdom)}</span>
 					</div>
 					<NewsComponent newsList={personalNews} />
-					<p className='text-secondary'>News count: {personalNews.length}</p>
+					<p className='text-primary'>News count: {personalNews.length}</p>
 				</>
 			) : (
 				<PageTitle title='No recent news' />

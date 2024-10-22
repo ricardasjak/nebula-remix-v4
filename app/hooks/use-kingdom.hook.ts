@@ -10,6 +10,10 @@ export const useKingdom = (): Kingdom | undefined => {
 	return useTypedRouteLoaderData<typeof kingdomLoader>('routes/kingdom.$kdid')?.kingdom;
 };
 
+export const useKingdomContext = () => {
+	return useTypedRouteLoaderData<typeof kingdomLoader>('routes/kingdom.$kdid');
+};
+
 export const useKingdomStatus = (): KingdomStatus | undefined => {
 	return useTypedRouteLoaderData<typeof kingdomLoader>('routes/kingdom.$kdid')?.status;
 };

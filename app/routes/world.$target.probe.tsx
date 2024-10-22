@@ -23,9 +23,9 @@ const AttackWithPage: React.FC = () => {
 								style={{ minWidth: '120px' }}
 							>
 								{`${kd.name}`}
-								<span className='text-xs'>
-									{formatNumber(kd.probes)} ({kd.attempts})
-								</span>
+								{/*<span className='text-xs'>*/}
+								{/*	{formatNumber(kd.probes)} ({kd.attempts})*/}
+								{/*</span>*/}
 							</Link>
 						</li>
 					))}

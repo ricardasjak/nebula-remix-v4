@@ -28,21 +28,21 @@ const TargetPage: React.FC = () => {
 			<PageTitle title='Kingdom profile' className='text-primary' />
 			<div className='grid grid-cols-2 max-w-xs gap-2'>
 				<span>Kingdom:</span>
-				<span className='font-bold text-secondary'>
+				<span className='font-bold text-primary'>
 					{target.name}&nbsp;({padZero(target.y)}:{padZero(target.x)})
 				</span>
 
 				<span>Planet:</span>
-				<span className='font-bold text-secondary'>{PT_LABEL[target.planet]}</span>
+				<span className='font-bold text-primary'>{PT_LABEL[target.planet]}</span>
 
 				<span>Race:</span>
-				<span className='font-bold text-secondary'>{RACE_LABEL[target.race]}</span>
+				<span className='font-bold text-primary'>{RACE_LABEL[target.race]}</span>
 
 				<span>Land:</span>
-				<span className='font-bold text-secondary'>{formatNumber(target.land)}</span>
+				<span className='font-bold text-primary'>{formatNumber(target.land)}</span>
 
 				<span>Networth:</span>
-				<span className='font-bold text-secondary'>{formatNumber(target.nw)}</span>
+				<span className='font-bold text-primary'>{formatNumber(target.nw)}</span>
 			</div>
 			{kingdoms?.length ? (
 				<>
