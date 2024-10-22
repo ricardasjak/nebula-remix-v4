@@ -76,18 +76,16 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 											{kingdoms.map(kd => (
 												<li key={kd.id} onClick={handleClick}>
 													<Link
-														to={
-															kd.unreadNews ? routesUtil.kd.news(kd.id) : routesUtil.kd.home(kd.id)
-														}
-														reloadDocument={true}
+														to={kd.news ? routesUtil.kd.news(kd.id) : routesUtil.kd.home(kd.id)}
+														reloadDocument={false}
 														className='indicator'
 													>
 														{kd.name}
-														{!!kd.unreadNews && (
+														{!!kd.news && (
 															<>
 																&nbsp;&nbsp;
 																<span className='indicator-item badge indicator-middle badge-sm badge-secondary'>
-																	{kd.unreadNews}
+																	{kd.news}
 																</span>
 															</>
 														)}
@@ -134,20 +132,28 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn, kingdoms }) => {
 				</div>
 				<div className='navbar-center hidden lg:block max-w-3xl max-h-64 overflow-auto'>
 					{isLoggedIn && (
-						<ul className='p-2 flex flex-wrap justify-evenly'>
+						<ul className='p-2 flex flex-wrap gap-8 justify-evenly'>
 							{kingdoms.map(kd => (
 								<li key={kd.id} className={selected === kd.id ? 'text-primary' : undefined}>
 									<Link
-										to={kd.unreadNews ? routesUtil.kd.news(kd.id) : routesUtil.kd.status(kd.id)}
+										to={kd.news ? routesUtil.kd.news(kd.id) : routesUtil.kd.status(kd.id)}
 										prefetch='none'
-										className={'btn btn-ghost font-normal indicator'}
-										style={{ minWidth: '120px' }}
-										reloadDocument={true}
+										className={cx(
+											'block text-base-content hover:text-secondary text-sm md: text-md',
+											{
+												'text-primary': selected === kd.id,
+											}
+										)}
+										style={{ minWidth: '0px' }}
 									>
 										{`${kd.name}`}
-										{!!kd.unreadNews && (
-											<span className='indicator-item badge indicator-middle badge-sm badge-secondary'>
-												{kd.unreadNews}
+										{!!kd.news && (
+											<span
+												className={
+													'indicator-item badge indicator-middle badge-sm badge-secondary ml-1'
+												}
+											>
+												{kd.news}
 											</span>
 										)}
 									</Link>

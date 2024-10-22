@@ -1,19 +1,13 @@
 import { Link, Outlet, useParams } from '@remix-run/react';
-import { useMemo } from 'react';
-import { useTypedRouteLoaderData } from 'remix-typedjson';
-import { type PlayerKingdom } from '~/loaders';
+import { usePlayerKingdoms } from '~/hooks';
 import { routesUtil } from '~/routes.util';
 
 const AttackWithPage: React.FC = () => {
 	const params = useParams();
 	const target = Number(params?.target);
-	const rootData = useTypedRouteLoaderData('root');
 	const selected = Number(params?.kdid);
 
-	const kingdoms = useMemo(
-		() => ([...(rootData?.kingdoms || [])] as PlayerKingdom[]).sort((a, b) => b.nw - a.nw),
-		[rootData?.kingdoms]
-	);
+	const kingdoms = usePlayerKingdoms();
 	return (
 		<div>
 			<h3 className='text-primary text-lg block'>Choose attacker:</h3>

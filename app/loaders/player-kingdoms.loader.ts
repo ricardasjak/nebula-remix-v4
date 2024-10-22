@@ -1,7 +1,6 @@
 import { type LoaderFunctionArgs } from '@remix-run/node';
 import { typedjson } from 'remix-typedjson';
 import { appState } from '~/app.service';
-import { type PlanetType, type RaceType } from '~/kingdom';
 import { kdUtil } from '~/kingdom/kd.util';
 import { authLoader } from '~/loaders/auth.loader';
 import { mapUtil } from '~/utils';
@@ -22,21 +21,7 @@ export const playerKingdomsLoader = async (args: LoaderFunctionArgs) => {
 export interface PlayerKingdom {
 	id: number;
 	name: string;
-	sector: number;
-	galaxy: number;
-	planet: PlanetType;
-	race: RaceType;
-	x: number;
-	y: number;
-	land: number;
-	nw: number;
-	money: number;
-	pop: number;
-	power: number;
-	probes: number;
-	attempts: number;
-	tick: number;
-	unreadNews: number;
+	news: number;
 }
 
 export const playerKingdomsLoaderFn = async (userId: number): Promise<PlayerKingdom[]> => {
@@ -48,27 +33,13 @@ export const playerKingdomsLoaderFn = async (userId: number): Promise<PlayerKing
 	return player.kingdoms
 		.map(id => {
 			const kd = kdUtil.getFullKingdom(id, app);
-			const { name, sector, galaxy, planet, race, x, y } = kd.kingdom;
-			const { land, nw, money, pop, power, probes, attempts, tick, lastNewsId } = kd.status;
+			const { name } = kd.kingdom;
+			const { lastNewsId } = kd.status;
 			const unreadNews = kd.news.filter(n => n.id > lastNewsId).length;
 			return {
 				id,
 				name,
-				sector,
-				galaxy,
-				planet,
-				race,
-				x,
-				y,
-				land,
-				nw,
-				money,
-				pop,
-				power,
-				probes,
-				attempts,
-				tick,
-				unreadNews,
+				news: unreadNews,
 			};
 		})
 		.filter(Boolean);

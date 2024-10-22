@@ -54,6 +54,9 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	});
 };
 
+// need this to refresh unread news count fpor any kd
+export const shouldRevalidate = () => true;
+
 function RootErrorBoundary() {
 	const error = useRouteError();
 	const navigate = useNavigate();

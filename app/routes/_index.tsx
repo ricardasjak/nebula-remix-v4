@@ -1,10 +1,8 @@
-import { type rootAuthLoader } from '@clerk/remix/ssr.server';
 import { type MetaFunction } from '@remix-run/node';
-import { useRouteLoaderData } from '@remix-run/react';
 import { useMemo, useState } from 'react';
 import { useTypedLoaderData } from 'remix-typedjson';
 import { WorldList, WorldMap } from '~/components';
-import { type PlayerKingdom } from '~/loaders';
+import { usePlayerKingdoms } from '~/hooks';
 import { worldLoader } from '~/loaders/world.loader';
 
 export const meta: MetaFunction = () => {
@@ -14,14 +12,10 @@ export const meta: MetaFunction = () => {
 export const loader = worldLoader;
 
 export default function Index() {
-	const rootData = useRouteLoaderData<typeof rootAuthLoader>('root');
+	const kingdoms = usePlayerKingdoms();
 	const world = useTypedLoaderData<typeof worldLoader>();
 	const [showMap, setShowMap] = useState(false);
 
-	const kingdoms = useMemo(
-		() => ([...(rootData?.kingdoms || [])] as PlayerKingdom[]).sort((a, b) => b.land - a.land),
-		[rootData?.kingdoms]
-	);
 	const ownedKingdoms = useMemo(() => kingdoms.map(k => k.id), [kingdoms]);
 	return (
 		<div

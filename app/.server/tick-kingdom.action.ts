@@ -18,7 +18,6 @@ export const tickKingdomAction: ActionFunction = async args => {
 	const limit = Math.min(maxTick, (kd.status.tick || 0) + times);
 	times = limit - (kd.status.tick || 0);
 
-	console.log({ times });
 	for (let i = 0; i < times; i++) {
 		tickKingdom(kd);
 	}
